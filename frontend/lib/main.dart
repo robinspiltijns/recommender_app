@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  static const String _title = 'Castly';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
       home: CastlyWidget(),
       theme: new ThemeData(
         scaffoldBackgroundColor: Colors.transparent,
@@ -66,7 +64,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           centerTitle: false,
         ),
         body: Center(
-            // TODO
+              child: Text('Podcast list', style: TextStyle(color: Colors.white),),
             ),
         // We kunnen dit eventueel later nog custom doen.
         // Cfr. https://github.com/pedromassango/bottom_navy_bar https://www.youtube.com/watch?v=jJPSKEEiN-E
