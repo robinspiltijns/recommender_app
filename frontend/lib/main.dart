@@ -10,7 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: _title,
       home: CastlyWidget(),
-      theme: new ThemeData(scaffoldBackgroundColor: Colors.transparent),
+      theme: new ThemeData(
+        scaffoldBackgroundColor: Colors.transparent,
+      ),
     );
   }
 }
@@ -22,22 +24,22 @@ class CastlyWidget extends StatefulWidget {
 
 class _CastlyWidgetState extends State<CastlyWidget> {
   int _selectedIndex = 1;
-  // The style for the text that shows on which screen you are, should be removed when screens are implemented.
-  static const TextStyle screenStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
 
-  static const List<Widget> _bodyWidgetOptions = <Widget>[
+  static const TextStyle titleStyle =
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 36.0);
+
+  static const List<Widget> _titles = <Widget>[
     Text(
       'Profile',
-      style: screenStyle,
+      style: titleStyle,
     ),
     Text(
       'Feed',
-      style: screenStyle,
+      style: titleStyle,
     ),
     Text(
       'Search',
-      style: screenStyle,
+      style: titleStyle,
     ),
   ];
 
@@ -57,13 +59,14 @@ class _CastlyWidgetState extends State<CastlyWidget> {
               colors: [Color(0xff221E48), Color(0xff0F0C26)])),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Castly'),
+          title: _titles.elementAt(_selectedIndex),
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
+          centerTitle: false,
         ),
         body: Center(
-          child: _bodyWidgetOptions.elementAt(_selectedIndex),
-        ),
+            // TODO
+            ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
