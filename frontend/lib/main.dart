@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -67,19 +68,33 @@ class _CastlyWidgetState extends State<CastlyWidget> {
         body: Center(
             // TODO
             ),
-        bottomNavigationBar: BottomNavigationBar(
+        // We kunnen dit eventueel later nog custom doen.
+        // Cfr. https://github.com/pedromassango/bottom_navy_bar https://www.youtube.com/watch?v=jJPSKEEiN-E
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: _selectedIndex,
+          showElevation: false,
+          onItemSelected: _onItemTapped,
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), label: 'Feed'),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+                icon: Icon(Icons.account_circle),
+                title: Text('Profile'),
+                activeColor: Color(0xffEF476F),
+                inactiveColor: Colors.white
+            ),
+            BottomNavyBarItem(
+                icon: Icon(Icons.home),
+                title: Text('Feed'),
+                activeColor: Color(0xffEF476F),
+                inactiveColor: Colors.white
+            ), BottomNavyBarItem(
+                icon: Icon(Icons.search),
+                title: Text('Search'),
+                activeColor: Color(0xffEF476F),
+                inactiveColor: Colors.white
+            ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.pinkAccent[700],
-          unselectedItemColor: Colors.white,
-          onTap: _onItemTapped,
         ),
       ),
     );
