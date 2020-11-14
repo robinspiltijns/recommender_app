@@ -1,0 +1,25 @@
+swagger: "2.0"
+info:
+  description: "This is the API for the podcast recommender app. The API used to get all data is Listen Notes (https://www.listennotes.com/api/)"
+  version: "1.0.0"
+  title: "Podcast Recommender app"
+  contact:
+    email: "joren.sjongers@icloud.com"
+host: "TODO"
+paths:
+  /test:
+    get:
+      summary: "used to test whether the backend is running."
+      description: "returns 'Hello World'"
+      operationId: "test"
+      produces: "application/json"
+      responses:
+        "200":
+          description: "succesful operation"
+          schema:
+            type: "object"
+            properties:
+              test:
+                type: "string"
+                example: "Hello World"
+ 
