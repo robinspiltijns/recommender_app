@@ -13,7 +13,7 @@ import (
 	"log"
 	"net/http"
 
-	sw "github.com/robinspiltijns/recommender-app/backend/go"
+	sw "github.com/robinspiltijns/recommender_app/backend/go"
 )
 
 func main() {
