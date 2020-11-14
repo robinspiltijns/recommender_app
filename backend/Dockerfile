@@ -5,12 +5,12 @@ FROM golang
 # Copy the local package files to the container's workspace.
 ADD . /go/src/github.com/robinspiltijns/recommender_app/backend
 
-
+# Install necessary packages and compile backend.
 RUN go get github.com/gorilla/mux
 RUN go install github.com/robinspiltijns/recommender_app/backend
 
-# Run the outyet command by default when the container starts.
-ENTRYPOINT /go/bin/backend
+# Run the backend command by default when the container starts.
+CMD ["/go/bin/backend"]
 
 # Document that the service listens on port 8080.
 EXPOSE 8080
