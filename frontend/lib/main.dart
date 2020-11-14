@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: _title,
       home: CastlyWidget(),
+      theme: new ThemeData(scaffoldBackgroundColor: Colors.transparent),
     );
   }
 }
@@ -23,7 +24,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
   int _selectedIndex = 1;
   // The style for the text that shows on which screen you are, should be removed when screens are implemented.
   static const TextStyle screenStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
 
   static const List<Widget> _bodyWidgetOptions = <Widget>[
     Text(
@@ -48,31 +49,35 @@ class _CastlyWidgetState extends State<CastlyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Castly'),
-      ),
-      body: Center(
-        child: _bodyWidgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'Feed'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Feed'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search'
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.pinkAccent[700],
-        onTap: _onItemTapped,
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xff221E48), Color(0xff0F0C26)])),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Castly'),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ),
+        body: Center(
+          child: _bodyWidgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle), label: 'Feed'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.pinkAccent[700],
+          unselectedItemColor: Colors.white,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
