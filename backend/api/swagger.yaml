@@ -18,17 +18,415 @@ paths:
         "200":
           description: succesful operation
           content:
-            '*/*':
+            text/plain:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
+                type: string
+                example: Hello World
+                x-content-type: text/plain
+  /show:
+    get:
+      summary: used to get the details of a show.
+      description: returns the details of a show.
+      operationId: GetShow
+      parameters:
+      - name: id
+        in: query
+        description: The id of the show.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+        "400":
+          description: bad request
+          content: {}
 components:
   schemas:
-    inline_response_200:
+    Show:
       type: object
       properties:
-        test:
+        id:
           type: string
-          example: Hello World
+          description: Podcast id.
+          example: 4d3fe717742d4963a85562e9f84d8c79
+        rss:
+          type: string
+          description: RSS url of this podcast. This field is available only in the
+            PRO plan.
+          example: https://sw7x7.libsyn.com/rss
+        type:
+          type: string
+          description: The type of this podcast - episodic or serial.
+          example: episodic
+          enum:
+          - episodic
+          - serial
+        email:
+          type: string
+          description: The email of this podcast's producer. This field is available
+            only in the PRO plan.
+          example: hello@example.com
+        extra:
+          $ref: '#/components/schemas/Show_extra'
+        image:
+          type: string
+          description: |
+            Image url for this podcast's artwork. If you are using PRO plan, then it's
+            a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+            low resolution image (300x300).
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        title:
+          type: string
+          description: Podcast name.
+          example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        country:
+          type: string
+          description: The country where this podcast is produced.
+          example: United States
+        website:
+          type: string
+          description: Website url of this podcast.
+          example: http://sw7x7.com/
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Show_episodes'
+        language:
+          type: string
+          description: The language of this podcast. You can get all supported languages
+            from `GET /languages`.
+          example: English
+        genre_ids:
+          type: array
+          example:
+          - 138
+          - 86
+          - 160
+          - 68
+          - 82
+          - 100
+          - 101
+          items:
+            type: integer
+            description: Genre ids.
+        itunes_id:
+          type: integer
+          description: iTunes id for this podcast.
+          example: 896354638
+        publisher:
+          type: string
+          description: Podcast publisher name.
+          example: Planet Broadcasting
+        thumbnail:
+          type: string
+          description: Thumbnail image url for this podcast's artwork (300x300).
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        is_claimed:
+          type: boolean
+          description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+          example: true
+        description:
+          type: string
+          description: Html of this episode's full description
+          example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+            Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+            for Star Wars news, history, interviews, trivia, and deep dives into the
+            Star Wars story as told in movies, books, comics, games, cartoons, and
+            more. Subscribe now for your daily dose of Star Wars joy. It's destiny
+            unleashed!</p>
+        looking_for:
+          $ref: '#/components/schemas/Show_looking_for'
+        listen_score:
+          type: integer
+          description: |
+            The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
+            If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
+          example: 81
+        total_episodes:
+          type: integer
+          description: Total number of episodes in this podcast.
+          example: 324
+        listennotes_url:
+          type: string
+          description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+          example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+        explicit_content:
+          type: boolean
+          description: Whether this podcast contains explicit language.
+          example: false
+        latest_pub_date_ms:
+          type: integer
+          description: The published date of the latest episode of this podcast. In
+            milliseconds
+          example: 1557499770000
+        earliest_pub_date_ms:
+          type: integer
+          description: The published date of the oldest episode of this podcast. In
+            milliseconds
+          example: 1470667902000
+        next_episode_pub_date:
+          type: integer
+          description: Passed to the **next_episode_pub_date** parameter of `GET /podcasts/{id}`
+            to paginate through episodes of that podcast.
+          example: 1470667902000
+        listen_score_global_rank:
+          type: string
+          description: |
+            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
+            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
+            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
+          example: 0.5%
       example:
-        test: Hello World
+        country: United States
+        listen_score_global_rank: 0.5%
+        itunes_id: 896354638
+        explicit_content: false
+        description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+          Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+          for Star Wars news, history, interviews, trivia, and deep dives into the
+          Star Wars story as told in movies, books, comics, games, cartoons, and more.
+          Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+        language: English
+        type: episodic
+        title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        is_claimed: true
+        next_episode_pub_date: 1470667902000
+        rss: https://sw7x7.libsyn.com/rss
+        extra:
+          twitter_handle: SW7x7podcast
+          instagram_handle: sw7x7
+          url3: url3
+          url1: url1
+          url2: url2
+          facebook_handle: sw7x7
+          linkedin_url: linkedin_url
+          youtube_url: https://www.youtube.com/sw7x7
+          google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+          spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+          wechat_handle: wechat_handle
+          patreon_handle: sw7x7
+        id: 4d3fe717742d4963a85562e9f84d8c79
+        email: hello@example.com
+        episodes:
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          explicit_content: false
+          listennotes_edit_url: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+          link: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+          audio_length_sec: 567
+          description: |
+            <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+          title: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews –
+            SWBW #101'
+          listennotes_url: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+          id: 4d82e50314174754a3b603912448e812
+          audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+          pub_date_ms: 1474873200000
+          maybe_audio_invalid: false
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          explicit_content: false
+          listennotes_edit_url: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+          link: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+          audio_length_sec: 567
+          description: |
+            <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+          title: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews –
+            SWBW #101'
+          listennotes_url: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+          id: 4d82e50314174754a3b603912448e812
+          audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+          pub_date_ms: 1474873200000
+          maybe_audio_invalid: false
+        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        website: http://sw7x7.com/
+        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        earliest_pub_date_ms: 1470667902000
+        genre_ids:
+        - 138
+        - 86
+        - 160
+        - 68
+        - 82
+        - 100
+        - 101
+        listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+        total_episodes: 324
+        looking_for:
+          cross_promotion: true
+          sponsors: true
+          guests: true
+          cohosts: true
+        listen_score: 81
+        publisher: Planet Broadcasting
+        latest_pub_date_ms: 1557499770000
+    Show_extra:
+      type: object
+      properties:
+        url1:
+          type: string
+          description: Url affiliated with this podcast
+        url2:
+          type: string
+          description: Url affiliated with this podcast
+        url3:
+          type: string
+          description: Url affiliated with this podcast
+        google_url:
+          type: string
+          description: Google Podcasts url for this podcast
+          example: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+        spotify_url:
+          type: string
+          description: Spotify url for this podcast
+          example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        youtube_url:
+          type: string
+          description: YouTube url affiliated with this podcast
+          example: https://www.youtube.com/sw7x7
+        linkedin_url:
+          type: string
+          description: LinkedIn url affiliated with this podcast
+        wechat_handle:
+          type: string
+          description: WeChat username affiliated with this podcast
+        patreon_handle:
+          type: string
+          description: Patreon username affiliated with this podcast
+          example: sw7x7
+        twitter_handle:
+          type: string
+          description: Twitter username affiliated with this podcast
+          example: SW7x7podcast
+        facebook_handle:
+          type: string
+          description: Facebook username affiliated with this podcast
+          example: sw7x7
+        instagram_handle:
+          type: string
+          description: Instagram username affiliated with this podcast
+          example: sw7x7
+      example:
+        twitter_handle: SW7x7podcast
+        instagram_handle: sw7x7
+        url3: url3
+        url1: url1
+        url2: url2
+        facebook_handle: sw7x7
+        linkedin_url: linkedin_url
+        youtube_url: https://www.youtube.com/sw7x7
+        google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+        spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        wechat_handle: wechat_handle
+        patreon_handle: sw7x7
+    Show_episodes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Episode id.
+          example: 4d82e50314174754a3b603912448e812
+        link:
+          type: string
+          description: Web link of this episode.
+          example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+        audio:
+          type: string
+          description: Audio url of this episode, which can be played directly.
+          example: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+        image:
+          type: string
+          description: |
+            Image url for this podcast's artwork. If you are using PRO plan, then it's
+            a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+            low resolution image (300x300).
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        title:
+          type: string
+          description: Episode name.
+          example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews
+            – SWBW #101'
+        thumbnail:
+          type: string
+          description: Thumbnail image url for this podcast's artwork (300x300).
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        description:
+          type: string
+          description: Html of this episode's full description
+          example: |
+            <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+        pub_date_ms:
+          type: integer
+          description: Published date for this episode. In millisecond.
+          example: 1474873200000
+        listennotes_url:
+          type: string
+          description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
+          example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+        audio_length_sec:
+          type: integer
+          description: Audio length of this episode. In seconds.
+          example: 567
+        explicit_content:
+          type: boolean
+          description: Whether this podcast contains explicit language.
+          example: false
+        maybe_audio_invalid:
+          type: boolean
+          description: Whether or not this episode's audio is invalid. Podcasters
+            may delete the original audio.
+          example: false
+        listennotes_edit_url:
+          type: string
+          description: Edit url of this episode where you can update the audio url
+            if you find the audio is broken.
+          example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+      example:
+        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        explicit_content: false
+        listennotes_edit_url: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+        link: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+        audio_length_sec: 567
+        description: |
+          <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+        title: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews – SWBW
+          #101'
+        listennotes_url: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+        id: 4d82e50314174754a3b603912448e812
+        audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+        pub_date_ms: 1474873200000
+        maybe_audio_invalid: false
+    Show_looking_for:
+      type: object
+      properties:
+        guests:
+          type: boolean
+          description: Whether this podcast is looking for guests.
+          example: true
+        cohosts:
+          type: boolean
+          description: Whether this podcast is looking for cohosts.
+          example: true
+        sponsors:
+          type: boolean
+          description: Whether this podcast is looking for sponsors.
+          example: true
+        cross_promotion:
+          type: boolean
+          description: Whether this podcast is looking for cross promotion opportunities
+            with other podcasts.
+          example: true
+      example:
+        cross_promotion: true
+        sponsors: true
+        guests: true
+        cohosts: true
 x-original-swagger-version: "2.0"

@@ -56,6 +56,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetShow",
+		strings.ToUpper("Get"),
+		"/show",
+		GetShow,
+	},
+
+	Route{
 		"Test",
 		strings.ToUpper("Get"),
 		"/test",
