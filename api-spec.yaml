@@ -24,7 +24,7 @@ paths:
     get:
       summary: "used to get the details of a show."
       description: "returns the details of a show."
-      operationId: "show"
+      operationId: "GetShow"
       produces:
         - "application/json"
       parameters:
@@ -38,6 +38,8 @@ paths:
           description: "succesful operation"
           schema:
             $ref: "#/definitions/Show"
+        "400":
+          description: "bad request"
 
 
 definitions:

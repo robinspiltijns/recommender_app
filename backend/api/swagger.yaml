@@ -27,7 +27,7 @@ paths:
     get:
       summary: used to get the details of a show.
       description: returns the details of a show.
-      operationId: show
+      operationId: GetShow
       parameters:
       - name: id
         in: query
@@ -44,6 +44,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Show'
+        "400":
+          description: bad request
+          content: {}
 components:
   schemas:
     Show:
