@@ -10,13 +10,20 @@
 package swagger
 
 import (
+	"fmt"
 	"net/http"
 )
 
 func Show(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	id, ok := r.URL.Query()["id"]
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	show := GetShow(id)
 	w.WriteHeader(http.StatusOK)
-	
+	fmt.Fprintf(w, show)
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {
