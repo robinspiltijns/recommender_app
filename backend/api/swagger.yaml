@@ -131,6 +131,19 @@ paths:
         "500":
           description: internal server error
           content: {}
+  /genres:
+    get:
+      summary: Used to get a list of all podcast genres
+      description: Returns a list of all podcast genres (this contains their name
+        and id)
+      operationId: GetGenres
+      responses:
+        "200":
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGenresResponse'
 components:
   schemas:
     Show:
@@ -740,6 +753,42 @@ components:
         id: 95
         listennotes_url: https://www.listennotes.com/best-business-news-podcasts-95/
         previous_page_number: 1
+    Genre:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Genre id
+          example: 93
+        name:
+          type: string
+          description: Genre name.
+          example: Business
+        parent_id:
+          type: integer
+          description: Parent genre id.
+          example: 95
+      example:
+        id: 140
+        parent_id: 127
+        name: Web Design
+    GetGenresResponse:
+      required:
+      - genres
+      type: object
+      properties:
+        genres:
+          type: array
+          items:
+            $ref: '#/components/schemas/Genre'
+      example:
+        genres:
+        - id: 140
+          parent_id: 127
+          name: Web Design
+        - id: 140
+          parent_id: 127
+          name: Web Design
     SearchResult:
       type: object
       properties:

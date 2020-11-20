@@ -70,6 +70,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetGenres",
+		strings.ToUpper("Get"),
+		"/genres",
+		GetGenres,
+	},
+
+	Route{
 		"GetSearchResults",
 		strings.ToUpper("Get"),
 		"/search",
