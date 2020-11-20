@@ -106,6 +106,19 @@ paths:
           description: "bad request"
         "500":
           description: "internal server error"
+  /genres:
+    get:
+      summary: "Used to get a list of all podcast genres"
+      description: "Returns a list of all podcast genres (this contains their name and id)"
+      operationId: "GetGenres"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "succesful operation"
+          schema:
+            $ref: "#/definitions/GetGenresResponse"
+              
 
 definitions:
   Show:
@@ -451,7 +464,6 @@ definitions:
         example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
         description: Edit url of this episode where you can update the audio url if you
           find the audio is broken.
-          
   BestOfGenreResult:
     type: object
     properties:
@@ -492,7 +504,35 @@ definitions:
       previous_page_number:
         type: integer
         example: 1
-      
+  Genre:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Genre id
+        example: 93
+      name:
+        type: string
+        description: Genre name.
+        example: Business
+      parent_id:
+        type: integer
+        description: Parent genre id.
+        example: 95
+    example:
+      id: 140
+      parent_id: 127
+      name: Web Design
+  GetGenresResponse:
+      required:
+      - genres
+      type: object
+      properties:
+        genres:
+          type: array
+          items:
+            $ref: '#/definitions/Genre'
+        
   SearchResult:
     type: object
     properties:
