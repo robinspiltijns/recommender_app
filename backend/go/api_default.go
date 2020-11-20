@@ -13,10 +13,15 @@ import (
 	"net/http"
 )
 
+func GetPodcastRecommendationsBasedOnPodcast(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	GetPodcastRecommendationsBasedOnPodcastImpl(w, r)
+}
+
 func GetSearchResults(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	GetSearchResultsImpl(w, r)
 }
 
 func GetShow(w http.ResponseWriter, r *http.Request) {

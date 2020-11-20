@@ -62,6 +62,35 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/SearchResult"
+  /get-recommendations-based-on/podcast:
+    get:
+      summary: "Fetch recommendations for a podcast"
+      description: "Fetch up to 8 podcast recommendations based on the given podcast id."
+      operationId: "getPodcastRecommendationsBasedOnPodcast"
+      produces: 
+        - "application/json"
+      parameters:
+      - name: "X-ListenAPI-Key"
+        in: "header"
+        description: "Get API Key on listennotes.com/api"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "path"
+        description: "Podcast id."
+        required: true
+        type: "string"
+      - name: "safe_mode"
+        in: "query"
+        description: "Whether or not to exclude podcasts with explicit language. 1 is yes, and 0 is no."
+        required: false
+        type: "number"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetPodcastRecommendationsResponse'
+        
 
 
 definitions:
@@ -699,3 +728,151 @@ definitions:
       type: string
       description: Podcast publisher name.
       example: Planet Broadcasting
+  GetPodcastRecommendationsResponse:
+      required:
+      - recommendations
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            $ref: '#/definitions/PodcastSimple'
+  PodcastSimple:
+    type: object
+    properties:
+      is_claimed:
+        $ref: '#/definitions/IsClaimedField'
+      type:
+        $ref: '#/definitions/PodcastTypeField'
+      explicit_content:
+        $ref: '#/definitions/ExplicitField'
+      website:
+        $ref: '#/definitions/WebsiteField'
+      total_episodes:
+        $ref: '#/definitions/TotalEpisodesField'
+      earliest_pub_date_ms:
+        $ref: '#/definitions/EarliestPubDateMsField'
+      rss:
+        $ref: '#/definitions/RssField'
+      latest_pub_date_ms:
+        $ref: '#/definitions/LatestPubDateMsField'
+      title:
+        $ref: '#/definitions/PodcastNameField'
+      language:
+        $ref: '#/definitions/LanguageField'
+      description:
+        $ref: '#/definitions/PodcastDescriptionField'
+      email:
+        $ref: '#/definitions/EmailField'
+      image:
+        $ref: '#/definitions/ImageField'
+      thumbnail:
+        $ref: '#/definitions/ThumbnailField'
+      listennotes_url:
+        $ref: '#/definitions/PodcastLNUrlField'
+      id:
+        $ref: '#/definitions/PodcastIdField'
+      country:
+        $ref: '#/definitions/CountryField'
+      publisher:
+        $ref: '#/definitions/PublisherField'
+      itunes_id:
+        $ref: '#/definitions/iTunesIdField'
+      looking_for:
+        $ref: '#/definitions/PodcastLookingForField'
+      extra:
+        $ref: '#/definitions/PodcastExtraField'
+      genre_ids:
+        $ref: '#/definitions/GenreIdsField'
+      listen_score:
+        $ref: '#/definitions/ListenScoreField'
+      listen_score_global_rank:
+        $ref: '#/definitions/ListenScoreGlobalRankField'
+  IsClaimedField:
+      type: boolean
+      description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+      example: true
+  PodcastTypeField:
+      type: string
+      description: The type of this podcast - episodic or serial.
+      example: episodic
+      enum:
+      - episodic
+      - serial
+  LanguageField:
+      type: string
+      description: The language of this podcast. You can get all supported languages from `GET /languages`.
+      example: English
+  PodcastDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+  CountryField:
+      type: string
+      description: The country where this podcast is produced.
+      example: United States
+  PodcastLookingForField:
+      type: object
+      properties:
+        cohosts:
+          type: boolean
+          description: Whether this podcast is looking for cohosts.
+          example: true
+        cross_promotion:
+          type: boolean
+          description: Whether this podcast is looking for cross promotion opportunities with other podcasts.
+          example: true
+        sponsors:
+          type: boolean
+          description: Whether this podcast is looking for sponsors.
+          example: true
+        guests:
+          type: boolean
+          description: Whether this podcast is looking for guests.
+          example: true
+  PodcastExtraField:
+      type: object
+      properties:
+        youtube_url:
+          type: string
+          description: YouTube url affiliated with this podcast
+          example: https://www.youtube.com/sw7x7
+        facebook_handle:
+          type: string
+          description: Facebook username affiliated with this podcast
+          example: sw7x7
+        instagram_handle:
+          type: string
+          description: Instagram username affiliated with this podcast
+          example: sw7x7
+        twitter_handle:
+          type: string
+          description: Twitter username affiliated with this podcast
+          example: SW7x7podcast
+        wechat_handle:
+          type: string
+          description: WeChat username affiliated with this podcast
+        patreon_handle:
+          type: string
+          description: Patreon username affiliated with this podcast
+          example: sw7x7
+        google_url:
+          type: string
+          description: Google Podcasts url for this podcast
+          example: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+        linkedin_url:
+          type: string
+          description: LinkedIn url affiliated with this podcast
+        spotify_url:
+          type: string
+          description: Spotify url for this podcast
+          example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        url1:
+          type: string
+          description: Url affiliated with this podcast
+        url2:
+          type: string
+          description: Url affiliated with this podcast
+        url3:
+          type: string
+          description: Url affiliated with this podcast

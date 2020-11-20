@@ -56,6 +56,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetPodcastRecommendationsBasedOnPodcast",
+		strings.ToUpper("Get"),
+		"/get-recommendations-based-on/podcast",
+		GetPodcastRecommendationsBasedOnPodcast,
+	},
+
+	Route{
 		"GetSearchResults",
 		strings.ToUpper("Get"),
 		"/search",

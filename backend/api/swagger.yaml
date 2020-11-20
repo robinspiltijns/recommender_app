@@ -75,6 +75,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchResult'
+  /get-recommendations-based-on/podcast:
+    get:
+      summary: Fetch recommendations for a podcast
+      description: Fetch up to 8 podcast recommendations based on the given podcast
+        id.
+      operationId: getPodcastRecommendationsBasedOnPodcast
+      parameters:
+      - name: X-ListenAPI-Key
+        in: header
+        description: Get API Key on listennotes.com/api
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Podcast id.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: safe_mode
+        in: query
+        description: Whether or not to exclude podcasts with explicit language. 1
+          is yes, and 0 is no.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPodcastRecommendationsResponse'
 components:
   schemas:
     Show:
@@ -656,6 +695,336 @@ components:
       type: string
       description: Podcast publisher name.
       example: Planet Broadcasting
+    GetPodcastRecommendationsResponse:
+      required:
+      - recommendations
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastSimple'
+      example:
+        recommendations:
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          country: United States
+          website: http://sw7x7.com/
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          listen_score_global_rank: 0.5%
+          explicit_content: false
+          itunes_id: 896354638
+          description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+            Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+            for Star Wars news, history, interviews, trivia, and deep dives into the
+            Star Wars story as told in movies, books, comics, games, cartoons, and
+            more. Subscribe now for your daily dose of Star Wars joy. It's destiny
+            unleashed!</p>
+          earliest_pub_date_ms: 1470667902000
+          language: English
+          type: episodic
+          title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+          genre_ids:
+          - 138
+          - 86
+          - 160
+          - 68
+          - 82
+          - 100
+          - 101
+          listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          is_claimed: true
+          total_episodes: 324
+          rss: https://sw7x7.libsyn.com/rss
+          looking_for:
+            cross_promotion: true
+            sponsors: true
+            guests: true
+            cohosts: true
+          extra:
+            twitter_handle: SW7x7podcast
+            instagram_handle: sw7x7
+            url3: url3
+            url1: url1
+            url2: url2
+            facebook_handle: sw7x7
+            linkedin_url: linkedin_url
+            youtube_url: https://www.youtube.com/sw7x7
+            google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+            spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+            wechat_handle: wechat_handle
+            patreon_handle: sw7x7
+          listen_score: 81
+          publisher: Planet Broadcasting
+          latest_pub_date_ms: 1557499770000
+          id: 4d3fe717742d4963a85562e9f84d8c79
+          email: hello@example.com
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          country: United States
+          website: http://sw7x7.com/
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          listen_score_global_rank: 0.5%
+          explicit_content: false
+          itunes_id: 896354638
+          description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+            Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+            for Star Wars news, history, interviews, trivia, and deep dives into the
+            Star Wars story as told in movies, books, comics, games, cartoons, and
+            more. Subscribe now for your daily dose of Star Wars joy. It's destiny
+            unleashed!</p>
+          earliest_pub_date_ms: 1470667902000
+          language: English
+          type: episodic
+          title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+          genre_ids:
+          - 138
+          - 86
+          - 160
+          - 68
+          - 82
+          - 100
+          - 101
+          listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          is_claimed: true
+          total_episodes: 324
+          rss: https://sw7x7.libsyn.com/rss
+          looking_for:
+            cross_promotion: true
+            sponsors: true
+            guests: true
+            cohosts: true
+          extra:
+            twitter_handle: SW7x7podcast
+            instagram_handle: sw7x7
+            url3: url3
+            url1: url1
+            url2: url2
+            facebook_handle: sw7x7
+            linkedin_url: linkedin_url
+            youtube_url: https://www.youtube.com/sw7x7
+            google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+            spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+            wechat_handle: wechat_handle
+            patreon_handle: sw7x7
+          listen_score: 81
+          publisher: Planet Broadcasting
+          latest_pub_date_ms: 1557499770000
+          id: 4d3fe717742d4963a85562e9f84d8c79
+          email: hello@example.com
+    PodcastSimple:
+      type: object
+      properties:
+        is_claimed:
+          $ref: '#/components/schemas/IsClaimedField'
+        type:
+          $ref: '#/components/schemas/PodcastTypeField'
+        explicit_content:
+          $ref: '#/components/schemas/ExplicitField'
+        website:
+          $ref: '#/components/schemas/WebsiteField'
+        total_episodes:
+          $ref: '#/components/schemas/TotalEpisodesField'
+        earliest_pub_date_ms:
+          $ref: '#/components/schemas/EarliestPubDateMsField'
+        rss:
+          $ref: '#/components/schemas/RssField'
+        latest_pub_date_ms:
+          $ref: '#/components/schemas/LatestPubDateMsField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        language:
+          $ref: '#/components/schemas/LanguageField'
+        description:
+          $ref: '#/components/schemas/PodcastDescriptionField'
+        email:
+          $ref: '#/components/schemas/EmailField'
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        country:
+          $ref: '#/components/schemas/CountryField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        itunes_id:
+          $ref: '#/components/schemas/iTunesIdField'
+        looking_for:
+          $ref: '#/components/schemas/PodcastLookingForField'
+        extra:
+          $ref: '#/components/schemas/PodcastExtraField'
+        genre_ids:
+          $ref: '#/components/schemas/GenreIdsField'
+        listen_score:
+          $ref: '#/components/schemas/ListenScoreField'
+        listen_score_global_rank:
+          $ref: '#/components/schemas/ListenScoreGlobalRankField'
+      example:
+        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        country: United States
+        website: http://sw7x7.com/
+        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        listen_score_global_rank: 0.5%
+        explicit_content: false
+        itunes_id: 896354638
+        description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+          Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+          for Star Wars news, history, interviews, trivia, and deep dives into the
+          Star Wars story as told in movies, books, comics, games, cartoons, and more.
+          Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+        earliest_pub_date_ms: 1470667902000
+        language: English
+        type: episodic
+        title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        genre_ids:
+        - 138
+        - 86
+        - 160
+        - 68
+        - 82
+        - 100
+        - 101
+        listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+        is_claimed: true
+        total_episodes: 324
+        rss: https://sw7x7.libsyn.com/rss
+        looking_for:
+          cross_promotion: true
+          sponsors: true
+          guests: true
+          cohosts: true
+        extra:
+          twitter_handle: SW7x7podcast
+          instagram_handle: sw7x7
+          url3: url3
+          url1: url1
+          url2: url2
+          facebook_handle: sw7x7
+          linkedin_url: linkedin_url
+          youtube_url: https://www.youtube.com/sw7x7
+          google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+          spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+          wechat_handle: wechat_handle
+          patreon_handle: sw7x7
+        listen_score: 81
+        publisher: Planet Broadcasting
+        latest_pub_date_ms: 1557499770000
+        id: 4d3fe717742d4963a85562e9f84d8c79
+        email: hello@example.com
+    IsClaimedField:
+      type: boolean
+      description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+      example: true
+    PodcastTypeField:
+      type: string
+      description: The type of this podcast - episodic or serial.
+      example: episodic
+      enum:
+      - episodic
+      - serial
+    LanguageField:
+      type: string
+      description: The language of this podcast. You can get all supported languages
+        from `GET /languages`.
+      example: English
+    PodcastDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi,
+        between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for
+        Star Wars news, history, interviews, trivia, and deep dives into the Star
+        Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe
+        now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+    CountryField:
+      type: string
+      description: The country where this podcast is produced.
+      example: United States
+    PodcastLookingForField:
+      type: object
+      properties:
+        cohosts:
+          type: boolean
+          description: Whether this podcast is looking for cohosts.
+          example: true
+        cross_promotion:
+          type: boolean
+          description: Whether this podcast is looking for cross promotion opportunities
+            with other podcasts.
+          example: true
+        sponsors:
+          type: boolean
+          description: Whether this podcast is looking for sponsors.
+          example: true
+        guests:
+          type: boolean
+          description: Whether this podcast is looking for guests.
+          example: true
+      example:
+        cross_promotion: true
+        sponsors: true
+        guests: true
+        cohosts: true
+    PodcastExtraField:
+      type: object
+      properties:
+        youtube_url:
+          type: string
+          description: YouTube url affiliated with this podcast
+          example: https://www.youtube.com/sw7x7
+        facebook_handle:
+          type: string
+          description: Facebook username affiliated with this podcast
+          example: sw7x7
+        instagram_handle:
+          type: string
+          description: Instagram username affiliated with this podcast
+          example: sw7x7
+        twitter_handle:
+          type: string
+          description: Twitter username affiliated with this podcast
+          example: SW7x7podcast
+        wechat_handle:
+          type: string
+          description: WeChat username affiliated with this podcast
+        patreon_handle:
+          type: string
+          description: Patreon username affiliated with this podcast
+          example: sw7x7
+        google_url:
+          type: string
+          description: Google Podcasts url for this podcast
+          example: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+        linkedin_url:
+          type: string
+          description: LinkedIn url affiliated with this podcast
+        spotify_url:
+          type: string
+          description: Spotify url for this podcast
+          example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        url1:
+          type: string
+          description: Url affiliated with this podcast
+        url2:
+          type: string
+          description: Url affiliated with this podcast
+        url3:
+          type: string
+          description: Url affiliated with this podcast
+      example:
+        twitter_handle: SW7x7podcast
+        instagram_handle: sw7x7
+        url3: url3
+        url1: url1
+        url2: url2
+        facebook_handle: sw7x7
+        linkedin_url: linkedin_url
+        youtube_url: https://www.youtube.com/sw7x7
+        google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+        spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        wechat_handle: wechat_handle
+        patreon_handle: sw7x7
     Show_extra:
       type: object
       properties:
