@@ -84,7 +84,28 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/SearchResult"
-
+  /best-of-genre:
+    get:
+      summary: "Used to get the best podcast from a given genre."
+      description: "Returns a list of podcast shows that belong to the given genre id, ranked by popularity."
+      operationId: "GetBestOfGenre"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "genreId"
+          in: "query"
+          description: "the id of the genre to fetch podcast shows by"
+          required: true
+          type: "string"
+      responses:
+        "200": 
+          description: "succesful operation"
+          schema:
+            $ref: "#/definitions/BestOfGenreResult"
+        "400":
+          description: "bad request"
+        "500":
+          description: "internal server error"
 
 definitions:
   Show:
@@ -430,6 +451,48 @@ definitions:
         example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
         description: Edit url of this episode where you can update the audio url if you
           find the audio is broken.
+          
+  BestOfGenreResult:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 95
+        description: The id of this genre
+      name:
+        type: string
+        example: Business News
+        description: This genre's name.
+      total:
+        type: integer
+        example: 325
+      has_next:
+        type: boolean
+        example: true
+      podcasts:
+        type: array
+        items:
+          $ref: "#/definitions/Show"
+      parent_id:
+        type: integer
+        example: 93
+        description: The id of parent genre.
+      page_number:
+        type: integer
+        example: 2
+      has_previous:
+        type: boolean
+      listennotes_url:
+        type: string
+        example: 'https://www.listennotes.com/best-business-news-podcasts-95/'
+        description: 'Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).'
+      next_page_number:
+        type: integer
+        example: 3
+      previous_page_number:
+        type: integer
+        example: 1
+      
   SearchResult:
     type: object
     properties:

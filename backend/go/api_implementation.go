@@ -95,3 +95,33 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, string(bodyBytes))
 }
+
+func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
+	id, ok := r.URL.Query()["genreId"]
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	client := &http.Client{}
+	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/best_podcasts", nil)
+	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
+
+	q := request.URL.Query()
+	q.Add("genre_id", id[0])
+	request.URL.RawQuery = q.Encode()
+
+	resp, err := client.Do(request)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+
+	// Convert response body to Todo struct
+	var result BestOfGenreResult
+	json.Unmarshal(bodyBytes, &result)
+
+	fmt.Fprintf(w, string(bodyBytes))
+}
