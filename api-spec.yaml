@@ -76,20 +76,38 @@ paths:
         required: true
         type: "string"
       - name: "id"
-        in: "path"
-        description: "Podcast id."
+        in: "query"
+        description: "The id of the show."
         required: true
         type: "string"
-      - name: "safe_mode"
-        in: "query"
-        description: "Whether or not to exclude podcasts with explicit language. 1 is yes, and 0 is no."
-        required: false
-        type: "number"
       responses:
         "200":
           description: OK
           schema:
             $ref: '#/definitions/GetPodcastRecommendationsResponse'
+  /get-recommendations-based-on/episode:
+    get:
+      summary: "Fetch recommendations based on an episode."
+      description: "Fetch recommendations based on the given episode id."
+      operationId: "getEpisodeRecommendationsBasedOnEpisode"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "X-ListenAPI-Key"
+        in: "header"
+        description: "Get API Key on listennotes.com/api"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "query"
+        description: "The id of the episode."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetEpisodeRecommendationsResponse'
         
 
 
@@ -876,3 +894,74 @@ definitions:
         url3:
           type: string
           description: Url affiliated with this podcast
+  GetEpisodeRecommendationsResponse:
+      required:
+      - recommendations
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            $ref: '#/definitions/EpisodeSimple'
+  EpisodeSimple:
+      type: object
+      properties:
+        maybe_audio_invalid:
+          $ref: '#/definitions/MaybeAudioInvalidField'
+        pub_date_ms:
+          $ref: '#/definitions/EpisodePubDateMsField'
+        audio:
+          $ref: '#/definitions/AudioField'
+        listennotes_edit_url:
+          $ref: '#/definitions/EpisodeLNEditUrlField'
+        image:
+          $ref: '#/definitions/EpisodeImageField'
+        thumbnail:
+          $ref: '#/definitions/EpisodeThumbnailField'
+        description:
+          $ref: '#/definitions/EpisodeDescriptionField'
+        title:
+          $ref: '#/definitions/EpisodeNameField'
+        explicit_content:
+          $ref: '#/definitions/ExplicitField'
+        listennotes_url:
+          $ref: '#/definitions/EpisodeLNUrlField'
+        audio_length_sec:
+          $ref: '#/definitions/AudioLengthSecField'
+        id:
+          $ref: '#/definitions/EpisodeIdField'
+        link:
+          $ref: '#/definitions/LinkField'
+        podcast:
+          type: object
+          properties:
+            id:
+              $ref: '#/definitions/PodcastIdField'
+            title:
+              $ref: '#/definitions/PodcastNameField'
+            publisher:
+              $ref: '#/definitions/PublisherField'
+            image:
+              $ref: '#/definitions/ImageField'
+            thumbnail:
+              $ref: '#/definitions/ThumbnailField'
+            listennotes_url:
+              $ref: '#/definitions/PodcastLNUrlField'
+  MaybeAudioInvalidField:
+      type: boolean
+      description: Whether or not this episode's audio is invalid. Podcasters may delete the original audio.
+      example: false
+  EpisodeLNEditUrlField:
+      type: string
+      description: Edit url of this episode where you can update the audio url if you find the audio is broken.
+      example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+  EpisodeDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: |
+        <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+  EpisodeNameField:
+      type: string
+      description: Episode name.
+      example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“ SWBW #101'
+

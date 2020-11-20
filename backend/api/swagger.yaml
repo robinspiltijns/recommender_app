@@ -91,22 +91,13 @@ paths:
         schema:
           type: string
       - name: id
-        in: path
-        description: Podcast id.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      - name: safe_mode
         in: query
-        description: Whether or not to exclude podcasts with explicit language. 1
-          is yes, and 0 is no.
-        required: false
+        description: The id of the show.
+        required: true
         style: form
         explode: true
         schema:
-          type: number
+          type: string
       responses:
         "200":
           description: OK
@@ -114,6 +105,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetPodcastRecommendationsResponse'
+  /get-recommendations-based-on/episode:
+    get:
+      summary: Fetch recommendations based on an episode.
+      description: Fetch recommendations based on the given episode id.
+      operationId: getEpisodeRecommendationsBasedOnEpisode
+      parameters:
+      - name: X-ListenAPI-Key
+        in: header
+        description: Get API Key on listennotes.com/api
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: The id of the episode.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEpisodeRecommendationsResponse'
 components:
   schemas:
     Show:
@@ -1025,6 +1045,135 @@ components:
         spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
         wechat_handle: wechat_handle
         patreon_handle: sw7x7
+    GetEpisodeRecommendationsResponse:
+      required:
+      - recommendations
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodeSimple'
+      example:
+        recommendations:
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          explicit_content: false
+          listennotes_edit_url: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+          audio_length_sec: 567
+          link: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+          description: |
+            <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+          title: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“
+            SWBW #101'
+          listennotes_url: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+          podcast:
+            image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+            thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+            publisher: Planet Broadcasting
+            id: 4d3fe717742d4963a85562e9f84d8c79
+            title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+            listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+          id: id
+          pub_date_ms: 1474873200000
+          maybe_audio_invalid: false
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          explicit_content: false
+          listennotes_edit_url: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+          audio_length_sec: 567
+          link: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+          description: |
+            <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+          title: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“
+            SWBW #101'
+          listennotes_url: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+          podcast:
+            image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+            thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+            publisher: Planet Broadcasting
+            id: 4d3fe717742d4963a85562e9f84d8c79
+            title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+            listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+          id: id
+          pub_date_ms: 1474873200000
+          maybe_audio_invalid: false
+    EpisodeSimple:
+      type: object
+      properties:
+        maybe_audio_invalid:
+          $ref: '#/components/schemas/MaybeAudioInvalidField'
+        pub_date_ms:
+          $ref: '#/components/schemas/EpisodePubDateMsField'
+        audio:
+          $ref: '#/components/schemas/AudioField'
+        listennotes_edit_url:
+          $ref: '#/components/schemas/EpisodeLNEditUrlField'
+        image:
+          $ref: '#/components/schemas/EpisodeImageField'
+        thumbnail:
+          $ref: '#/components/schemas/EpisodeThumbnailField'
+        description:
+          $ref: '#/components/schemas/EpisodeDescriptionField'
+        title:
+          $ref: '#/components/schemas/EpisodeNameField'
+        explicit_content:
+          $ref: '#/components/schemas/ExplicitField'
+        listennotes_url:
+          $ref: '#/components/schemas/EpisodeLNUrlField'
+        audio_length_sec:
+          $ref: '#/components/schemas/AudioLengthSecField'
+        id:
+          $ref: '#/components/schemas/EpisodeIdField'
+        link:
+          $ref: '#/components/schemas/LinkField'
+        podcast:
+          $ref: '#/components/schemas/EpisodeSimple_podcast'
+      example:
+        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        explicit_content: false
+        listennotes_edit_url: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+        audio_length_sec: 567
+        link: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+        description: |
+          <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+        title: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“
+          SWBW #101'
+        listennotes_url: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+        podcast:
+          image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          publisher: Planet Broadcasting
+          id: 4d3fe717742d4963a85562e9f84d8c79
+          title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+          listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+        audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+        id: id
+        pub_date_ms: 1474873200000
+        maybe_audio_invalid: false
+    MaybeAudioInvalidField:
+      type: boolean
+      description: Whether or not this episode's audio is invalid. Podcasters may
+        delete the original audio.
+      example: false
+    EpisodeLNEditUrlField:
+      type: string
+      description: Edit url of this episode where you can update the audio url if
+        you find the audio is broken.
+      example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+    EpisodeDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: |
+        <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+    EpisodeNameField:
+      type: string
+      description: Episode name.
+      example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“
+        SWBW #101'
     Show_extra:
       type: object
       properties:
@@ -1213,4 +1362,26 @@ components:
         listen_score_global_rank:
           $ref: '#/components/schemas/ListenScoreGlobalRankField'
       description: The podcast that this episode belongs to.
+    EpisodeSimple_podcast:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/PodcastIdField'
+        title:
+          $ref: '#/components/schemas/PodcastNameField'
+        publisher:
+          $ref: '#/components/schemas/PublisherField'
+        image:
+          $ref: '#/components/schemas/ImageField'
+        thumbnail:
+          $ref: '#/components/schemas/ThumbnailField'
+        listennotes_url:
+          $ref: '#/components/schemas/PodcastLNUrlField'
+      example:
+        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        publisher: Planet Broadcasting
+        id: 4d3fe717742d4963a85562e9f84d8c79
+        title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
 x-original-swagger-version: "2.0"
