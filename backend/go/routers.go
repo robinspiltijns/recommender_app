@@ -56,6 +56,20 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetEpisodeRecommendationsBasedOnEpisode",
+		strings.ToUpper("Get"),
+		"/get-recommendations-based-on/episode",
+		GetEpisodeRecommendationsBasedOnEpisode,
+	},
+
+	Route{
+		"GetPodcastRecommendationsBasedOnPodcast",
+		strings.ToUpper("Get"),
+		"/get-recommendations-based-on/podcast",
+		GetPodcastRecommendationsBasedOnPodcast,
+  },
+  
+  Route{
 		"GetBestOfGenre",
 		strings.ToUpper("Get"),
 		"/best-of-genre",
@@ -88,6 +102,13 @@ var routes = Routes{
 		strings.ToUpper("Get"),
 		"/show",
 		GetShow,
+	},
+
+	Route{
+		"GetTheBestPodcasts",
+		strings.ToUpper("Get"),
+		"/get-best-podcasts",
+		GetTheBestPodcasts,
 	},
 
 	Route{

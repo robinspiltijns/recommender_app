@@ -84,6 +84,70 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/SearchResult"
+  /get-recommendations-based-on/podcast:
+    get:
+      summary: "Fetch recommendations for a podcast"
+      description: "Fetch up to 8 podcast recommendations based on the given podcast id."
+      operationId: "getPodcastRecommendationsBasedOnPodcast"
+      produces: 
+        - "application/json"
+      parameters:
+      - name: "X-ListenAPI-Key"
+        in: "header"
+        description: "Get API Key on listennotes.com/api"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "query"
+        description: "The id of the show."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetPodcastRecommendationsResponse'
+  /get-recommendations-based-on/episode:
+    get:
+      summary: "Fetch recommendations based on an episode."
+      description: "Fetch recommendations based on the given episode id."
+      operationId: "getEpisodeRecommendationsBasedOnEpisode"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "X-ListenAPI-Key"
+        in: "header"
+        description: "Get API Key on listennotes.com/api"
+        required: true
+        type: "string"
+      - name: "id"
+        in: "query"
+        description: "The id of the episode."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/GetEpisodeRecommendationsResponse'
+  /get-best-podcasts:
+    get:
+      summary: "Fetch the best podcasts."
+      description: "Returns the best podcasts."
+      operationId: "GetTheBestPodcasts"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "X-ListenAPI-Key"
+        in: "header"
+        description: "Get API Key on listennotes.com/api"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/BestPodcastsResponse'
   /best-of-genre:
     get:
       summary: "Used to get the best podcast from a given genre."
@@ -119,7 +183,6 @@ paths:
           schema:
             $ref: "#/definitions/GetGenresResponse"
               
-
 definitions:
   Show:
     type: "object"
@@ -903,3 +966,275 @@ definitions:
       type: string
       description: Podcast publisher name.
       example: Planet Broadcasting
+  GetPodcastRecommendationsResponse:
+      required:
+      - recommendations
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            $ref: '#/definitions/PodcastSimple'
+  PodcastSimple:
+    type: object
+    properties:
+      is_claimed:
+        $ref: '#/definitions/IsClaimedField'
+      type:
+        $ref: '#/definitions/PodcastTypeField'
+      explicit_content:
+        $ref: '#/definitions/ExplicitField'
+      website:
+        $ref: '#/definitions/WebsiteField'
+      total_episodes:
+        $ref: '#/definitions/TotalEpisodesField'
+      earliest_pub_date_ms:
+        $ref: '#/definitions/EarliestPubDateMsField'
+      rss:
+        $ref: '#/definitions/RssField'
+      latest_pub_date_ms:
+        $ref: '#/definitions/LatestPubDateMsField'
+      title:
+        $ref: '#/definitions/PodcastNameField'
+      language:
+        $ref: '#/definitions/LanguageField'
+      description:
+        $ref: '#/definitions/PodcastDescriptionField'
+      email:
+        $ref: '#/definitions/EmailField'
+      image:
+        $ref: '#/definitions/ImageField'
+      thumbnail:
+        $ref: '#/definitions/ThumbnailField'
+      listennotes_url:
+        $ref: '#/definitions/PodcastLNUrlField'
+      id:
+        $ref: '#/definitions/PodcastIdField'
+      country:
+        $ref: '#/definitions/CountryField'
+      publisher:
+        $ref: '#/definitions/PublisherField'
+      itunes_id:
+        $ref: '#/definitions/iTunesIdField'
+      looking_for:
+        $ref: '#/definitions/PodcastLookingForField'
+      extra:
+        $ref: '#/definitions/PodcastExtraField'
+      genre_ids:
+        $ref: '#/definitions/GenreIdsField'
+      listen_score:
+        $ref: '#/definitions/ListenScoreField'
+      listen_score_global_rank:
+        $ref: '#/definitions/ListenScoreGlobalRankField'
+  IsClaimedField:
+      type: boolean
+      description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+      example: true
+  PodcastTypeField:
+      type: string
+      description: The type of this podcast - episodic or serial.
+      example: episodic
+      enum:
+      - episodic
+      - serial
+  LanguageField:
+      type: string
+      description: The language of this podcast. You can get all supported languages from `GET /languages`.
+      example: English
+  PodcastDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
+  CountryField:
+      type: string
+      description: The country where this podcast is produced.
+      example: United States
+  PodcastLookingForField:
+      type: object
+      properties:
+        cohosts:
+          type: boolean
+          description: Whether this podcast is looking for cohosts.
+          example: true
+        cross_promotion:
+          type: boolean
+          description: Whether this podcast is looking for cross promotion opportunities with other podcasts.
+          example: true
+        sponsors:
+          type: boolean
+          description: Whether this podcast is looking for sponsors.
+          example: true
+        guests:
+          type: boolean
+          description: Whether this podcast is looking for guests.
+          example: true
+  PodcastExtraField:
+      type: object
+      properties:
+        youtube_url:
+          type: string
+          description: YouTube url affiliated with this podcast
+          example: https://www.youtube.com/sw7x7
+        facebook_handle:
+          type: string
+          description: Facebook username affiliated with this podcast
+          example: sw7x7
+        instagram_handle:
+          type: string
+          description: Instagram username affiliated with this podcast
+          example: sw7x7
+        twitter_handle:
+          type: string
+          description: Twitter username affiliated with this podcast
+          example: SW7x7podcast
+        wechat_handle:
+          type: string
+          description: WeChat username affiliated with this podcast
+        patreon_handle:
+          type: string
+          description: Patreon username affiliated with this podcast
+          example: sw7x7
+        google_url:
+          type: string
+          description: Google Podcasts url for this podcast
+          example: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+        linkedin_url:
+          type: string
+          description: LinkedIn url affiliated with this podcast
+        spotify_url:
+          type: string
+          description: Spotify url for this podcast
+          example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+        url1:
+          type: string
+          description: Url affiliated with this podcast
+        url2:
+          type: string
+          description: Url affiliated with this podcast
+        url3:
+          type: string
+          description: Url affiliated with this podcast
+  GetEpisodeRecommendationsResponse:
+      required:
+      - recommendations
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            $ref: '#/definitions/EpisodeSimple'
+  EpisodeSimple:
+      type: object
+      properties:
+        maybe_audio_invalid:
+          $ref: '#/definitions/MaybeAudioInvalidField'
+        pub_date_ms:
+          $ref: '#/definitions/EpisodePubDateMsField'
+        audio:
+          $ref: '#/definitions/AudioField'
+        listennotes_edit_url:
+          $ref: '#/definitions/EpisodeLNEditUrlField'
+        image:
+          $ref: '#/definitions/EpisodeImageField'
+        thumbnail:
+          $ref: '#/definitions/EpisodeThumbnailField'
+        description:
+          $ref: '#/definitions/EpisodeDescriptionField'
+        title:
+          $ref: '#/definitions/EpisodeNameField'
+        explicit_content:
+          $ref: '#/definitions/ExplicitField'
+        listennotes_url:
+          $ref: '#/definitions/EpisodeLNUrlField'
+        audio_length_sec:
+          $ref: '#/definitions/AudioLengthSecField'
+        id:
+          $ref: '#/definitions/EpisodeIdField'
+        link:
+          $ref: '#/definitions/LinkField'
+        podcast:
+          type: object
+          properties:
+            id:
+              $ref: '#/definitions/PodcastIdField'
+            title:
+              $ref: '#/definitions/PodcastNameField'
+            publisher:
+              $ref: '#/definitions/PublisherField'
+            image:
+              $ref: '#/definitions/ImageField'
+            thumbnail:
+              $ref: '#/definitions/ThumbnailField'
+            listennotes_url:
+              $ref: '#/definitions/PodcastLNUrlField'
+  MaybeAudioInvalidField:
+      type: boolean
+      description: Whether or not this episode's audio is invalid. Podcasters may delete the original audio.
+      example: false
+  EpisodeLNEditUrlField:
+      type: string
+      description: Edit url of this episode where you can update the audio url if you find the audio is broken.
+      example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+  EpisodeDescriptionField:
+      type: string
+      description: Html of this episode's full description
+      example: |
+        <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
+  EpisodeNameField:
+      type: string
+      description: Episode name.
+      example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“ SWBW #101'
+  BestPodcastsResponse:
+      required:
+      - has_next
+      - has_previous
+      - id
+      - listennotes_url
+      - name
+      - next_page_number
+      - page_number
+      - parent_id
+      - podcasts
+      - previous_page_number
+      - total
+      type: object
+      properties:
+        has_previous:
+          type: boolean
+        name:
+          type: string
+          description: This genre's name.
+          example: Business News
+        listennotes_url:
+          $ref: '#/definitions/BestPodcastsLNUrlField'
+        previous_page_number:
+          type: integer
+          example: 1
+        page_number:
+          type: integer
+          example: 2
+        has_next:
+          type: boolean
+          example: true
+        next_page_number:
+          type: integer
+          example: 3
+        parent_id:
+          type: integer
+          description: The id of parent genre.
+          example: 93
+        id:
+          type: integer
+          description: The id of this genre
+          example: 95
+        total:
+          type: integer
+          example: 325
+        podcasts:
+          type: array
+          items:
+            $ref: '#/definitions/PodcastSimple'
+  BestPodcastsLNUrlField:
+      type: string
+      description: Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/best-business-news-podcasts-95/
