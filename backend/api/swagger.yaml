@@ -134,6 +134,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetEpisodeRecommendationsResponse'
+  /get-best-podcasts:
+    get:
+      summary: Fetch the best podcasts.
+      description: Returns the best podcasts.
+      operationId: GetTheBestPodcasts
+      parameters:
+      - name: X-ListenAPI-Key
+        in: header
+        description: Get API Key on listennotes.com/api
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BestPodcastsResponse'
 components:
   schemas:
     Show:
@@ -1174,6 +1195,176 @@ components:
       description: Episode name.
       example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“
         SWBW #101'
+    BestPodcastsResponse:
+      required:
+      - has_next
+      - has_previous
+      - id
+      - listennotes_url
+      - name
+      - next_page_number
+      - page_number
+      - parent_id
+      - podcasts
+      - previous_page_number
+      - total
+      type: object
+      properties:
+        has_previous:
+          type: boolean
+        name:
+          type: string
+          description: This genre's name.
+          example: Business News
+        listennotes_url:
+          $ref: '#/components/schemas/BestPodcastsLNUrlField'
+        previous_page_number:
+          type: integer
+          example: 1
+        page_number:
+          type: integer
+          example: 2
+        has_next:
+          type: boolean
+          example: true
+        next_page_number:
+          type: integer
+          example: 3
+        parent_id:
+          type: integer
+          description: The id of parent genre.
+          example: 93
+        id:
+          type: integer
+          description: The id of this genre
+          example: 95
+        total:
+          type: integer
+          example: 325
+        podcasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastSimple'
+      example:
+        total: 325
+        page_number: 2
+        podcasts:
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          country: United States
+          website: http://sw7x7.com/
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          listen_score_global_rank: 0.5%
+          explicit_content: false
+          itunes_id: 896354638
+          description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+            Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+            for Star Wars news, history, interviews, trivia, and deep dives into the
+            Star Wars story as told in movies, books, comics, games, cartoons, and
+            more. Subscribe now for your daily dose of Star Wars joy. It's destiny
+            unleashed!</p>
+          earliest_pub_date_ms: 1470667902000
+          language: English
+          type: episodic
+          title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+          genre_ids:
+          - 138
+          - 86
+          - 160
+          - 68
+          - 82
+          - 100
+          - 101
+          listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          is_claimed: true
+          total_episodes: 324
+          rss: https://sw7x7.libsyn.com/rss
+          looking_for:
+            cross_promotion: true
+            sponsors: true
+            guests: true
+            cohosts: true
+          extra:
+            twitter_handle: SW7x7podcast
+            instagram_handle: sw7x7
+            url3: url3
+            url1: url1
+            url2: url2
+            facebook_handle: sw7x7
+            linkedin_url: linkedin_url
+            youtube_url: https://www.youtube.com/sw7x7
+            google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+            spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+            wechat_handle: wechat_handle
+            patreon_handle: sw7x7
+          listen_score: 81
+          publisher: Planet Broadcasting
+          latest_pub_date_ms: 1557499770000
+          id: 4d3fe717742d4963a85562e9f84d8c79
+          email: hello@example.com
+        - image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          country: United States
+          website: http://sw7x7.com/
+          thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          listen_score_global_rank: 0.5%
+          explicit_content: false
+          itunes_id: 896354638
+          description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
+            Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod
+            for Star Wars news, history, interviews, trivia, and deep dives into the
+            Star Wars story as told in movies, books, comics, games, cartoons, and
+            more. Subscribe now for your daily dose of Star Wars joy. It's destiny
+            unleashed!</p>
+          earliest_pub_date_ms: 1470667902000
+          language: English
+          type: episodic
+          title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+          genre_ids:
+          - 138
+          - 86
+          - 160
+          - 68
+          - 82
+          - 100
+          - 101
+          listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          is_claimed: true
+          total_episodes: 324
+          rss: https://sw7x7.libsyn.com/rss
+          looking_for:
+            cross_promotion: true
+            sponsors: true
+            guests: true
+            cohosts: true
+          extra:
+            twitter_handle: SW7x7podcast
+            instagram_handle: sw7x7
+            url3: url3
+            url1: url1
+            url2: url2
+            facebook_handle: sw7x7
+            linkedin_url: linkedin_url
+            youtube_url: https://www.youtube.com/sw7x7
+            google_url: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
+            spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
+            wechat_handle: wechat_handle
+            patreon_handle: sw7x7
+          listen_score: 81
+          publisher: Planet Broadcasting
+          latest_pub_date_ms: 1557499770000
+          id: 4d3fe717742d4963a85562e9f84d8c79
+          email: hello@example.com
+        has_previous: true
+        parent_id: 93
+        next_page_number: 3
+        name: Business News
+        has_next: true
+        id: 95
+        listennotes_url: https://www.listennotes.com/best-business-news-podcasts-95/
+        previous_page_number: 1
+    BestPodcastsLNUrlField:
+      type: string
+      description: Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).
+      example: https://www.listennotes.com/best-business-news-podcasts-95/
     Show_extra:
       type: object
       properties:

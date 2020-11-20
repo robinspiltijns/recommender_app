@@ -84,6 +84,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetTheBestPodcasts",
+		strings.ToUpper("Get"),
+		"/get-best-podcasts",
+		GetTheBestPodcasts,
+	},
+
+	Route{
 		"Test",
 		strings.ToUpper("Get"),
 		"/test",

@@ -129,3 +129,25 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 	fmt.Fprintf(w, string(bodyBytes))
 
 }
+
+func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
+
+	client := &http.Client{}
+	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/best_podcasts", nil)
+	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
+
+	resp, err := client.Do(request)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+
+	// Convert response body to Todo struct
+	var recommendation GetPodcastRecommendationsResponse
+	json.Unmarshal(bodyBytes, &recommendation)
+
+	fmt.Fprintf(w, string(bodyBytes))
+
+}
