@@ -51,70 +51,70 @@ var routes = Routes{
 	Route{
 		"Index",
 		"GET",
-		"/",
+		"//",
 		Index,
 	},
 
 	Route{
-		"GetEpisodeRecommendationsBasedOnEpisode",
-		strings.ToUpper("Get"),
-		"/get-recommendations-based-on/episode",
-		GetEpisodeRecommendationsBasedOnEpisode,
-	},
-
-	Route{
-		"GetPodcastRecommendationsBasedOnPodcast",
-		strings.ToUpper("Get"),
-		"/get-recommendations-based-on/podcast",
-		GetPodcastRecommendationsBasedOnPodcast,
-  },
-  
-  Route{
 		"GetBestOfGenre",
 		strings.ToUpper("Get"),
-		"/best-of-genre",
+		"//best-of-genre",
 		GetBestOfGenre,
 	},
 
 	Route{
 		"GetEpisode",
 		strings.ToUpper("Get"),
-		"/episode",
+		"//episode",
 		GetEpisode,
+	},
+
+	Route{
+		"GetEpisodeRecommendationsBasedOnEpisode",
+		strings.ToUpper("Get"),
+		"//get-recommendations-based-on/episode",
+		GetEpisodeRecommendationsBasedOnEpisode,
 	},
 
 	Route{
 		"GetGenres",
 		strings.ToUpper("Get"),
-		"/genres",
+		"//genres",
 		GetGenres,
+	},
+
+	Route{
+		"GetPodcastRecommendationsBasedOnPodcast",
+		strings.ToUpper("Get"),
+		"//get-recommendations-based-on/podcast",
+		GetPodcastRecommendationsBasedOnPodcast,
 	},
 
 	Route{
 		"GetSearchResults",
 		strings.ToUpper("Get"),
-		"/search",
+		"//search",
 		GetSearchResults,
 	},
 
 	Route{
 		"GetShow",
 		strings.ToUpper("Get"),
-		"/show",
+		"//show",
 		GetShow,
 	},
 
 	Route{
 		"GetTheBestPodcasts",
 		strings.ToUpper("Get"),
-		"/get-best-podcasts",
+		"//get-best-podcasts",
 		GetTheBestPodcasts,
 	},
 
 	Route{
 		"Test",
 		strings.ToUpper("Get"),
-		"/test",
+		"//test",
 		Test,
 	},
 }
