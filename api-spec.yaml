@@ -5,7 +5,8 @@ info:
   title: "Podcast Recommender app"
   contact:
     email: "joren.sjongers@icloud.com"
-host: "TODO"
+schemes: [http]
+host: "localhost:8080"
 paths:
   /test:
     get:
