@@ -616,16 +616,14 @@ definitions:
         type: integer
         description: The number of search results in this page.
         example: 10
-      episoderesults:
+      results:
         type: array
-        description: "A list of search results for episodes."
-        items: 
-          $ref: '#/definitions/EpisodeSearchResult'
-      podcastresults:
-        type: array
-        description: "A list of search results for podcasts."
+        description: A list of search results.
         items:
-          $ref: '#/definitions/PodcastSearchResult'
+          oneOf:
+          - $ref: '#/definitions/EpisodeSearchResult'
+          - $ref: '#/definitions/PodcastSearchResult'
+          - $ref: '#/definitions/CuratedListSearchResult'
   EpisodeSearchResult:
       type: object
       properties:
