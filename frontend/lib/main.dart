@@ -1,5 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/feed.dart';
+import 'package:frontend/likes.dart';
+import 'package:frontend/search.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,21 +28,18 @@ class _CastlyWidgetState extends State<CastlyWidget> {
   int _selectedIndex = 1;
 
   static const TextStyle titleStyle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 36.0);
+  TextStyle(fontWeight: FontWeight.bold, fontSize: 36.0);
 
-  static const List<Widget> _titles = <Widget>[
-    Text(
-      'Profile',
-      style: titleStyle,
-    ),
-    Text(
-      'Feed',
-      style: titleStyle,
-    ),
-    Text(
-      'Search',
-      style: titleStyle,
-    ),
+  static List<Widget> _titles = <Widget>[
+    Text('Likes', style: titleStyle,),
+    Text('Feed', style: titleStyle,),
+    Text('Search', style: titleStyle,),
+  ];
+
+  static List<Widget> _destinationViews = <Widget>[
+    LikesWidget(),
+    FeedWidget(),
+    SearchWidget(),
   ];
 
   void _onItemTapped(int index) {
@@ -65,7 +65,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           centerTitle: false,
         ),
         body: Center(
-              child: _titles.elementAt(_selectedIndex),
+              child: _destinationViews.elementAt(_selectedIndex),
             ),
         // We kunnen dit eventueel later nog custom doen.
         // Cfr. https://github.com/pedromassango/bottom_navy_bar https://www.youtube.com/watch?v=jJPSKEEiN-E
@@ -78,7 +78,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           items: <BottomNavyBarItem>[
             BottomNavyBarItem(
                 icon: Icon(Icons.account_circle),
-                title: Text('Profile'),
+                title: Text('Likes'),
                 activeColor: Color(0xffEF476F),
                 inactiveColor: Colors.white
             ),
