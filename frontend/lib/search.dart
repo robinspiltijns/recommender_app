@@ -9,8 +9,7 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
 
-
-  List<String> results = [];
+  List<String> results = ['Result 1', 'Result 2', 'Result 3'];
   final searchController = TextEditingController();
   final api = DefaultApi();
 
@@ -23,9 +22,30 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: searchController,
-      onSubmitted: _onSubmit);
-  }
+    return Container(
+      margin: const EdgeInsets.only(left: 30, right: 30),
 
+      child:  TextField(
+        controller: searchController,
+        onSubmitted: _onSubmit,
+        style: TextStyle(color: Colors.white),
+        cursorColor: Colors.white,
+        decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.5)),
+            hintText: 'Title, description, genre, ...',
+            hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.1),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.8),
+              borderSide: BorderSide(
+                width: 0,
+                style: BorderStyle.none,
+              ),
+            ),
+            contentPadding: const EdgeInsets.only(left: 14.0, right: 14.0),
+        ),
+      )
+    );
+  }
 }
