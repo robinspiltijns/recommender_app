@@ -9,7 +9,7 @@ info:
 servers:
 - url: http://localhost:8080/
 paths:
-  /test:
+  test:
     get:
       summary: used to test whether the backend is running.
       description: returns 'Hello World'
@@ -23,7 +23,7 @@ paths:
                 type: string
                 example: Hello World
                 x-content-type: text/plain
-  /show:
+  show:
     get:
       summary: used to get the details of a show.
       description: returns the details of a show.
@@ -47,7 +47,7 @@ paths:
         "400":
           description: bad request
           content: {}
-  /episode:
+  episode:
     get:
       summary: used to get the details of an episode
       description: returns the details of the podcast episode with the given episode
@@ -75,7 +75,7 @@ paths:
         "500":
           description: internal server error
           content: {}
-  /search:
+  search:
     get:
       summary: Used to get the search results based on the given search parameters.
       description: Returns the search results based on the given search parameters.
@@ -103,7 +103,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchResult'
-  /get-recommendations-based-on/podcast:
+  get-recommendations-based-on/podcast:
     get:
       summary: Fetch recommendations for a podcast
       description: Fetch up to 8 podcast recommendations based on the given podcast
@@ -133,7 +133,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetPodcastRecommendationsResponse'
-  /get-recommendations-based-on/episode:
+  get-recommendations-based-on/episode:
     get:
       summary: Fetch recommendations based on an episode.
       description: Fetch recommendations based on the given episode id.
@@ -162,7 +162,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetEpisodeRecommendationsResponse'
-  /get-best-podcasts:
+  get-best-podcasts:
     get:
       summary: Fetch the best podcasts.
       description: Returns the best podcasts.
@@ -183,7 +183,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BestPodcastsResponse'
-  /best-of-genre:
+  best-of-genre:
     get:
       summary: Used to get the best podcast from a given genre.
       description: Returns a list of podcast shows that belong to the given genre
@@ -211,7 +211,7 @@ paths:
         "500":
           description: internal server error
           content: {}
-  /genres:
+  genres:
     get:
       summary: Used to get a list of all podcast genres
       description: Returns a list of all podcast genres (this contains their name
