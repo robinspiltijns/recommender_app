@@ -12,7 +12,7 @@ const LISTENAPI_KEY = "d43deaf82b4f450aa686ee4b07c87165"
 const EPISODE_TYPE = "episode"
 const PODCAST_TYPE = "podcast"
 
-type SearchResultListenNotes struct {
+type SearchResultListenNotesEpisodes struct {
 	// Pass this value to the **offset** parameter to do pagination of search results.
 	NextOffset int32 `json:"next_offset,omitempty"`
 	// The time it took to fetch these search results. In seconds.
@@ -22,7 +22,20 @@ type SearchResultListenNotes struct {
 	// The number of search results in this page.
 	Count int32 `json:"count,omitempty"`
 	// A list of search results.
-	Results []interface{} `json:"results,omitempty"`
+	Results []EpisodeSearchResult `json:"results,omitempty"`
+}
+
+type SearchResultListenNotesPodcasts struct {
+	// Pass this value to the **offset** parameter to do pagination of search results.
+	NextOffset int32 `json:"next_offset,omitempty"`
+	// The time it took to fetch these search results. In seconds.
+	Took float64 `json:"took,omitempty"`
+	// The total number of search results.
+	Total int32 `json:"total,omitempty"`
+	// The number of search results in this page.
+	Count int32 `json:"count,omitempty"`
+	// A list of search results.
+	Results []PodcastSearchResult `json:"results,omitempty"`
 }
 
 func TestImpl(w http.ResponseWriter, r *http.Request) {
@@ -123,8 +136,8 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 	podcastsResultJson, _ := ioutil.ReadAll(podcastResp.Body)
 
 	// Convert response body to Todo struct
-	var episodeResultLN SearchResultListenNotes
-	var podcastResultLN SearchResultListenNotes
+	var episodeResultLN SearchResultListenNotesEpisodes
+	var podcastResultLN SearchResultListenNotesPodcasts
 	json.Unmarshal(episodesResultJson, &episodeResultLN)
 	json.Unmarshal(podcastsResultJson, &podcastResultLN)
 
@@ -133,14 +146,8 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 	searchResult.Total = episodeResultLN.Total + podcastResultLN.Total
 	searchResult.Count = episodeResultLN.Count + podcastResultLN.Count
 
-	var episodeResultUncasted interface{} = episodeResultLN.Results
-	episodeResult := episodeResultUncasted.([]EpisodeSearchResult)
-
-	var podcastResultUncasted interface{} = podcastResultLN.Results
-	podcastResult := podcastResultUncasted.([]PodcastSearchResult)
-
-	searchResult.Episoderesults = episodeResult
-	searchResult.Podcastresults = podcastResult
+	searchResult.Episoderesults = episodeResultLN.Results
+	searchResult.Podcastresults = podcastResultLN.Results
 
 	searchResultOut, err := json.Marshal(searchResult)
 	if err != nil {
