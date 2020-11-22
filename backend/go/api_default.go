@@ -13,16 +13,6 @@ import (
 	"net/http"
 )
 
-func GetEpisodeRecommendationsBasedOnEpisode(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-}
-
-func GetPodcastRecommendationsBasedOnPodcast(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-}
-
 func GetBestOfGenre(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
@@ -35,15 +25,28 @@ func GetEpisode(w http.ResponseWriter, r *http.Request) {
 	GetEpisodeImpl(w, r)
 }
 
+func GetEpisodeRecommendationsBasedOnEpisode(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	GetEpisodeRecommendationsBasedOnEpisodeImpl(w, r)
+}
+
 func GetGenres(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	GetGenresImpl(w, r)
 }
 
+func GetPodcastRecommendationsBasedOnPodcast(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	GetPodcastRecommendationsBasedOnPodcastImpl(w, r)
+}
+
 func GetSearchResults(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	GetSearchResultsImpl(w, r)
 }
 
 func GetShow(w http.ResponseWriter, r *http.Request) {

@@ -51,25 +51,11 @@ var routes = Routes{
 	Route{
 		"Index",
 		"GET",
-		"/",
+		"//",
 		Index,
 	},
 
 	Route{
-		"GetEpisodeRecommendationsBasedOnEpisode",
-		strings.ToUpper("Get"),
-		"/get-recommendations-based-on/episode",
-		GetEpisodeRecommendationsBasedOnEpisode,
-	},
-
-	Route{
-		"GetPodcastRecommendationsBasedOnPodcast",
-		strings.ToUpper("Get"),
-		"/get-recommendations-based-on/podcast",
-		GetPodcastRecommendationsBasedOnPodcast,
-  },
-  
-  Route{
 		"GetBestOfGenre",
 		strings.ToUpper("Get"),
 		"/best-of-genre",
@@ -84,10 +70,24 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetEpisodeRecommendationsBasedOnEpisode",
+		strings.ToUpper("Get"),
+		"/get-recommendations-based-on/episode",
+		GetEpisodeRecommendationsBasedOnEpisode,
+	},
+
+	Route{
 		"GetGenres",
 		strings.ToUpper("Get"),
 		"/genres",
 		GetGenres,
+	},
+
+	Route{
+		"GetPodcastRecommendationsBasedOnPodcast",
+		strings.ToUpper("Get"),
+		"/get-recommendations-based-on/podcast",
+		GetPodcastRecommendationsBasedOnPodcast,
 	},
 
 	Route{

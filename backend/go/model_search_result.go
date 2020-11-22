@@ -18,6 +18,8 @@ type SearchResult struct {
 	Total int32 `json:"total,omitempty"`
 	// The number of search results in this page.
 	Count int32 `json:"count,omitempty"`
-	// A list of search results.
-	Results []interface{} `json:"results,omitempty"`
+	// A list of search results for episodes.
+	Episoderesults []EpisodeSearchResult `json:"episoderesults,omitempty"`
+	// A list of search results for podcasts.
+	Podcastresults []PodcastSearchResult `json:"podcastresults,omitempty"`
 }

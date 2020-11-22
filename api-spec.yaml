@@ -8,7 +8,7 @@ info:
 schemes: [http]
 host: "localhost:8080"
 paths:
-  /test:
+  test:
     get:
       summary: "used to test whether the backend is running."
       description: "returns 'Hello World'"
@@ -21,7 +21,7 @@ paths:
           schema:
             type: "string"
             example: "Hello World"
-  /show:
+  show:
     get:
       summary: "used to get the details of a show."
       description: "returns the details of a show."
@@ -41,7 +41,7 @@ paths:
             $ref: "#/definitions/Show"
         "400":
           description: "bad request"
-  /episode:
+  episode:
     get:
       summary: "used to get the details of an episode"
       description: "returns the details of the podcast episode with the given episode id"
@@ -63,7 +63,7 @@ paths:
           description: "bad request"
         "500":
           description: "internal server error"
-  /search:
+  search:
     get:
       summary: "Used to get the search results based on the given search parameters."
       description: "Returns the search results based on the given search parameters."
@@ -85,7 +85,7 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/SearchResult"
-  /get-recommendations-based-on/podcast:
+  get-recommendations-based-on/podcast:
     get:
       summary: "Fetch recommendations for a podcast"
       description: "Fetch up to 8 podcast recommendations based on the given podcast id."
@@ -108,7 +108,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/GetPodcastRecommendationsResponse'
-  /get-recommendations-based-on/episode:
+  get-recommendations-based-on/episode:
     get:
       summary: "Fetch recommendations based on an episode."
       description: "Fetch recommendations based on the given episode id."
@@ -131,7 +131,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/GetEpisodeRecommendationsResponse'
-  /get-best-podcasts:
+  get-best-podcasts:
     get:
       summary: "Fetch the best podcasts."
       description: "Returns the best podcasts."
@@ -149,7 +149,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/BestPodcastsResponse'
-  /best-of-genre:
+  best-of-genre:
     get:
       summary: "Used to get the best podcast from a given genre."
       description: "Returns a list of podcast shows that belong to the given genre id, ranked by popularity."
@@ -171,7 +171,7 @@ paths:
           description: "bad request"
         "500":
           description: "internal server error"
-  /genres:
+  genres:
     get:
       summary: "Used to get a list of all podcast genres"
       description: "Returns a list of all podcast genres (this contains their name and id)"
@@ -616,14 +616,16 @@ definitions:
         type: integer
         description: The number of search results in this page.
         example: 10
-      results:
+      episoderesults:
         type: array
-        description: A list of search results.
+        description: "A list of search results for episodes."
+        items: 
+          $ref: '#/definitions/EpisodeSearchResult'
+      podcastresults:
+        type: array
+        description: "A list of search results for podcasts."
         items:
-          oneOf:
-          - $ref: '#/definitions/EpisodeSearchResult'
-          - $ref: '#/definitions/PodcastSearchResult'
-          - $ref: '#/definitions/CuratedListSearchResult'
+          $ref: '#/definitions/PodcastSearchResult'
   EpisodeSearchResult:
       type: object
       properties:
