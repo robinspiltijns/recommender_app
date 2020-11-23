@@ -9,40 +9,39 @@
  */
 package swagger
 
-// When **type** is *episode*.
 type EpisodeSearchResult struct {
-
-	Audio string `json:"audio,omitempty"`
-
-	AudioLengthSec int32 `json:"audio_length_sec,omitempty"`
-
+	// Episode id.
+	Id string `json:"id,omitempty"`
+	// RSS url of this podcast. This field is available only in the PRO plan.
 	Rss string `json:"rss,omitempty"`
-	// Highlighted segment of this episode's description
-	DescriptionHighlighted string `json:"description_highlighted,omitempty"`
-	// Plain text of this episode's description
-	DescriptionOriginal string `json:"description_original,omitempty"`
-	// Highlighted segment of this episode's title
-	TitleHighlighted string `json:"title_highlighted,omitempty"`
-	// Plain text of this episode' title
-	TitleOriginal string `json:"title_original,omitempty"`
-	// Up to 2 highlighted segments of the audio transcript of this episode.
-	TranscriptsHighlighted []string `json:"transcripts_highlighted,omitempty"`
-
+	// Web link of this episode.
+	Link string `json:"link,omitempty"`
+	// Audio url of this episode, which can be played directly.
+	Audio string `json:"audio,omitempty"`
+	// Image url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork image. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
 	Image string `json:"image,omitempty"`
 
-	Thumbnail string `json:"thumbnail,omitempty"`
-
-	ItunesId int32 `json:"itunes_id,omitempty"`
-
-	PubDateMs int32 `json:"pub_date_ms,omitempty"`
-
-	Id string `json:"id,omitempty"`
-
-	ListennotesUrl string `json:"listennotes_url,omitempty"`
-
-	ExplicitContent bool `json:"explicit_content,omitempty"`
-
-	Link string `json:"link,omitempty"`
-
 	Podcast *EpisodeSearchResultPodcast `json:"podcast,omitempty"`
+	// iTunes id for this podcast.
+	ItunesId int32 `json:"itunes_id,omitempty"`
+	// Thumbnail image (300x300) url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image. 
+	Thumbnail string `json:"thumbnail,omitempty"`
+	// Published date for this episode. In millisecond.
+	PubDateMs int32 `json:"pub_date_ms,omitempty"`
+	// Plain text of this episode' title
+	TitleOriginal string `json:"title_original,omitempty"`
+	// The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
+	ListennotesUrl string `json:"listennotes_url,omitempty"`
+	// Audio length of this episode. In seconds.
+	AudioLengthSec int32 `json:"audio_length_sec,omitempty"`
+	// Whether this podcast contains explicit language.
+	ExplicitContent bool `json:"explicit_content,omitempty"`
+	// Highlighted segment of this episode's title
+	TitleHighlighted string `json:"title_highlighted,omitempty"`
+	// Plain text of this episode's description
+	DescriptionOriginal string `json:"description_original,omitempty"`
+	// Highlighted segment of this episode's description
+	DescriptionHighlighted string `json:"description_highlighted,omitempty"`
+	// Up to 2 highlighted segments of the audio transcript of this episode.
+	TranscriptsHighlighted []string `json:"transcripts_highlighted,omitempty"`
 }

@@ -9,7 +9,7 @@
  */
 package swagger
 
-type Show struct {
+type PodcastFull struct {
 	// Podcast id.
 	Id string `json:"id,omitempty"`
 	// RSS url of this podcast. This field is available only in the PRO plan.
@@ -19,7 +19,7 @@ type Show struct {
 	// The email of this podcast's producer. This field is available only in the PRO plan.
 	Email string `json:"email,omitempty"`
 
-	Extra *ShowExtra `json:"extra,omitempty"`
+	Extra *PodcastExtraField `json:"extra,omitempty"`
 	// Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
 	Image string `json:"image,omitempty"`
 	// Podcast name.
@@ -29,7 +29,7 @@ type Show struct {
 	// Website url of this podcast.
 	Website string `json:"website,omitempty"`
 
-	Episodes []ShowEpisodes `json:"episodes,omitempty"`
+	Episodes []EpisodeMinimum `json:"episodes,omitempty"`
 	// The language of this podcast. You can get all supported languages from `GET /languages`.
 	Language string `json:"language,omitempty"`
 
@@ -45,7 +45,7 @@ type Show struct {
 	// Html of this episode's full description
 	Description string `json:"description,omitempty"`
 
-	LookingFor *ShowLookingFor `json:"looking_for,omitempty"`
+	LookingFor *PodcastLookingForField `json:"looking_for,omitempty"`
 	// The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100. If the score is not available, it'll be null. Learn more at listennotes.com/listen-score 
 	ListenScore int32 `json:"listen_score,omitempty"`
 	// Total number of episodes in this podcast.

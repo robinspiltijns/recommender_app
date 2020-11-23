@@ -14,7 +14,7 @@ type BestPodcastsResponse struct {
 	HasPrevious bool `json:"has_previous"`
 	// This genre's name.
 	Name string `json:"name"`
-
+	// Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).
 	ListennotesUrl string `json:"listennotes_url"`
 
 	PreviousPageNumber int32 `json:"previous_page_number"`

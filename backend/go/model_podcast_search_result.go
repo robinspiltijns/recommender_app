@@ -11,46 +11,46 @@ package swagger
 
 // When **type** is *podcast*.
 type PodcastSearchResult struct {
-
-	Rss string `json:"rss,omitempty"`
-	// Highlighted segment of podcast description
-	DescriptionHighlighted string `json:"description_highlighted,omitempty"`
-	// Plain text of podcast description
-	DescriptionOriginal string `json:"description_original,omitempty"`
-
-	TitleHighlighted string `json:"title_highlighted,omitempty"`
-
-	TitleOriginal string `json:"title_original,omitempty"`
-
-	PublisherHighlighted string `json:"publisher_highlighted,omitempty"`
-
-	PublisherOriginal string `json:"publisher_original,omitempty"`
-
-	Image string `json:"image,omitempty"`
-
-	Thumbnail string `json:"thumbnail,omitempty"`
-
-	ItunesId int32 `json:"itunes_id,omitempty"`
-
-	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
-
-	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
-
+	// Podcast id.
 	Id string `json:"id,omitempty"`
-
-	GenreIds *[]int32 `json:"genre_ids,omitempty"`
-
-	ListennotesUrl string `json:"listennotes_url,omitempty"`
-
-	TotalEpisodes int32 `json:"total_episodes,omitempty"`
-
+	// RSS url of this podcast. This field is available only in the PRO plan.
+	Rss string `json:"rss,omitempty"`
+	// The email of this podcast's producer. This field is available only in the PRO plan.
 	Email string `json:"email,omitempty"`
-
-	ExplicitContent bool `json:"explicit_content,omitempty"`
-
+	// Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
+	Image string `json:"image,omitempty"`
+	// Website url of this podcast.
 	Website string `json:"website,omitempty"`
 
+	GenreIds []int32 `json:"genre_ids,omitempty"`
+	// iTunes id for this podcast.
+	ItunesId int32 `json:"itunes_id,omitempty"`
+	// Thumbnail image url for this podcast's artwork (300x300).
+	Thumbnail string `json:"thumbnail,omitempty"`
+	// The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100. If the score is not available, it'll be null. Learn more at listennotes.com/listen-score 
 	ListenScore int32 `json:"listen_score,omitempty"`
-
+	// Plain text of podcast name.
+	TitleOriginal string `json:"title_original,omitempty"`
+	// Total number of episodes in this podcast.
+	TotalEpisodes int32 `json:"total_episodes,omitempty"`
+	// The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+	ListennotesUrl string `json:"listennotes_url,omitempty"`
+	// Whether this podcast contains explicit language.
+	ExplicitContent bool `json:"explicit_content,omitempty"`
+	// Highlighted segment of podcast name.
+	TitleHighlighted string `json:"title_highlighted,omitempty"`
+	// The published date of the latest episode of this podcast. In milliseconds
+	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
+	// Plain text of this podcast's publisher name.
+	PublisherOriginal string `json:"publisher_original,omitempty"`
+	// Plain text of podcast description
+	DescriptionOriginal string `json:"description_original,omitempty"`
+	// The published date of the oldest episode of this podcast. In milliseconds
+	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
+	// Highlighted segment of this podcast's publisher name.
+	PublisherHighlighted string `json:"publisher_highlighted,omitempty"`
+	// Highlighted segment of podcast description
+	DescriptionHighlighted string `json:"description_highlighted,omitempty"`
+	// The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score 
 	ListenScoreGlobalRank string `json:"listen_score_global_rank,omitempty"`
 }
