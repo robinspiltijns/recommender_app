@@ -197,7 +197,7 @@ definitions:
       image:
         type: string
         example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
-        description: |
+        description:
           Image url for this podcast's artwork. If you are using PRO plan, then it's
           a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
           low resolution image (300x300).
@@ -261,12 +261,6 @@ definitions:
         description: Html of this episode's full description
       looking_for:
         $ref: '#/definitions/PodcastLookingForField'
-      listen_score:
-        type: integer
-        example: 81
-        description: |
-          The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-          If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
       total_episodes:
         type: integer
         example: 324
@@ -292,13 +286,6 @@ definitions:
         example: 1470667902000
         description: Passed to the **next_episode_pub_date** parameter of `GET /podcasts/{id}`
           to paginate through episodes of that podcast.
-      listen_score_global_rank:
-        type: string
-        example: 0.5%
-        description: |
-          The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-          For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-          If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
   PodcastSimple:
     type: object
     properties:
@@ -388,12 +375,6 @@ definitions:
         description: Html of this episode's full description
       looking_for:
         $ref: '#/definitions/PodcastLookingForField'
-      listen_score:
-        type: integer
-        example: 81
-        description: |
-          The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-          If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
       total_episodes:
         type: integer
         example: 324
@@ -414,13 +395,6 @@ definitions:
         type: integer
         example: 1470667902000
         description: The published date of the oldest episode of this podcast. In milliseconds
-      listen_score_global_rank:
-        type: string
-        example: 0.5%
-        description: |
-          The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-          For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-          If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
   PodcastMinimum:
     type: object
     properties:
@@ -447,23 +421,10 @@ definitions:
         type: string
         example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
         description: Thumbnail image url for this podcast's artwork (300x300).
-      listen_score:
-        type: integer
-        example: 81
-        description: |
-          The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-          If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
       listennotes_url:
         type: string
         example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
         description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
-      listen_score_global_rank:
-        type: string
-        example: 0.5%
-        description: |
-          The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-          For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-          If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
   EpisodeFull:
     type: object
     properties:
