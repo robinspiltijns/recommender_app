@@ -42,7 +42,7 @@ func TestImpl(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello world!")
 }
 
-func GetShowImpl(w http.ResponseWriter, r *http.Request) {
+func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 	id, ok := r.URL.Query()["id"]
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
@@ -61,8 +61,8 @@ func GetShowImpl(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
-	var show Show
-	json.Unmarshal(bodyBytes, &show)
+	var podcast PodcastFull
+	json.Unmarshal(bodyBytes, &podcast)
 
 	fmt.Fprintf(w, string(bodyBytes))
 }
@@ -88,6 +88,9 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Print(err.Error())
 	}
+
+	var episode EpisodeFull
+	json.Unmarshal(bodyBytes, &episode)
 
 	fmt.Fprintf(w, string(bodyBytes))
 }
@@ -135,7 +138,6 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 	episodesResultJson, _ := ioutil.ReadAll(episodeResp.Body)
 	podcastsResultJson, _ := ioutil.ReadAll(podcastResp.Body)
 
-	// Convert response body to Todo struct
 	var episodeResultLN SearchResultListenNotesEpisodes
 	var podcastResultLN SearchResultListenNotesPodcasts
 	json.Unmarshal(episodesResultJson, &episodeResultLN)
@@ -182,8 +184,38 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
-	// Convert response body to Todo struct
 	var recommendation GetPodcastRecommendationsResponse
+	json.Unmarshal(bodyBytes, &recommendation)
+
+	fmt.Fprintf(w, string(bodyBytes))
+
+}
+
+func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.Request) {
+	id, ok := r.URL.Query()["id"]
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	client := &http.Client{}
+	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/episodes/"+id[0]+"/recommendations", nil)
+	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
+
+	q := request.URL.Query()
+	q.Add("id", id[0])
+
+	request.URL.RawQuery = q.Encode()
+
+	resp, err := client.Do(request)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+
+	var recommendation GetEpisodeRecommendationsResponse
 	json.Unmarshal(bodyBytes, &recommendation)
 
 	fmt.Fprintf(w, string(bodyBytes))
@@ -216,41 +248,10 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
-	var result BestOfGenreResult
+	var result BestPodcastsResponse
 	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
-}
-
-func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.Request) {
-	id, ok := r.URL.Query()["id"]
-	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	client := &http.Client{}
-	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/episodes/"+id[0]+"/recommendations", nil)
-	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
-
-	q := request.URL.Query()
-	q.Add("id", id[0])
-
-	request.URL.RawQuery = q.Encode()
-
-	resp, err := client.Do(request)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	defer resp.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(resp.Body)
-
-	var recommendation GetPodcastRecommendationsResponse
-	json.Unmarshal(bodyBytes, &recommendation)
-
-	fmt.Fprintf(w, string(bodyBytes))
-
 }
 
 func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
@@ -268,9 +269,8 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
-	// Convert response body to Todo struct
-	var recommendation GetPodcastRecommendationsResponse
-	json.Unmarshal(bodyBytes, &recommendation)
+	var result BestPodcastsResponse
+	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
 }

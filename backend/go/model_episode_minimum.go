@@ -9,20 +9,18 @@
  */
 package swagger
 
-type Episode struct {
+type EpisodeMinimum struct {
 	// Episode id.
 	Id string `json:"id,omitempty"`
 	// Web link of this episode.
 	Link string `json:"link,omitempty"`
 	// Audio url of this episode, which can be played directly.
 	Audio string `json:"audio,omitempty"`
-	// Image url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork image. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
+	// Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
 	Image string `json:"image,omitempty"`
 	// Episode name.
 	Title string `json:"title,omitempty"`
-
-	Podcast *Show `json:"podcast,omitempty"`
-	// Thumbnail image (300x300) url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image. 
+	// Thumbnail image url for this podcast's artwork (300x300).
 	Thumbnail string `json:"thumbnail,omitempty"`
 	// Html of this episode's full description
 	Description string `json:"description,omitempty"`

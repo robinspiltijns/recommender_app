@@ -37,6 +37,12 @@ func GetGenres(w http.ResponseWriter, r *http.Request) {
 	GetGenresImpl(w, r)
 }
 
+func GetPodcast(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	GetPodcastImpl(w, r)
+}
+
 func GetPodcastRecommendationsBasedOnPodcast(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
@@ -47,12 +53,6 @@ func GetSearchResults(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	GetSearchResultsImpl(w, r)
-}
-
-func GetShow(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	GetShowImpl(w, r)
 }
 
 func GetTheBestPodcasts(w http.ResponseWriter, r *http.Request) {

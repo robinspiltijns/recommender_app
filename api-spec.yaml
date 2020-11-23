@@ -21,24 +21,24 @@ paths:
           schema:
             type: "string"
             example: "Hello World"
-  show:
+  podcast:
     get:
-      summary: "used to get the details of a show."
-      description: "returns the details of a show."
-      operationId: "GetShow"
+      summary: "used to get the details of a podcast."
+      description: "returns the details of a podcast."
+      operationId: "GetPodcast"
       produces:
         - "application/json"
       parameters:
         - name: "id"
           in: "query"
-          description: "The id of the show."
+          description: "The id of the podcast."
           required: true
           type: "string"
       responses:
         "200":
           description: "succesful operation"
           schema:
-            $ref: "#/definitions/Show"
+            $ref: "#/definitions/PodcastFull"
         "400":
           description: "bad request"
   episode:
@@ -58,7 +58,7 @@ paths:
         "200":
           description: "succesful operation"
           schema:
-            $ref: "#/definitions/Episode"
+            $ref: "#/definitions/EpisodeFull"
         "400":
           description: "bad request"
         "500":
@@ -93,11 +93,6 @@ paths:
       produces: 
         - "application/json"
       parameters:
-      - name: "X-ListenAPI-Key"
-        in: "header"
-        description: "Get API Key on listennotes.com/api"
-        required: true
-        type: "string"
       - name: "id"
         in: "query"
         description: "The id of the show."
@@ -116,11 +111,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: "X-ListenAPI-Key"
-        in: "header"
-        description: "Get API Key on listennotes.com/api"
-        required: true
-        type: "string"
       - name: "id"
         in: "query"
         description: "The id of the episode."
@@ -138,12 +128,6 @@ paths:
       operationId: "GetTheBestPodcasts"
       produces:
         - "application/json"
-      parameters:
-      - name: "X-ListenAPI-Key"
-        in: "header"
-        description: "Get API Key on listennotes.com/api"
-        required: true
-        type: "string"
       responses:
         "200":
           description: OK
@@ -166,7 +150,7 @@ paths:
         "200": 
           description: "succesful operation"
           schema:
-            $ref: "#/definitions/BestOfGenreResult"
+            $ref: "#/definitions/BestPodcastsResponse"
         "400":
           description: "bad request"
         "500":
@@ -185,7 +169,7 @@ paths:
             $ref: "#/definitions/GetGenresResponse"
               
 definitions:
-  Show:
+  PodcastFull:
     type: "object"
     properties:
       id:
@@ -209,55 +193,11 @@ definitions:
         description: The email of this podcast's producer. This field is available only
           in the PRO plan.
       extra:
-        type: object
-        properties:
-          url1:
-            type: string
-            description: Url affiliated with this podcast
-          url2:
-            type: string
-            description: Url affiliated with this podcast
-          url3:
-            type: string
-            description: Url affiliated with this podcast
-          google_url:
-            type: string
-            example: https://play.google.com/music/listen?u=0#/ps/I7gdcrqcmvhfnhh2cyqkcg32tkq
-            description: Google Podcasts url for this podcast
-          spotify_url:
-            type: string
-            example: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
-            description: Spotify url for this podcast
-          youtube_url:
-            type: string
-            example: https://www.youtube.com/sw7x7
-            description: YouTube url affiliated with this podcast
-          linkedin_url:
-            type: string
-            description: LinkedIn url affiliated with this podcast
-          wechat_handle:
-            type: string
-            description: WeChat username affiliated with this podcast
-          patreon_handle:
-            type: string
-            example: sw7x7
-            description: Patreon username affiliated with this podcast
-          twitter_handle:
-            type: string
-            example: SW7x7podcast
-            description: Twitter username affiliated with this podcast
-          facebook_handle:
-            type: string
-            example: sw7x7
-            description: Facebook username affiliated with this podcast
-          instagram_handle:
-            type: string
-            example: sw7x7
-            description: Instagram username affiliated with this podcast
+        $ref: '#/definitions/PodcastExtraField'
       image:
         type: string
         example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
-        description: |
+        description:
           Image url for this podcast's artwork. If you are using PRO plan, then it's
           a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
           low resolution image (300x300).
@@ -276,79 +216,7 @@ definitions:
       episodes:
         type: array
         items:
-          type: object
-          properties:
-            id:
-              type: string
-              example: 4d82e50314174754a3b603912448e812
-              description: Episode id.
-            link:
-              type: string
-              example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
-              description: Web link of this episode.
-            audio:
-              type: string
-              example: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
-              description: Audio url of this episode, which can be played directly.
-            image:
-              type: string
-              example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
-              description: |
-                Image url for this podcast's artwork. If you are using PRO plan, then it's
-                a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
-                low resolution image (300x300).
-            title:
-              type: string
-              example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews –
-                SWBW #101'
-              description: Episode name.
-            thumbnail:
-              type: string
-              example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-              description: Thumbnail image url for this podcast's artwork (300x300).
-            description:
-              type: string
-              example: '<p>Disney chief Bob Iger shared news about Star Wars movies in 2020
-                and beyond, but some media outlets gave conflicting reports about it. Here''s
-                the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7
-                to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards
-                for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show
-                notes and links, and to comment on any of the content of this episode! If
-                you like what you''ve heard, please leave us a rating or review on iTunes
-                or Stitcher, which will also help more people discover this Star Wars podcast.</p>
-                <p>Don''t forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7,
-                and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We''re
-                also on Pinterest and Instagram as "SW7x7" too, and we''d love to connect
-                with you there!</p>
-
-      '
-              description: Html of this episode's full description
-            pub_date_ms:
-              type: integer
-              example: 1474873200000
-              description: Published date for this episode. In millisecond.
-            listennotes_url:
-              type: string
-              example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
-              description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
-            audio_length_sec:
-              type: integer
-              example: 567
-              description: Audio length of this episode. In seconds.
-            explicit_content:
-              type: boolean
-              example: false
-              description: Whether this podcast contains explicit language.
-            maybe_audio_invalid:
-              type: boolean
-              example: false
-              description: Whether or not this episode's audio is invalid. Podcasters may
-                delete the original audio.
-            listennotes_edit_url:
-              type: string
-              example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
-              description: Edit url of this episode where you can update the audio url if
-                you find the audio is broken.
+          $ref: '#/definitions/EpisodeMinimum'
       language:
         type: string
         example: English
@@ -392,31 +260,7 @@ definitions:
           dose of Star Wars joy. It's destiny unleashed!</p>"
         description: Html of this episode's full description
       looking_for:
-        type: object
-        properties:
-          guests:
-            type: boolean
-            example: true
-            description: Whether this podcast is looking for guests.
-          cohosts:
-            type: boolean
-            example: true
-            description: Whether this podcast is looking for cohosts.
-          sponsors:
-            type: boolean
-            example: true
-            description: Whether this podcast is looking for sponsors.
-          cross_promotion:
-            type: boolean
-            example: true
-            description: Whether this podcast is looking for cross promotion opportunities
-              with other podcasts.
-      listen_score:
-        type: integer
-        example: 81
-        description: |
-          The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-          If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
+        $ref: '#/definitions/PodcastLookingForField'
       total_episodes:
         type: integer
         example: 324
@@ -442,14 +286,146 @@ definitions:
         example: 1470667902000
         description: Passed to the **next_episode_pub_date** parameter of `GET /podcasts/{id}`
           to paginate through episodes of that podcast.
-      listen_score_global_rank:
+  PodcastSimple:
+    type: object
+    properties:
+      id:
         type: string
-        example: 0.5%
+        example: 4d3fe717742d4963a85562e9f84d8c79
+        description: Podcast id.
+      rss:
+        type: string
+        example: https://sw7x7.libsyn.com/rss
+        description: RSS url of this podcast. This field is available only in the PRO
+          plan.
+      type:
+        enum:
+        - episodic
+        - serial
+        type: string
+        example: episodic
+        description: The type of this podcast - episodic or serial.
+      email:
+        type: string
+        example: hello@example.com
+        description: The email of this podcast's producer. This field is available only
+          in the PRO plan.
+      extra:
+        $ref: '#/definitions/PodcastExtraField'
+      image:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
         description: |
-          The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-          For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-          If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-  Episode:
+          Image url for this podcast's artwork. If you are using PRO plan, then it's
+          a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+          low resolution image (300x300).
+      title:
+        type: string
+        example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        description: Podcast name.
+      country:
+        type: string
+        example: United States
+        description: The country where this podcast is produced.
+      website:
+        type: string
+        example: http://sw7x7.com/
+        description: Website url of this podcast.
+      language:
+        type: string
+        example: English
+        description: The language of this podcast. You can get all supported languages
+          from `GET /languages`.
+      genre_ids:
+        type: array
+        items:
+          type: integer
+          description: Genre ids.
+        example:
+        - 138
+        - 86
+        - 160
+        - 68
+        - 82
+        - 100
+        - 101
+      itunes_id:
+        type: integer
+        example: 896354638
+        description: iTunes id for this podcast.
+      publisher:
+        type: string
+        example: Planet Broadcasting
+        description: Podcast publisher name.
+      thumbnail:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        description: Thumbnail image url for this podcast's artwork (300x300).
+      is_claimed:
+        type: boolean
+        example: true
+        description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+      description:
+        type: string
+        example: "<p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi,
+          between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star
+          Wars news, history, interviews, trivia, and deep dives into the Star Wars story
+          as told in movies, books, comics, games, cartoons, and more. Subscribe now for
+          your daily dose of Star Wars joy. It's destiny unleashed!</p>"
+        description: Html of this episode's full description
+      looking_for:
+        $ref: '#/definitions/PodcastLookingForField'
+      total_episodes:
+        type: integer
+        example: 324
+        description: Total number of episodes in this podcast.
+      listennotes_url:
+        type: string
+        example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+        description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+      explicit_content:
+        type: boolean
+        example: false
+        description: Whether this podcast contains explicit language.
+      latest_pub_date_ms:
+        type: integer
+        example: 1557499770000
+        description: The published date of the latest episode of this podcast. In milliseconds
+      earliest_pub_date_ms:
+        type: integer
+        example: 1470667902000
+        description: The published date of the oldest episode of this podcast. In milliseconds
+  PodcastMinimum:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 4d3fe717742d4963a85562e9f84d8c79
+        description: Podcast id.
+      image:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        description: |
+          Image url for this podcast's artwork. If you are using PRO plan, then it's
+          a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+          low resolution image (300x300).
+      title:
+        type: string
+        example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        description: Podcast name.
+      publisher:
+        type: string
+        example: Planet Broadcasting
+        description: Podcast publisher name.
+      thumbnail:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        description: Thumbnail image url for this podcast's artwork (300x300).
+      listennotes_url:
+        type: string
+        example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+        description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+  EpisodeFull:
     type: object
     properties:
       id:
@@ -479,7 +455,7 @@ definitions:
           #101'
         description: Episode name.
       podcast:
-        $ref: "#/definitions/Show"
+        $ref: '#/definitions/PodcastSimple'
       thumbnail:
         type: string
         example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
@@ -528,46 +504,220 @@ definitions:
         example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
         description: Edit url of this episode where you can update the audio url if you
           find the audio is broken.
-  BestOfGenreResult:
+  EpisodeSimple:
     type: object
     properties:
       id:
-        type: integer
-        example: 95
-        description: The id of this genre
-      name:
         type: string
-        example: Business News
-        description: This genre's name.
-      total:
+        example: 4d82e50314174754a3b603912448e812
+        description: Episode id.
+      link:
+        type: string
+        example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+        description: Web link of this episode.
+      audio:
+        type: string
+        example: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+        description: Audio url of this episode, which can be played directly.
+      image:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        description: |
+          Image url for this episode.
+          If an episode doesn't have its own image, then this field would be the url of the podcast artwork image.
+          If you are using PRO plan, then it's
+          a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+          low resolution image (300x300).
+      title:
+        type: string
+        example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews – SWBW
+          #101'
+        description: Episode name.
+      podcast:
+        $ref: '#/definitions/PodcastMinimum'
+      thumbnail:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        description: |
+          Thumbnail image (300x300) url for this episode.
+          If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image.
+      description:
+        type: string
+        example: '<p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and
+          beyond, but some media outlets gave conflicting reports about it. Here''s the
+          real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7
+          to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards for
+          your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes
+          and links, and to comment on any of the content of this episode! If you like what
+          you''ve heard, please leave us a rating or review on iTunes or Stitcher, which
+          will also help more people discover this Star Wars podcast.</p> <p>Don''t forget
+          to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the
+          breaking news Twitter feed at Twitter.com/SW7x7Podcast. We''re also on Pinterest
+          and Instagram as "SW7x7" too, and we''d love to connect with you there!</p>
+      
+      '
+        description: Html of this episode's full description
+      pub_date_ms:
         type: integer
-        example: 325
-      has_next:
-        type: boolean
-        example: true
-      podcasts:
-        type: array
-        items:
-          $ref: "#/definitions/Show"
-      parent_id:
-        type: integer
-        example: 93
-        description: The id of parent genre.
-      page_number:
-        type: integer
-        example: 2
-      has_previous:
-        type: boolean
+        example: 1474873200000
+        description: Published date for this episode. In millisecond.
       listennotes_url:
         type: string
-        example: 'https://www.listennotes.com/best-business-news-podcasts-95/'
-        description: 'Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).'
-      next_page_number:
+        example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+        description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
+      audio_length_sec:
         type: integer
-        example: 3
+        example: 567
+        description: Audio length of this episode. In seconds.
+      explicit_content:
+        type: boolean
+        example: false
+        description: Whether this podcast contains explicit language.
+      maybe_audio_invalid:
+        type: boolean
+        example: false
+        description: Whether or not this episode's audio is invalid. Podcasters may delete
+          the original audio.
+      listennotes_edit_url:
+        type: string
+        example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+        description: Edit url of this episode where you can update the audio url if you
+          find the audio is broken.
+  EpisodeMinimum:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 4d82e50314174754a3b603912448e812
+        description: Episode id.
+      link:
+        type: string
+        example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+        description: Web link of this episode.
+      audio:
+        type: string
+        example: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+        description: Audio url of this episode, which can be played directly.
+      image:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+        description: |
+          Image url for this podcast's artwork. If you are using PRO plan, then it's
+          a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+          low resolution image (300x300).
+      title:
+        type: string
+        example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews – SWBW
+          #101'
+        description: Episode name.
+      thumbnail:
+        type: string
+        example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+        description: Thumbnail image url for this podcast's artwork (300x300).
+      description:
+        type: string
+        example: '<p>Disney chief Bob Iger shared news about Star Wars movies in 2020
+          and beyond, but some media outlets gave conflicting reports about it. Here''s
+          the real scoop. Punch it!</p> <p>***We’re listener supported! Go to http://Patreon.com/sw7x7
+          to donate to the Star Wars 7x7 podcast, and you’ll get some fabulous rewards
+          for your pledge.*** </p> <p>Check out SW7x7.com for full Star Wars 7x7 show
+          notes and links, and to comment on any of the content of this episode! If you
+          like what you''ve heard, please leave us a rating or review on iTunes or Stitcher,
+          which will also help more people discover this Star Wars podcast.</p> <p>Don''t
+          forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and
+          follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We''re also
+          on Pinterest and Instagram as "SW7x7" too, and we''d love to connect with you
+          there!</p>
+    
+    '
+        description: Html of this episode's full description
+      pub_date_ms:
+        type: integer
+        example: 1474873200000
+        description: Published date for this episode. In millisecond.
+      listennotes_url:
+        type: string
+        example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+        description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
+      audio_length_sec:
+        type: integer
+        example: 567
+        description: Audio length of this episode. In seconds.
+      explicit_content:
+        type: boolean
+        example: false
+        description: Whether this podcast contains explicit language.
+      maybe_audio_invalid:
+        type: boolean
+        example: false
+        description: Whether or not this episode's audio is invalid. Podcasters may delete
+          the original audio.
+      listennotes_edit_url:
+        type: string
+        example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
+        description: Edit url of this episode where you can update the audio url if you
+          find the audio is broken.
+  BestPodcastsResponse:
+    required:
+    - has_next
+    - has_previous
+    - id
+    - listennotes_url
+    - name
+    - next_page_number
+    - page_number
+    - parent_id
+    - podcasts
+    - previous_page_number
+    - total
+    type: object
+    properties:
+      has_previous:
+        type: boolean
+      name:
+        type: string
+        description: This genre's name.
+        example: Business News
+      listennotes_url:
+        type: string
+        description: Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).
+        example: https://www.listennotes.com/best-business-news-podcasts-95/
       previous_page_number:
         type: integer
         example: 1
+      page_number:
+        type: integer
+        example: 2
+      has_next:
+        type: boolean
+        example: true
+      next_page_number:
+        type: integer
+        example: 3
+      parent_id:
+        type: integer
+        description: The id of parent genre.
+        example: 93
+      id:
+        type: integer
+        description: The id of this genre
+        example: 95
+      total:
+        type: integer
+        example: 325
+      podcasts:
+        type: array
+        items:
+          $ref: '#/definitions/PodcastSimple'
+  GetGenresResponse:
+    required:
+    - genres
+    type: object
+    properties:
+      genres:
+        type: array
+        items:
+          $ref: '#/definitions/Genre'
   Genre:
     type: object
     properties:
@@ -587,16 +737,7 @@ definitions:
       id: 140
       parent_id: 127
       name: Web Design
-  GetGenresResponse:
-      required:
-      - genres
-      type: object
-      properties:
-        genres:
-          type: array
-          items:
-            $ref: '#/definitions/Genre'
-        
+
   SearchResult:
     type: object
     properties:
@@ -629,346 +770,284 @@ definitions:
   EpisodeSearchResult:
       type: object
       properties:
-        audio:
-          $ref: '#/definitions/AudioField'
-        audio_length_sec:
-          $ref: '#/definitions/AudioLengthSecField'
-        rss:
-          $ref: '#/definitions/RssField'
-        description_highlighted:
-          type: string
-          description: Highlighted segment of this episode's description
-          example: |
-            ...Go to http://Patreon.com/sw7x7 to donate to the <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> 7x7 podcast, and you'll get some fabulous rewards for your pledge.***  Check out SW7x7.com for full <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> 7x7 show notes and links, and to
-        description_original:
-          type: string
-          description: Plain text of this episode's description
-          example: |
-            Yeah, Star Wars Celebration Orlando is 32 days away, but what's the scoop on Celebration 2018? Plus, Rebels Day is Saturday, and much more in our update. Punch it! ***We're listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youÃ¢â‚¬â„¢ll get some fabulous rewards for your pledge.***  Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast. Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!
-        title_highlighted:
-          type: string
-          description: Highlighted segment of this episode's title
-          example: '815: <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> 2020 Movie and Beyond!'
-        title_original:
-          type: string
-          description: Plain text of this episode' title
-          example: '815: Star Wars 2020 Movie and Beyond!'
-        transcripts_highlighted:
-          type: array
-          description: Up to 2 highlighted segments of the audio transcript of this episode.
-          items:
-            type: string
-            example: |
-              00:21:27  when Disney bought the <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> franchise from George Lucas they had a plan lots of <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> movies new <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> movies every month another one was just released while I was talking
-        image:
-          $ref: '#/definitions/EpisodeImageField'
-        thumbnail:
-          $ref: '#/definitions/EpisodeThumbnailField'
-        itunes_id:
-          $ref: '#/definitions/iTunesIdField'
-        pub_date_ms:
-          $ref: '#/definitions/EpisodePubDateMsField'
         id:
-          $ref: '#/definitions/EpisodeIdField'
-        listennotes_url:
-          $ref: '#/definitions/EpisodeLNUrlField'
-        explicit_content:
-          $ref: '#/definitions/ExplicitField'
+          type: string
+          example: 4d82e50314174754a3b603912448e812
+          description: Episode id.
+        rss:
+          type: string
+          example: https://sw7x7.libsyn.com/rss
+          description: RSS url of this podcast. This field is available only in the PRO
+            plan.
         link:
-          $ref: '#/definitions/LinkField'
+          type: string
+          example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
+          description: Web link of this episode.
+        audio:
+          type: string
+          example: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
+          description: Audio url of this episode, which can be played directly.
+        image:
+          type: string
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          description: |
+            Image url for this episode.
+            If an episode doesn't have its own image, then this field would be the url of the podcast artwork image.
+            If you are using PRO plan, then it's
+            a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+            low resolution image (300x300).
         podcast:
           type: object
           properties:
             id:
-              $ref: '#/definitions/PodcastIdField'
-            genre_ids:
-              $ref: '#/definitions/GenreIdsField'
-            listennotes_url:
-              $ref: '#/definitions/PodcastLNUrlField'
-            title_highlighted:
-              $ref: '#/definitions/PodcastTitleHighlightedField'
-            title_original:
-              $ref: '#/definitions/PodcastTitleOriginalField'
-            publisher_highlighted:
-              $ref: '#/definitions/PublisherHighlightedField'
-            publisher_original:
-              $ref: '#/definitions/PublisherOriginalField'
+              type: string
+              example: 4d3fe717742d4963a85562e9f84d8c79
+              description: Podcast id.
             image:
-              $ref: '#/definitions/ImageField'
+              type: string
+              example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+              description: |
+                Image url for this podcast's artwork. If you are using PRO plan, then it's
+                a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+                low resolution image (300x300).
+            genre_ids:
+              type: array
+              items:
+                type: integer
+                description: Genre ids.
+              example:
+              - 138
+              - 86
+              - 160
+              - 68
+              - 82
+              - 100
+              - 101
             thumbnail:
-              $ref: '#/definitions/ThumbnailField'
+              type: string
+              example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+              description: Thumbnail image url for this podcast's artwork (300x300).
             listen_score:
-              $ref: '#/definitions/ListenScoreField'
+              type: integer
+              example: 81
+              description: |
+                The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
+                If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
+            title_original:
+              type: string
+              example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+              description: Plain text of podcast name.
+            listennotes_url:
+              type: string
+              example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+              description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+            title_highlighted:
+              type: string
+              example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
+                7x7 | <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
+                News, Interviews, and More!
+              description: Highlighted segment of podcast name.
+            publisher_original:
+              type: string
+              example: Star Wars Daily, by Allen Voivod
+              description: Plain text of this podcast's publisher name.
+            publisher_highlighted:
+              type: string
+              example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
+                Daily, by Allen Voivod
+              description: Highlighted segment of this podcast's publisher name.
             listen_score_global_rank:
-              $ref: '#/definitions/ListenScoreGlobalRankField'
+              type: string
+              example: 0.5%
+              description: |
+                The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
+                For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
+                If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
           description: The podcast that this episode belongs to.
-      description: When **type** is *episode*.
+        itunes_id:
+          type: integer
+          example: 896354638
+          description: iTunes id for this podcast.
+        thumbnail:
+          type: string
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          description: |
+            Thumbnail image (300x300) url for this episode.
+            If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image.
+        pub_date_ms:
+          type: integer
+          example: 1474873200000
+          description: Published date for this episode. In millisecond.
+        title_original:
+          type: string
+          example: '815: Star Wars 2020 Movie and Beyond!'
+          description: Plain text of this episode' title
+        listennotes_url:
+          type: string
+          example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
+          description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
+        audio_length_sec:
+          type: integer
+          example: 567
+          description: Audio length of this episode. In seconds.
+        explicit_content:
+          type: boolean
+          example: false
+          description: Whether this podcast contains explicit language.
+        title_highlighted:
+          type: string
+          example: '815: <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span>
+            2020 Movie and Beyond!'
+          description: Highlighted segment of this episode's title
+        description_original:
+          type: string
+          example: 'Yeah, Star Wars Celebration Orlando is 32 days away, but what''s the
+            scoop on Celebration 2018? Plus, Rebels Day is Saturday, and much more in our
+            update. Punch it! ***We''re listener supported! Go to http://Patreon.com/sw7x7
+            to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards
+            for your pledge.***  Check out SW7x7.com for full Star Wars 7x7 show notes and
+            links, and to comment on any of the content of this episode! If you like what
+            you''ve heard, please leave us a rating or review on iTunes or Stitcher, which
+            will also help more people discover this Star Wars podcast. Don''t forget to
+            join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the
+            breaking news Twitter feed at Twitter.com/SW7x7Podcast. We''re also on Pinterest
+            and Instagram as "SW7x7" too, and we''d love to connect with you there!
+      
+      '
+          description: Plain text of this episode's description
+        description_highlighted:
+          type: string
+          example: '...Go to http://Patreon.com/sw7x7 to donate to the <span class="ln-search-highlight">Star</span>
+            <span class="ln-search-highlight">Wars</span> 7x7 podcast, and you''ll get some
+            fabulous rewards for your pledge.***  Check out SW7x7.com for full <span class="ln-search-highlight">Star</span>
+            <span class="ln-search-highlight">Wars</span> 7x7 show notes and links, and
+            to
+      
+      '
+          description: Highlighted segment of this episode's description
   PodcastSearchResult:
       type: object
       properties:
-        rss:
-          $ref: '#/definitions/RssField'
-        description_highlighted:
+        id:
           type: string
-          description: Highlighted segment of podcast description
-          example: |
-            ...Join host Allen Voivod for <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> news, history, interviews, trivia, and deep dives into the <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> story as told in movies, books, comics, games, cartoons, and more.
+          example: 4d3fe717742d4963a85562e9f84d8c79
+          description: Podcast id.
+        rss:
+          type: string
+          example: https://sw7x7.libsyn.com/rss
+          description: RSS url of this podcast. This field is available only in the PRO
+            plan.
+        email:
+          type: string
+          example: hello@example.com
+          description: The email of this podcast's producer. This field is available only
+            in the PRO plan.
+        image:
+          type: string
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
+          description: |
+            Image url for this podcast's artwork. If you are using PRO plan, then it's
+            a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
+            low resolution image (300x300).
+        website:
+          type: string
+          example: http://sw7x7.com/
+          description: Website url of this podcast.
+        genre_ids:
+          type: array
+          items:
+            type: integer
+            description: Genre ids.
+          example:
+          - 138
+          - 86
+          - 160
+          - 68
+          - 82
+          - 100
+          - 101
+        itunes_id:
+          type: integer
+          example: 896354638
+          description: iTunes id for this podcast.
+        thumbnail:
+          type: string
+          example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
+          description: Thumbnail image url for this podcast's artwork (300x300).
+        listen_score:
+          type: integer
+          example: 81
+          description: |
+            The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
+            If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
+        title_original:
+          type: string
+          example: Star Wars 7x7 | Star Wars News, Interviews, and More!
+          description: Plain text of podcast name.
+        total_episodes:
+          type: integer
+          example: 324
+          description: Total number of episodes in this podcast.
+        listennotes_url:
+          type: string
+          example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+          description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+        explicit_content:
+          type: boolean
+          example: false
+          description: Whether this podcast contains explicit language.
+        title_highlighted:
+          type: string
+          example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
+            7x7 | <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
+            News, Interviews, and More!
+          description: Highlighted segment of podcast name.
+        latest_pub_date_ms:
+          type: integer
+          example: 1557499770000
+          description: The published date of the latest episode of this podcast. In milliseconds
+        publisher_original:
+          type: string
+          example: Star Wars Daily, by Allen Voivod
+          description: Plain text of this podcast's publisher name.
         description_original:
           type: string
+          example: 'The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between
+            7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars
+            news, history, interviews, trivia, and deep dives into the Star Wars story as
+            told in movies, books, comics, games, cartoons, and more. Subscribe now for
+            your daily dose of Star Wars joy. It''s destiny unleashed! #SW7x7
+      
+      '
           description: Plain text of podcast description
-          example: |
-            The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed! #SW7x7
-        title_highlighted:
-          $ref: '#/definitions/PodcastTitleHighlightedField'
-        title_original:
-          $ref: '#/definitions/PodcastTitleOriginalField'
-        publisher_highlighted:
-          $ref: '#/definitions/PublisherHighlightedField'
-        publisher_original:
-          $ref: '#/definitions/PublisherOriginalField'
-        image:
-          $ref: '#/definitions/ImageField'
-        thumbnail:
-          $ref: '#/definitions/ThumbnailField'
-        itunes_id:
-          $ref: '#/definitions/iTunesIdField'
-        latest_pub_date_ms:
-          $ref: '#/definitions/LatestPubDateMsField'
         earliest_pub_date_ms:
-          $ref: '#/definitions/EarliestPubDateMsField'
-        id:
-          $ref: '#/definitions/PodcastIdField'
-        genre_ids:
-          $ref: '#/definitions/GenreIdsField'
-        listennotes_url:
-          $ref: '#/definitions/PodcastLNUrlField'
-        total_episodes:
-          $ref: '#/definitions/TotalEpisodesField'
-        email:
-          $ref: '#/definitions/EmailField'
-        explicit_content:
-          $ref: '#/definitions/ExplicitField'
-        website:
-          $ref: '#/definitions/WebsiteField'
-        listen_score:
-          $ref: '#/definitions/ListenScoreField'
+          type: integer
+          example: 1470667902000
+          description: The published date of the oldest episode of this podcast. In milliseconds
+        publisher_highlighted:
+          type: string
+          example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
+            Daily, by Allen Voivod
+          description: Highlighted segment of this podcast's publisher name.
+        description_highlighted:
+          type: string
+          example: '...Join host Allen Voivod for <span class="ln-search-highlight">Star</span>
+            <span class="ln-search-highlight">Wars</span> news, history, interviews, trivia,
+            and deep dives into the <span class="ln-search-highlight">Star</span> <span
+            class="ln-search-highlight">Wars</span> story as told in movies, books, comics,
+            games, cartoons, and more.
+      
+      '
+          description: Highlighted segment of podcast description
         listen_score_global_rank:
-          $ref: '#/definitions/ListenScoreGlobalRankField'
+          type: string
+          example: 0.5%
+          description: |
+            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
+            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
+            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
       description: When **type** is *podcast*.
-  CuratedListSearchResult:
-    type: object
-    properties:
-      id:
-        $ref: '#/definitions/CuratedIdField'
-      pub_date_ms:
-        $ref: '#/definitions/CuratedPubDateMsField'
-      description_highlighted:
-        type: string
-        description: Highlighted segment of this curated list's description
-        example: '...<span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> fans in Reddit shared their favorite podcasts.'
-      description_original:
-        type: string
-        description: Plain text of this curated list's description
-        example: Star Wars fans in Reddit shared their favorite podcasts.
-      title_highlighted:
-        type: string
-        description: Highlighted segment of this curated list's title
-        example: |
-          What are some good <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> Podcast to listen to?
-      title_original:
-        type: string
-        description: Plain text of this curated list's title
-        example: What are some good Star Wars Podcast to listen to?
-      listennotes_url:
-        $ref: '#/definitions/CuratedLNUrlField'
-      source_url:
-        $ref: '#/definitions/CuratedSourceUrlField'
-      source_domain:
-        $ref: '#/definitions/CuratedSourceDomainField'
-      podcasts:
-        type: array
-        description: Up to 5 podcasts in this curated list.
-        items:
-          $ref: '#/definitions/PodcastMinimum'
-    description: When **type** is *curated*.
-  AudioField:
-      type: string
-      description: Audio url of this episode, which can be played directly.
-      example: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
-  AudioLengthSecField:
-      type: integer
-      description: Audio length of this episode. In seconds.
-      example: 567
-  RssField:
-      type: string
-      description: RSS url of this podcast. This field is available only in the PRO plan.
-      example: https://sw7x7.libsyn.com/rss
-  EpisodeImageField:
-      type: string
-      description: |
-        Image url for this episode.
-        If an episode doesn't have its own image, then this field would be the url of the podcast artwork image.
-        If you are using PRO plan, then it's
-        a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
-        low resolution image (300x300).
-      example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
-  EpisodeThumbnailField:
-      type: string
-      description: |
-        Thumbnail image (300x300) url for this episode.
-        If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image.
-      example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-  iTunesIdField:
-      type: integer
-      description: iTunes id for this podcast.
-      example: 896354638
-  EpisodePubDateMsField:
-      type: integer
-      description: Published date for this episode. In millisecond.
-      example: 1474873200000
-  EpisodeIdField:
-      type: string
-      description: Episode id.
-  EpisodeLNUrlField:
-      type: string
-      description: The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
-      example: https://www.listennotes.com/e/4d82e50314174754a3b603912448e812/
-  ExplicitField:
-      type: boolean
-      description: Whether this podcast contains explicit language.
-      example: false
-  LinkField:
-      type: string
-      description: Web link of this episode.
-      example: https://www.npr.org/2020/01/22/798532179/soleimanis-iran
-  PodcastIdField:
-      type: string
-      description: Podcast id.
-      example: 4d3fe717742d4963a85562e9f84d8c79
-  GenreIdsField:
-      type: array
-      example:
-      - 138
-      - 86
-      - 160
-      - 68
-      - 82
-      - 100
-      - 101
-      items:
-        type: integer
-        description: Genre ids.
-  PodcastLNUrlField:
-      type: string
-      description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
-      example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
-  PodcastTitleHighlightedField:
-      type: string
-      description: Highlighted segment of podcast name.
-      example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span> 7x7 | <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span> News, Interviews, and More!
-  PodcastTitleOriginalField:
-      type: string
-      description: Plain text of podcast name.
-      example: Star Wars 7x7 | Star Wars News, Interviews, and More!
-  PublisherHighlightedField:
-      type: string
-      description: Highlighted segment of this podcast's publisher name.
-      example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span> Daily, by Allen Voivod
-  PublisherOriginalField:
-      type: string
-      description: Plain text of this podcast's publisher name.
-      example: Star Wars Daily, by Allen Voivod
-  ImageField:
-      type: string
-      description: |
-        Image url for this podcast's artwork. If you are using PRO plan, then it's
-        a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
-        low resolution image (300x300).
-      example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
-  ThumbnailField:
-      type: string
-      description: Thumbnail image url for this podcast's artwork (300x300).
-      example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-  ListenScoreField:
-      type: integer
-      description: |
-        The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-        If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
-      example: 81
-  ListenScoreGlobalRankField:
-      type: string
-      description: |
-        The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-        For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-        If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-      example: 0.5%
-  LatestPubDateMsField:
-      type: integer
-      description: The published date of the latest episode of this podcast. In milliseconds
-      example: 1557499770000
-  EarliestPubDateMsField:
-      type: integer
-      description: The published date of the oldest episode of this podcast. In milliseconds
-      example: 1470667902000
-  TotalEpisodesField:
-      type: integer
-      description: Total number of episodes in this podcast.
-      example: 324
-  EmailField:
-      type: string
-      description: The email of this podcast's producer. This field is available only in the PRO plan.
-      example: hello@example.com
-  WebsiteField:
-      type: string
-      description: Website url of this podcast.
-      example: http://sw7x7.com/
-  CuratedIdField:
-      type: string
-      description: Curated list id.
-      example: Vb017Sx3l8F
-  CuratedPubDateMsField:
-      type: integer
-      description: Published date of this curated list. In milliseconds.
-      example: 1556843484301
-  CuratedLNUrlField:
-      type: string
-      description: The url of this curated list on [ListenNotes.com](https://www.ListenNotes.com).
-      example: https://www.listennotes.com/curated-podcasts/7-bookish-podcasts-for-avid-readers-on-H2r-TCWai8K/
-  CuratedSourceUrlField:
-      type: string
-      description: Url of the source of this curated list.
-      example: https://parade.com/718913/ashley_johnson/7-bookish-podcasts-for-avid-readers-on-the-go/
-  CuratedSourceDomainField:
-      type: string
-      description: The domain name of the source of this curated list.
-      example: parade.com
-  PodcastMinimum:
-      type: object
-      properties:
-        image:
-          $ref: '#/definitions/ImageField'
-        thumbnail:
-          $ref: '#/definitions/ThumbnailField'
-        title:
-          $ref: '#/definitions/PodcastNameField'
-        listennotes_url:
-          $ref: '#/definitions/PodcastLNUrlField'
-        id:
-          $ref: '#/definitions/PodcastIdField'
-        publisher:
-          $ref: '#/definitions/PublisherField'
-        listen_score:
-          $ref: '#/definitions/ListenScoreField'
-        listen_score_global_rank:
-          $ref: '#/definitions/ListenScoreGlobalRankField'
-  PodcastNameField:
-      type: string
-      description: Podcast name.
-      example: Star Wars 7x7 | Star Wars News, Interviews, and More!
-  PublisherField:
-      type: string
-      description: Podcast publisher name.
-      example: Planet Broadcasting
+
   GetPodcastRecommendationsResponse:
       required:
       - recommendations
@@ -978,80 +1057,16 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/PodcastSimple'
-  PodcastSimple:
+  GetEpisodeRecommendationsResponse:
+    required:
+    - recommendations
     type: object
     properties:
-      is_claimed:
-        $ref: '#/definitions/IsClaimedField'
-      type:
-        $ref: '#/definitions/PodcastTypeField'
-      explicit_content:
-        $ref: '#/definitions/ExplicitField'
-      website:
-        $ref: '#/definitions/WebsiteField'
-      total_episodes:
-        $ref: '#/definitions/TotalEpisodesField'
-      earliest_pub_date_ms:
-        $ref: '#/definitions/EarliestPubDateMsField'
-      rss:
-        $ref: '#/definitions/RssField'
-      latest_pub_date_ms:
-        $ref: '#/definitions/LatestPubDateMsField'
-      title:
-        $ref: '#/definitions/PodcastNameField'
-      language:
-        $ref: '#/definitions/LanguageField'
-      description:
-        $ref: '#/definitions/PodcastDescriptionField'
-      email:
-        $ref: '#/definitions/EmailField'
-      image:
-        $ref: '#/definitions/ImageField'
-      thumbnail:
-        $ref: '#/definitions/ThumbnailField'
-      listennotes_url:
-        $ref: '#/definitions/PodcastLNUrlField'
-      id:
-        $ref: '#/definitions/PodcastIdField'
-      country:
-        $ref: '#/definitions/CountryField'
-      publisher:
-        $ref: '#/definitions/PublisherField'
-      itunes_id:
-        $ref: '#/definitions/iTunesIdField'
-      looking_for:
-        $ref: '#/definitions/PodcastLookingForField'
-      extra:
-        $ref: '#/definitions/PodcastExtraField'
-      genre_ids:
-        $ref: '#/definitions/GenreIdsField'
-      listen_score:
-        $ref: '#/definitions/ListenScoreField'
-      listen_score_global_rank:
-        $ref: '#/definitions/ListenScoreGlobalRankField'
-  IsClaimedField:
-      type: boolean
-      description: Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
-      example: true
-  PodcastTypeField:
-      type: string
-      description: The type of this podcast - episodic or serial.
-      example: episodic
-      enum:
-      - episodic
-      - serial
-  LanguageField:
-      type: string
-      description: The language of this podcast. You can get all supported languages from `GET /languages`.
-      example: English
-  PodcastDescriptionField:
-      type: string
-      description: Html of this episode's full description
-      example: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
-  CountryField:
-      type: string
-      description: The country where this podcast is produced.
-      example: United States
+      recommendations:
+        type: array
+        items:
+          $ref: '#/definitions/EpisodeSimple'
+
   PodcastLookingForField:
       type: object
       properties:
@@ -1117,127 +1132,3 @@ definitions:
         url3:
           type: string
           description: Url affiliated with this podcast
-  GetEpisodeRecommendationsResponse:
-      required:
-      - recommendations
-      type: object
-      properties:
-        recommendations:
-          type: array
-          items:
-            $ref: '#/definitions/EpisodeSimple'
-  EpisodeSimple:
-      type: object
-      properties:
-        maybe_audio_invalid:
-          $ref: '#/definitions/MaybeAudioInvalidField'
-        pub_date_ms:
-          $ref: '#/definitions/EpisodePubDateMsField'
-        audio:
-          $ref: '#/definitions/AudioField'
-        listennotes_edit_url:
-          $ref: '#/definitions/EpisodeLNEditUrlField'
-        image:
-          $ref: '#/definitions/EpisodeImageField'
-        thumbnail:
-          $ref: '#/definitions/EpisodeThumbnailField'
-        description:
-          $ref: '#/definitions/EpisodeDescriptionField'
-        title:
-          $ref: '#/definitions/EpisodeNameField'
-        explicit_content:
-          $ref: '#/definitions/ExplicitField'
-        listennotes_url:
-          $ref: '#/definitions/EpisodeLNUrlField'
-        audio_length_sec:
-          $ref: '#/definitions/AudioLengthSecField'
-        id:
-          $ref: '#/definitions/EpisodeIdField'
-        link:
-          $ref: '#/definitions/LinkField'
-        podcast:
-          type: object
-          properties:
-            id:
-              $ref: '#/definitions/PodcastIdField'
-            title:
-              $ref: '#/definitions/PodcastNameField'
-            publisher:
-              $ref: '#/definitions/PublisherField'
-            image:
-              $ref: '#/definitions/ImageField'
-            thumbnail:
-              $ref: '#/definitions/ThumbnailField'
-            listennotes_url:
-              $ref: '#/definitions/PodcastLNUrlField'
-  MaybeAudioInvalidField:
-      type: boolean
-      description: Whether or not this episode's audio is invalid. Podcasters may delete the original audio.
-      example: false
-  EpisodeLNEditUrlField:
-      type: string
-      description: Edit url of this episode where you can update the audio url if you find the audio is broken.
-      example: https://www.listennotes.com/e/11b34041e804491b9704d11f283c74de/#edit
-  EpisodeDescriptionField:
-      type: string
-      description: Html of this episode's full description
-      example: |
-        <p>Disney chief Bob Iger shared news about Star Wars movies in 2020 and beyond, but some media outlets gave conflicting reports about it. Here's the real scoop. Punch it!</p> <p>***Weâ€™re listener supported! Go to http://Patreon.com/sw7x7 to donate to the Star Wars 7x7 podcast, and youâ€™ll get some fabulous rewards for your pledge.***Â </p> <p>Check out SW7x7.com for full Star Wars 7x7 show notes and links, and to comment on any of the content of this episode! If you like what you've heard, please leave us a rating or review on iTunes or Stitcher, which will also help more people discover this Star Wars podcast.</p> <p>Don't forget to join the Star Wars 7x7 fun on Facebook at Facebook.com/SW7x7, and follow the breaking news Twitter feed at Twitter.com/SW7x7Podcast. We're also on Pinterest and Instagram as "SW7x7" too, and we'd love to connect with you there!</p>
-  EpisodeNameField:
-      type: string
-      description: Episode name.
-      example: 'Celebration Recap, Jason Fry and Christian Blauvelt Interviews â€“ SWBW #101'
-  BestPodcastsResponse:
-      required:
-      - has_next
-      - has_previous
-      - id
-      - listennotes_url
-      - name
-      - next_page_number
-      - page_number
-      - parent_id
-      - podcasts
-      - previous_page_number
-      - total
-      type: object
-      properties:
-        has_previous:
-          type: boolean
-        name:
-          type: string
-          description: This genre's name.
-          example: Business News
-        listennotes_url:
-          $ref: '#/definitions/BestPodcastsLNUrlField'
-        previous_page_number:
-          type: integer
-          example: 1
-        page_number:
-          type: integer
-          example: 2
-        has_next:
-          type: boolean
-          example: true
-        next_page_number:
-          type: integer
-          example: 3
-        parent_id:
-          type: integer
-          description: The id of parent genre.
-          example: 93
-        id:
-          type: integer
-          description: The id of this genre
-          example: 95
-        total:
-          type: integer
-          example: 325
-        podcasts:
-          type: array
-          items:
-            $ref: '#/definitions/PodcastSimple'
-  BestPodcastsLNUrlField:
-      type: string
-      description: Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com).
-      example: https://www.listennotes.com/best-business-news-podcasts-95/

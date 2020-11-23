@@ -10,52 +10,48 @@
 package swagger
 
 type PodcastSimple struct {
-
-	IsClaimed bool `json:"is_claimed,omitempty"`
-
-	Type_ *PodcastTypeField `json:"type,omitempty"`
-
-	ExplicitContent bool `json:"explicit_content,omitempty"`
-
-	Website string `json:"website,omitempty"`
-
-	TotalEpisodes int32 `json:"total_episodes,omitempty"`
-
-	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
-
+	// Podcast id.
+	Id string `json:"id,omitempty"`
+	// RSS url of this podcast. This field is available only in the PRO plan.
 	Rss string `json:"rss,omitempty"`
-
-	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
-
-	Title string `json:"title,omitempty"`
-
-	Language string `json:"language,omitempty"`
-
-	Description string `json:"description,omitempty"`
-
+	// The type of this podcast - episodic or serial.
+	Type_ string `json:"type,omitempty"`
+	// The email of this podcast's producer. This field is available only in the PRO plan.
 	Email string `json:"email,omitempty"`
 
+	Extra *PodcastExtraField `json:"extra,omitempty"`
+	// Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
 	Image string `json:"image,omitempty"`
-
-	Thumbnail string `json:"thumbnail,omitempty"`
-
-	ListennotesUrl string `json:"listennotes_url,omitempty"`
-
-	Id string `json:"id,omitempty"`
-
+	// Podcast name.
+	Title string `json:"title,omitempty"`
+	// The country where this podcast is produced.
 	Country string `json:"country,omitempty"`
+	// Website url of this podcast.
+	Website string `json:"website,omitempty"`
+	// The language of this podcast. You can get all supported languages from `GET /languages`.
+	Language string `json:"language,omitempty"`
 
-	Publisher string `json:"publisher,omitempty"`
-
+	GenreIds []int32 `json:"genre_ids,omitempty"`
+	// iTunes id for this podcast.
 	ItunesId int32 `json:"itunes_id,omitempty"`
+	// Podcast publisher name.
+	Publisher string `json:"publisher,omitempty"`
+	// Thumbnail image url for this podcast's artwork (300x300).
+	Thumbnail string `json:"thumbnail,omitempty"`
+	// Whether this podcast is claimed by its producer on [ListenNotes.com](https://www.ListenNotes.com).
+	IsClaimed bool `json:"is_claimed,omitempty"`
+	// Html of this episode's full description
+	Description string `json:"description,omitempty"`
 
 	LookingFor *PodcastLookingForField `json:"looking_for,omitempty"`
-
-	Extra *PodcastExtraField `json:"extra,omitempty"`
-
-	GenreIds *[]int32 `json:"genre_ids,omitempty"`
-
-	ListenScore int32 `json:"listen_score,omitempty"`
-
-	ListenScoreGlobalRank string `json:"listen_score_global_rank,omitempty"`
+	// Total number of episodes in this podcast.
+	TotalEpisodes int32 `json:"total_episodes,omitempty"`
+	// The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
+	ListennotesUrl string `json:"listennotes_url,omitempty"`
+	// Whether this podcast contains explicit language.
+	ExplicitContent bool `json:"explicit_content,omitempty"`
+	// The published date of the latest episode of this podcast. In milliseconds
+	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
+	// The published date of the oldest episode of this podcast. In milliseconds
+	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
 }
