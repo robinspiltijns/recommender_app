@@ -42,6 +42,4 @@ type EpisodeSearchResult struct {
 	DescriptionOriginal string `json:"description_original,omitempty"`
 	// Highlighted segment of this episode's description
 	DescriptionHighlighted string `json:"description_highlighted,omitempty"`
-	// Up to 2 highlighted segments of the audio transcript of this episode.
-	TranscriptsHighlighted []string `json:"transcripts_highlighted,omitempty"`
 }
