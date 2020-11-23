@@ -110,14 +110,6 @@ paths:
         id.
       operationId: getPodcastRecommendationsBasedOnPodcast
       parameters:
-      - name: X-ListenAPI-Key
-        in: header
-        description: Get API Key on listennotes.com/api
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: id
         in: query
         description: The id of the show.
@@ -139,14 +131,6 @@ paths:
       description: Fetch recommendations based on the given episode id.
       operationId: getEpisodeRecommendationsBasedOnEpisode
       parameters:
-      - name: X-ListenAPI-Key
-        in: header
-        description: Get API Key on listennotes.com/api
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       - name: id
         in: query
         description: The id of the episode.
@@ -167,15 +151,6 @@ paths:
       summary: Fetch the best podcasts.
       description: Returns the best podcasts.
       operationId: GetTheBestPodcasts
-      parameters:
-      - name: X-ListenAPI-Key
-        in: header
-        description: Get API Key on listennotes.com/api
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
       responses:
         "200":
           description: OK
