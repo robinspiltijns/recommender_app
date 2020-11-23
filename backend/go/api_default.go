@@ -46,20 +46,23 @@ func GetPodcast(w http.ResponseWriter, r *http.Request) {
 func GetPodcastRecommendationsBasedOnPodcast(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	GetSearchResultsImpl(w, r)
+	GetPodcastRecommendationsBasedOnPodcastImpl(w, r)
 }
 
 func GetSearchResults(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	GetSearchResultsImpl(w, r)
 }
 
 func GetTheBestPodcasts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	GetTheBestPodcastsImpl(w, r)
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	TestImpl(w, r)
 }
