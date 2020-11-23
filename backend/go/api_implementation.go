@@ -42,7 +42,7 @@ func TestImpl(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello world!")
 }
 
-func GetShowImpl(w http.ResponseWriter, r *http.Request) {
+func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 	id, ok := r.URL.Query()["id"]
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)

@@ -23,15 +23,15 @@ paths:
                 type: string
                 example: Hello World
                 x-content-type: text/plain
-  show:
+  podcast:
     get:
-      summary: used to get the details of a show.
-      description: returns the details of a show.
-      operationId: GetShow
+      summary: used to get the details of a podcast.
+      description: returns the details of a podcast.
+      operationId: GetPodcast
       parameters:
       - name: id
         in: query
-        description: The id of the show.
+        description: The id of the podcast.
         required: true
         style: form
         explode: true
