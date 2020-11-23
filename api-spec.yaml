@@ -93,11 +93,6 @@ paths:
       produces: 
         - "application/json"
       parameters:
-      - name: "X-ListenAPI-Key"
-        in: "header"
-        description: "Get API Key on listennotes.com/api"
-        required: true
-        type: "string"
       - name: "id"
         in: "query"
         description: "The id of the show."
@@ -116,11 +111,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-      - name: "X-ListenAPI-Key"
-        in: "header"
-        description: "Get API Key on listennotes.com/api"
-        required: true
-        type: "string"
       - name: "id"
         in: "query"
         description: "The id of the episode."
@@ -138,12 +128,6 @@ paths:
       operationId: "GetTheBestPodcasts"
       produces:
         - "application/json"
-      parameters:
-      - name: "X-ListenAPI-Key"
-        in: "header"
-        description: "Get API Key on listennotes.com/api"
-        required: true
-        type: "string"
       responses:
         "200":
           description: OK
