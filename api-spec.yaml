@@ -964,19 +964,6 @@ definitions:
       
       '
           description: Highlighted segment of this episode's description
-        transcripts_highlighted:
-          type: array
-          items:
-            type: string
-            example: '00:21:27  when Disney bought the <span class="ln-search-highlight">Star</span>
-              <span class="ln-search-highlight">Wars</span> franchise from George Lucas
-              they had a plan lots of <span class="ln-search-highlight">Star</span> <span
-              class="ln-search-highlight">Wars</span> movies new <span class="ln-search-highlight">Star</span>
-              <span class="ln-search-highlight">Wars</span> movies every month another one
-              was just released while I was talking
-      
-      '
-          description: Up to 2 highlighted segments of the audio transcript of this episode.
   PodcastSearchResult:
       type: object
       properties:
