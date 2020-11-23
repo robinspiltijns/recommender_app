@@ -21,17 +21,17 @@ paths:
           schema:
             type: "string"
             example: "Hello World"
-  show:
+  podcast:
     get:
-      summary: "used to get the details of a show."
-      description: "returns the details of a show."
-      operationId: "GetShow"
+      summary: "used to get the details of a podcast."
+      description: "returns the details of a podcast."
+      operationId: "GetPodcast"
       produces:
         - "application/json"
       parameters:
         - name: "id"
           in: "query"
-          description: "The id of the show."
+          description: "The id of the podcast."
           required: true
           type: "string"
       responses:
