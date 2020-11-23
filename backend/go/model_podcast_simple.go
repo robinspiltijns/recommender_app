@@ -44,8 +44,6 @@ type PodcastSimple struct {
 	Description string `json:"description,omitempty"`
 
 	LookingFor *PodcastLookingForField `json:"looking_for,omitempty"`
-	// The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100. If the score is not available, it'll be null. Learn more at listennotes.com/listen-score 
-	ListenScore int32 `json:"listen_score,omitempty"`
 	// Total number of episodes in this podcast.
 	TotalEpisodes int32 `json:"total_episodes,omitempty"`
 	// The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
@@ -56,6 +54,4 @@ type PodcastSimple struct {
 	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
 	// The published date of the oldest episode of this podcast. In milliseconds
 	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
-	// The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score 
-	ListenScoreGlobalRank string `json:"listen_score_global_rank,omitempty"`
 }

@@ -229,10 +229,9 @@ components:
           $ref: '#/components/schemas/PodcastExtraField'
         image:
           type: string
-          description: |
-            Image url for this podcast's artwork. If you are using PRO plan, then it's
-            a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**,
-            low resolution image (300x300).
+          description: Image url for this podcast's artwork. If you are using PRO
+            plan, then it's a high resolution image (1400x1400). If you are using
+            FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).
           example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
         title:
           type: string
@@ -295,12 +294,6 @@ components:
             unleashed!</p>
         looking_for:
           $ref: '#/components/schemas/PodcastLookingForField'
-        listen_score:
-          type: integer
-          description: |
-            The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-            If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 81
         total_episodes:
           type: integer
           description: Total number of episodes in this podcast.
@@ -328,16 +321,11 @@ components:
           description: Passed to the **next_episode_pub_date** parameter of `GET /podcasts/{id}`
             to paginate through episodes of that podcast.
           example: 1470667902000
-        listen_score_global_rank:
-          type: string
-          description: |
-            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 0.5%
       example:
+        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
         country: United States
-        listen_score_global_rank: 0.5%
+        website: http://sw7x7.com/
+        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
         itunes_id: 896354638
         explicit_content: false
         description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -346,11 +334,27 @@ components:
           Star Wars story as told in movies, books, comics, games, cartoons, and more.
           Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed!</p>
         language: English
+        earliest_pub_date_ms: 1470667902000
         type: episodic
         title: Star Wars 7x7 | Star Wars News, Interviews, and More!
+        genre_ids:
+        - 138
+        - 86
+        - 160
+        - 68
+        - 82
+        - 100
+        - 101
+        listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
         is_claimed: true
+        total_episodes: 324
         next_episode_pub_date: 1470667902000
         rss: https://sw7x7.libsyn.com/rss
+        looking_for:
+          cross_promotion: true
+          sponsors: true
+          guests: true
+          cohosts: true
         extra:
           twitter_handle: SW7x7podcast
           instagram_handle: sw7x7
@@ -364,6 +368,8 @@ components:
           spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
           wechat_handle: wechat_handle
           patreon_handle: sw7x7
+        publisher: Planet Broadcasting
+        latest_pub_date_ms: 1557499770000
         id: 4d3fe717742d4963a85562e9f84d8c79
         email: hello@example.com
         episodes:
@@ -397,28 +403,6 @@ components:
           audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
           pub_date_ms: 1474873200000
           maybe_audio_invalid: false
-        image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
-        website: http://sw7x7.com/
-        thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-        earliest_pub_date_ms: 1470667902000
-        genre_ids:
-        - 138
-        - 86
-        - 160
-        - 68
-        - 82
-        - 100
-        - 101
-        listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
-        total_episodes: 324
-        looking_for:
-          cross_promotion: true
-          sponsors: true
-          guests: true
-          cohosts: true
-        listen_score: 81
-        publisher: Planet Broadcasting
-        latest_pub_date_ms: 1557499770000
     PodcastSimple:
       type: object
       properties:
@@ -509,12 +493,6 @@ components:
             unleashed!</p>
         looking_for:
           $ref: '#/components/schemas/PodcastLookingForField'
-        listen_score:
-          type: integer
-          description: |
-            The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-            If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 81
         total_episodes:
           type: integer
           description: Total number of episodes in this podcast.
@@ -537,19 +515,11 @@ components:
           description: The published date of the oldest episode of this podcast. In
             milliseconds
           example: 1470667902000
-        listen_score_global_rank:
-          type: string
-          description: |
-            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 0.5%
       example:
         image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
         country: United States
         website: http://sw7x7.com/
         thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-        listen_score_global_rank: 0.5%
         itunes_id: 896354638
         explicit_content: false
         description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -591,7 +561,6 @@ components:
           spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
           wechat_handle: wechat_handle
           patreon_handle: sw7x7
-        listen_score: 81
         publisher: Planet Broadcasting
         latest_pub_date_ms: 1557499770000
         id: 4d3fe717742d4963a85562e9f84d8c79
@@ -622,28 +591,13 @@ components:
           type: string
           description: Thumbnail image url for this podcast's artwork (300x300).
           example: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-        listen_score:
-          type: integer
-          description: |
-            The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100.
-            If the score is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 81
         listennotes_url:
           type: string
           description: The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
           example: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
-        listen_score_global_rank:
-          type: string
-          description: |
-            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 0.5%
       example:
         image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
         thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-        listen_score_global_rank: 0.5%
-        listen_score: 81
         publisher: Planet Broadcasting
         id: 4d3fe717742d4963a85562e9f84d8c79
         title: Star Wars 7x7 | Star Wars News, Interviews, and More!
@@ -733,7 +687,6 @@ components:
           country: United States
           website: http://sw7x7.com/
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -776,7 +729,6 @@ components:
             spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
             wechat_handle: wechat_handle
             patreon_handle: sw7x7
-          listen_score: 81
           publisher: Planet Broadcasting
           latest_pub_date_ms: 1557499770000
           id: 4d3fe717742d4963a85562e9f84d8c79
@@ -868,8 +820,6 @@ components:
         podcast:
           image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
-          listen_score: 81
           publisher: Planet Broadcasting
           id: 4d3fe717742d4963a85562e9f84d8c79
           title: Star Wars 7x7 | Star Wars News, Interviews, and More!
@@ -1016,7 +966,6 @@ components:
           country: United States
           website: http://sw7x7.com/
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -1059,7 +1008,6 @@ components:
             spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
             wechat_handle: wechat_handle
             patreon_handle: sw7x7
-          listen_score: 81
           publisher: Planet Broadcasting
           latest_pub_date_ms: 1557499770000
           id: 4d3fe717742d4963a85562e9f84d8c79
@@ -1068,7 +1016,6 @@ components:
           country: United States
           website: http://sw7x7.com/
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -1111,7 +1058,6 @@ components:
             spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
             wechat_handle: wechat_handle
             patreon_handle: sw7x7
-          listen_score: 81
           publisher: Planet Broadcasting
           latest_pub_date_ms: 1557499770000
           id: 4d3fe717742d4963a85562e9f84d8c79
@@ -1628,7 +1574,6 @@ components:
           country: United States
           website: http://sw7x7.com/
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -1671,7 +1616,6 @@ components:
             spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
             wechat_handle: wechat_handle
             patreon_handle: sw7x7
-          listen_score: 81
           publisher: Planet Broadcasting
           latest_pub_date_ms: 1557499770000
           id: 4d3fe717742d4963a85562e9f84d8c79
@@ -1680,7 +1624,6 @@ components:
           country: United States
           website: http://sw7x7.com/
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           description: <p>The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday
@@ -1723,7 +1666,6 @@ components:
             spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
             wechat_handle: wechat_handle
             patreon_handle: sw7x7
-          listen_score: 81
           publisher: Planet Broadcasting
           latest_pub_date_ms: 1557499770000
           id: 4d3fe717742d4963a85562e9f84d8c79
@@ -1753,8 +1695,6 @@ components:
           podcast:
             image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
             thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-            listen_score_global_rank: 0.5%
-            listen_score: 81
             publisher: Planet Broadcasting
             id: 4d3fe717742d4963a85562e9f84d8c79
             title: Star Wars 7x7 | Star Wars News, Interviews, and More!
@@ -1777,8 +1717,6 @@ components:
           podcast:
             image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
             thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-            listen_score_global_rank: 0.5%
-            listen_score: 81
             publisher: Planet Broadcasting
             id: 4d3fe717742d4963a85562e9f84d8c79
             title: Star Wars 7x7 | Star Wars News, Interviews, and More!

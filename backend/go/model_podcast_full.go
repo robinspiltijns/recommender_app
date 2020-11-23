@@ -20,7 +20,7 @@ type PodcastFull struct {
 	Email string `json:"email,omitempty"`
 
 	Extra *PodcastExtraField `json:"extra,omitempty"`
-	// Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300). 
+	// Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).
 	Image string `json:"image,omitempty"`
 	// Podcast name.
 	Title string `json:"title,omitempty"`
@@ -46,8 +46,6 @@ type PodcastFull struct {
 	Description string `json:"description,omitempty"`
 
 	LookingFor *PodcastLookingForField `json:"looking_for,omitempty"`
-	// The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100. If the score is not available, it'll be null. Learn more at listennotes.com/listen-score 
-	ListenScore int32 `json:"listen_score,omitempty"`
 	// Total number of episodes in this podcast.
 	TotalEpisodes int32 `json:"total_episodes,omitempty"`
 	// The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com).
@@ -60,6 +58,4 @@ type PodcastFull struct {
 	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
 	// Passed to the **next_episode_pub_date** parameter of `GET /podcasts/{id}` to paginate through episodes of that podcast.
 	NextEpisodePubDate int32 `json:"next_episode_pub_date,omitempty"`
-	// The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score 
-	ListenScoreGlobalRank string `json:"listen_score_global_rank,omitempty"`
 }
