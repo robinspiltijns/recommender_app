@@ -8,7 +8,7 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-  List<String> results = ['Result 1', 'Result 2', 'Result 3'];
+  List<String> results = [];
   final api = DefaultApi();
 
   _onSubmit(String value) {

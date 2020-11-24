@@ -1,8 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/feed.dart';
-import 'package:frontend/likes.dart';
-import 'package:frontend/search.dart';
+import 'package:frontend/feed-view/feed-view.dart';
+import 'package:frontend/liked-view/liked-view.dart';
+import 'package:frontend/search-view/search-view.dart';
 
 void main() => runApp(MyApp());
 
