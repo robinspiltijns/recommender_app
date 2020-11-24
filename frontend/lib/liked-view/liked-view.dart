@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/components/genre_card.dart';
+import 'package:frontend/object_model/genre.dart';
 
 class LikesWidget extends StatefulWidget {
   @override
@@ -9,11 +11,12 @@ class LikesWidget extends StatefulWidget {
 class LikesWidgetState extends State<LikesWidget> {
 
   // mock data
-  List<String> likedGenreIds = [
-    "67",
-    "18",
-    "13",
-    "19",
+  List<Genre> likedGenres = [
+    new Genre(67, "Finance"),
+    new Genre(12, "Health"),
+    new Genre(33, "Technology"),
+    new Genre(3, "News"),
+
   ];
 
   // mock data
@@ -44,9 +47,8 @@ class LikesWidgetState extends State<LikesWidget> {
                   "Your most liked genres",
                   style: Theme.of(context).textTheme.headline2,
                 ),
-              )
-
-
+              ),
+              GenreCard(likedGenres[0]),
             ]
           )
         ]
