@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/feed-view.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-view.dart';
+import 'package:frontend/theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,9 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: CastlyWidget(),
-      theme: new ThemeData(
-        scaffoldBackgroundColor: Colors.transparent,
-      ),
+      theme: themeData,
     );
   }
 }
@@ -31,7 +30,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
   TextStyle(fontWeight: FontWeight.bold, fontSize: 36.0);
 
   static List<Widget> _titles = <Widget>[
-    Text('Likes', style: titleStyle,),
+    Text('Your Likes', style: titleStyle,),
     Text('Feed', style: titleStyle,),
     Text('Search', style: titleStyle,),
   ];
