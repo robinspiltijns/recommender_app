@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/feed-view/components/feed-view-section.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
 import 'package:swagger/api.dart';
 
@@ -29,7 +30,7 @@ class _FeedWidgetState extends State<FeedWidget> {
           future: futureResp,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return PodcastCardWidget(podcast: snapshot.data.recommendations[0],);
+                return FeedViewSection(b: RecommendationBasis.PODCAST, recDescription: "This podcast", resList: snapshot.data.recommendations,);
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
