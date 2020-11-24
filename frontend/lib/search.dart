@@ -8,30 +8,27 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-
   List<String> results = ['Result 1', 'Result 2', 'Result 3'];
-  final searchController = TextEditingController();
   final api = DefaultApi();
 
   _onSubmit(String value) {
     Future<SearchResult> futureResult = api.getSearchResults(value, "title");
-  //  futureResult.then((result) => {
-  //    print(result.episoderesults)
-   // });
+    //  futureResult.then((result) => {
+    //    print(result.episoderesults)
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-
-      child:  TextField(
-        controller: searchController,
-        onSubmitted: _onSubmit,
-        style: TextStyle(color: Colors.white),
-        cursorColor: Colors.white,
-        decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.5)),
+        margin: const EdgeInsets.only(left: 30, right: 30),
+        child: TextField(
+          onSubmitted: _onSubmit,
+          style: TextStyle(color: Colors.white),
+          cursorColor: Colors.white,
+          decoration: InputDecoration(
+            prefixIcon:
+                Icon(Icons.search, color: Colors.white.withOpacity(0.5)),
             hintText: 'Title, description, genre, ...',
             hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
             filled: true,
@@ -44,8 +41,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               ),
             ),
             contentPadding: const EdgeInsets.only(left: 14.0, right: 14.0),
-        ),
-      )
-    );
+          ),
+        ));
   }
 }
