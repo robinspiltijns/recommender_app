@@ -10,3 +10,5 @@ generate-frontend:
 	perl -i -pe's/BrowserClient/IOClient/g' frontend/swagger/lib/api_client.dart
 	perl -i -pe's/browser_client/io_client/g' frontend/swagger/lib/api.dart
 	echo 'environment:\n  sdk: ">=2.7.0 <3.0.0"' >> frontend/swagger/pubspec.yaml
+	cd frontend/swagger
+	flutter pub get
