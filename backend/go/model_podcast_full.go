@@ -33,7 +33,7 @@ type PodcastFull struct {
 	// The language of this podcast. You can get all supported languages from `GET /languages`.
 	Language string `json:"language,omitempty"`
 
-	GenreIds []int32 `json:"genre_ids,omitempty"`
+	GenreIds []int32 `json:"genre_ids"`
 	// iTunes id for this podcast.
 	ItunesId int32 `json:"itunes_id,omitempty"`
 	// Podcast publisher name.
