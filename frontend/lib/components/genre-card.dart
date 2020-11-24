@@ -14,9 +14,9 @@ List<Color> GENRE_COLORS = [
 ];
 
 class GenreCard extends StatelessWidget {
-  final Genre _genre;
+  final Genre genre;
 
-  GenreCard(this._genre);
+  GenreCard(this.genre);
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,12 @@ class GenreCard extends StatelessWidget {
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: getGenreColor(this._genre.getId())),
+              color: getGenreColor(genre.id),
+          ),
           child: Container(
             margin: EdgeInsets.all(10),
             child: Text(
-              _genre.getName(),
+              genre.name,
               style: Theme.of(context).textTheme.genreTitle,
             )
           )

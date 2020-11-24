@@ -5,9 +5,9 @@ import 'package:frontend/components/genres-list.dart';
 
 class LikedGenresWidget extends StatelessWidget {
 
-  final List<Genre> _likedGenres;
+  final List<Genre> likedGenres;
 
-  LikedGenresWidget(this._likedGenres);
+  LikedGenresWidget(this.likedGenres);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class LikedGenresWidget extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10),
-        GenresList(_likedGenres),
+        GenresList(likedGenres),
       ]
     );
   }

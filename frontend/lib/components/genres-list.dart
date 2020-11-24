@@ -4,9 +4,9 @@ import 'package:frontend/object-model/genre.dart';
 
 class GenresList extends StatelessWidget {
   
- final List<Genre> _genres;
+ final List<Genre> genres;
  
- GenresList(this._genres);
+ GenresList(this.genres);
   
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class GenresList extends StatelessWidget {
         crossAxisCount: 2,
         shrinkWrap: true,
         childAspectRatio: 13/8,
-        children: _genres.map((genre) => GenreCard(genre)).toList()
+        children: genres.map((genre) => GenreCard(genre)).toList()
     );
   }
 }
