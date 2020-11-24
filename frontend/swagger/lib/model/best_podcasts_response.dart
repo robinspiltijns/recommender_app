@@ -5,8 +5,8 @@ class BestPodcastsResponse {
   bool hasPrevious = null;
 /* This genre's name. */
   String name = null;
-
-  BestPodcastsLNUrlField listennotesUrl = null;
+/* Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com). */
+  String listennotesUrl = null;
 
   int previousPageNumber = null;
 
@@ -35,7 +35,7 @@ class BestPodcastsResponse {
     if (json == null) return;
     hasPrevious = json['has_previous'];
     name = json['name'];
-    listennotesUrl = new BestPodcastsLNUrlField.fromJson(json['listennotes_url']);
+    listennotesUrl = json['listennotes_url'];
     previousPageNumber = json['previous_page_number'];
     pageNumber = json['page_number'];
     hasNext = json['has_next'];

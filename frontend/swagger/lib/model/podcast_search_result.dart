@@ -1,103 +1,103 @@
 part of swagger.api;
 
 class PodcastSearchResult {
-  
-  RssField rss = null;
-/* Highlighted segment of podcast description */
-  String descriptionHighlighted = null;
+  /* Podcast id. */
+  String id = null;
+/* RSS url of this podcast. This field is available only in the PRO plan. */
+  String rss = null;
+/* The email of this podcast's producer. This field is available only in the PRO plan. */
+  String email = null;
+/* Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).  */
+  String image = null;
+/* Website url of this podcast. */
+  String website = null;
+
+  List<int> genreIds = [];
+/* iTunes id for this podcast. */
+  int itunesId = null;
+/* Thumbnail image url for this podcast's artwork (300x300). */
+  String thumbnail = null;
+/* The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100. If the score is not available, it'll be null. Learn more at listennotes.com/listen-score  */
+  int listenScore = null;
+/* Plain text of podcast name. */
+  String titleOriginal = null;
+/* Total number of episodes in this podcast. */
+  int totalEpisodes = null;
+/* The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com). */
+  String listennotesUrl = null;
+/* Whether this podcast contains explicit language. */
+  bool explicitContent = null;
+/* Highlighted segment of podcast name. */
+  String titleHighlighted = null;
+/* The published date of the latest episode of this podcast. In milliseconds */
+  int latestPubDateMs = null;
+/* Plain text of this podcast's publisher name. */
+  String publisherOriginal = null;
 /* Plain text of podcast description */
   String descriptionOriginal = null;
-
-  PodcastTitleHighlightedField titleHighlighted = null;
-
-  PodcastTitleOriginalField titleOriginal = null;
-
-  PublisherHighlightedField publisherHighlighted = null;
-
-  PublisherOriginalField publisherOriginal = null;
-
-  ImageField image = null;
-
-  ThumbnailField thumbnail = null;
-
-  ITunesIdField itunesId = null;
-
-  LatestPubDateMsField latestPubDateMs = null;
-
-  EarliestPubDateMsField earliestPubDateMs = null;
-
-  PodcastIdField id = null;
-
-  GenreIdsField genreIds = null;
-
-  PodcastLNUrlField listennotesUrl = null;
-
-  TotalEpisodesField totalEpisodes = null;
-
-  EmailField email = null;
-
-  ExplicitField explicitContent = null;
-
-  WebsiteField website = null;
-
-  ListenScoreField listenScore = null;
-
-  ListenScoreGlobalRankField listenScoreGlobalRank = null;
+/* The published date of the oldest episode of this podcast. In milliseconds */
+  int earliestPubDateMs = null;
+/* Highlighted segment of this podcast's publisher name. */
+  String publisherHighlighted = null;
+/* Highlighted segment of podcast description */
+  String descriptionHighlighted = null;
+/* The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score  */
+  String listenScoreGlobalRank = null;
 
   PodcastSearchResult();
 
   @override
   String toString() {
-    return 'PodcastSearchResult[rss=$rss, descriptionHighlighted=$descriptionHighlighted, descriptionOriginal=$descriptionOriginal, titleHighlighted=$titleHighlighted, titleOriginal=$titleOriginal, publisherHighlighted=$publisherHighlighted, publisherOriginal=$publisherOriginal, image=$image, thumbnail=$thumbnail, itunesId=$itunesId, latestPubDateMs=$latestPubDateMs, earliestPubDateMs=$earliestPubDateMs, id=$id, genreIds=$genreIds, listennotesUrl=$listennotesUrl, totalEpisodes=$totalEpisodes, email=$email, explicitContent=$explicitContent, website=$website, listenScore=$listenScore, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
+    return 'PodcastSearchResult[id=$id, rss=$rss, email=$email, image=$image, website=$website, genreIds=$genreIds, itunesId=$itunesId, thumbnail=$thumbnail, listenScore=$listenScore, titleOriginal=$titleOriginal, totalEpisodes=$totalEpisodes, listennotesUrl=$listennotesUrl, explicitContent=$explicitContent, titleHighlighted=$titleHighlighted, latestPubDateMs=$latestPubDateMs, publisherOriginal=$publisherOriginal, descriptionOriginal=$descriptionOriginal, earliestPubDateMs=$earliestPubDateMs, publisherHighlighted=$publisherHighlighted, descriptionHighlighted=$descriptionHighlighted, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
   }
 
   PodcastSearchResult.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    rss = new RssField.fromJson(json['rss']);
-    descriptionHighlighted = json['description_highlighted'];
+    id = json['id'];
+    rss = json['rss'];
+    email = json['email'];
+    image = json['image'];
+    website = json['website'];
+    genreIds = (json['genre_ids'] as List).map((item) => item as int).toList();
+    itunesId = json['itunes_id'];
+    thumbnail = json['thumbnail'];
+    listenScore = json['listen_score'];
+    titleOriginal = json['title_original'];
+    totalEpisodes = json['total_episodes'];
+    listennotesUrl = json['listennotes_url'];
+    explicitContent = json['explicit_content'];
+    titleHighlighted = json['title_highlighted'];
+    latestPubDateMs = json['latest_pub_date_ms'];
+    publisherOriginal = json['publisher_original'];
     descriptionOriginal = json['description_original'];
-    titleHighlighted = new PodcastTitleHighlightedField.fromJson(json['title_highlighted']);
-    titleOriginal = new PodcastTitleOriginalField.fromJson(json['title_original']);
-    publisherHighlighted = new PublisherHighlightedField.fromJson(json['publisher_highlighted']);
-    publisherOriginal = new PublisherOriginalField.fromJson(json['publisher_original']);
-    image = new ImageField.fromJson(json['image']);
-    thumbnail = new ThumbnailField.fromJson(json['thumbnail']);
-    itunesId = new ITunesIdField.fromJson(json['itunes_id']);
-    latestPubDateMs = new LatestPubDateMsField.fromJson(json['latest_pub_date_ms']);
-    earliestPubDateMs = new EarliestPubDateMsField.fromJson(json['earliest_pub_date_ms']);
-    id = new PodcastIdField.fromJson(json['id']);
-    genreIds = new GenreIdsField.fromJson(json['genre_ids']);
-    listennotesUrl = new PodcastLNUrlField.fromJson(json['listennotes_url']);
-    totalEpisodes = new TotalEpisodesField.fromJson(json['total_episodes']);
-    email = new EmailField.fromJson(json['email']);
-    explicitContent = new ExplicitField.fromJson(json['explicit_content']);
-    website = new WebsiteField.fromJson(json['website']);
-    listenScore = new ListenScoreField.fromJson(json['listen_score']);
-    listenScoreGlobalRank = new ListenScoreGlobalRankField.fromJson(json['listen_score_global_rank']);
+    earliestPubDateMs = json['earliest_pub_date_ms'];
+    publisherHighlighted = json['publisher_highlighted'];
+    descriptionHighlighted = json['description_highlighted'];
+    listenScoreGlobalRank = json['listen_score_global_rank'];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'rss': rss,
-      'description_highlighted': descriptionHighlighted,
-      'description_original': descriptionOriginal,
-      'title_highlighted': titleHighlighted,
-      'title_original': titleOriginal,
-      'publisher_highlighted': publisherHighlighted,
-      'publisher_original': publisherOriginal,
-      'image': image,
-      'thumbnail': thumbnail,
-      'itunes_id': itunesId,
-      'latest_pub_date_ms': latestPubDateMs,
-      'earliest_pub_date_ms': earliestPubDateMs,
       'id': id,
-      'genre_ids': genreIds,
-      'listennotes_url': listennotesUrl,
-      'total_episodes': totalEpisodes,
+      'rss': rss,
       'email': email,
-      'explicit_content': explicitContent,
+      'image': image,
       'website': website,
+      'genre_ids': genreIds,
+      'itunes_id': itunesId,
+      'thumbnail': thumbnail,
       'listen_score': listenScore,
+      'title_original': titleOriginal,
+      'total_episodes': totalEpisodes,
+      'listennotes_url': listennotesUrl,
+      'explicit_content': explicitContent,
+      'title_highlighted': titleHighlighted,
+      'latest_pub_date_ms': latestPubDateMs,
+      'publisher_original': publisherOriginal,
+      'description_original': descriptionOriginal,
+      'earliest_pub_date_ms': earliestPubDateMs,
+      'publisher_highlighted': publisherHighlighted,
+      'description_highlighted': descriptionHighlighted,
       'listen_score_global_rank': listenScoreGlobalRank
      };
   }

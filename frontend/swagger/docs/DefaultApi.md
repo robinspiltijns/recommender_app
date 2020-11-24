@@ -13,14 +13,14 @@ Method | HTTP request | Description
 [**getEpisode**](DefaultApi.md#getEpisode) | **GET** episode | used to get the details of an episode
 [**getEpisodeRecommendationsBasedOnEpisode**](DefaultApi.md#getEpisodeRecommendationsBasedOnEpisode) | **GET** get-recommendations-based-on/episode | Fetch recommendations based on an episode.
 [**getGenres**](DefaultApi.md#getGenres) | **GET** genres | Used to get a list of all podcast genres
+[**getPodcast**](DefaultApi.md#getPodcast) | **GET** podcast | used to get the details of a podcast.
 [**getPodcastRecommendationsBasedOnPodcast**](DefaultApi.md#getPodcastRecommendationsBasedOnPodcast) | **GET** get-recommendations-based-on/podcast | Fetch recommendations for a podcast
 [**getSearchResults**](DefaultApi.md#getSearchResults) | **GET** search | Used to get the search results based on the given search parameters.
-[**getShow**](DefaultApi.md#getShow) | **GET** show | used to get the details of a show.
 [**getTheBestPodcasts**](DefaultApi.md#getTheBestPodcasts) | **GET** get-best-podcasts | Fetch the best podcasts.
 [**test**](DefaultApi.md#test) | **GET** test | used to test whether the backend is running.
 
 # **getBestOfGenre**
-> BestOfGenreResult getBestOfGenre(genreId)
+> BestPodcastsResponse getBestOfGenre(genreId)
 
 Used to get the best podcast from a given genre.
 
@@ -49,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**BestOfGenreResult**](BestOfGenreResult.md)
+[**BestPodcastsResponse**](BestPodcastsResponse.md)
 
 ### Authorization
 
@@ -63,7 +63,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEpisode**
-> Episode getEpisode(id)
+> EpisodeFull getEpisode(id)
 
 used to get the details of an episode
 
@@ -92,7 +92,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Episode**](Episode.md)
+[**EpisodeFull**](EpisodeFull.md)
 
 ### Authorization
 
@@ -106,7 +106,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getEpisodeRecommendationsBasedOnEpisode**
-> GetEpisodeRecommendationsResponse getEpisodeRecommendationsBasedOnEpisode(xListenAPIKey, id)
+> GetEpisodeRecommendationsResponse getEpisodeRecommendationsBasedOnEpisode(id)
 
 Fetch recommendations based on an episode.
 
@@ -117,11 +117,10 @@ Fetch recommendations based on the given episode id.
 import 'package:swagger/api.dart';
 
 var api_instance = new DefaultApi();
-var xListenAPIKey = xListenAPIKey_example; // String | Get API Key on listennotes.com/api
 var id = id_example; // String | The id of the episode.
 
 try {
-    var result = api_instance.getEpisodeRecommendationsBasedOnEpisode(xListenAPIKey, id);
+    var result = api_instance.getEpisodeRecommendationsBasedOnEpisode(id);
     print(result);
 } catch (e) {
     print("Exception when calling DefaultApi->getEpisodeRecommendationsBasedOnEpisode: $e\n");
@@ -132,7 +131,6 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xListenAPIKey** | **String**| Get API Key on listennotes.com/api | 
  **id** | **String**| The id of the episode. | 
 
 ### Return type
@@ -189,8 +187,51 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **getPodcast**
+> PodcastFull getPodcast(id)
+
+used to get the details of a podcast.
+
+returns the details of a podcast.
+
+### Example
+```dart
+import 'package:swagger/api.dart';
+
+var api_instance = new DefaultApi();
+var id = id_example; // String | The id of the podcast.
+
+try {
+    var result = api_instance.getPodcast(id);
+    print(result);
+} catch (e) {
+    print("Exception when calling DefaultApi->getPodcast: $e\n");
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **String**| The id of the podcast. | 
+
+### Return type
+
+[**PodcastFull**](PodcastFull.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **getPodcastRecommendationsBasedOnPodcast**
-> GetPodcastRecommendationsResponse getPodcastRecommendationsBasedOnPodcast(xListenAPIKey, id)
+> GetPodcastRecommendationsResponse getPodcastRecommendationsBasedOnPodcast(id)
 
 Fetch recommendations for a podcast
 
@@ -201,11 +242,10 @@ Fetch up to 8 podcast recommendations based on the given podcast id.
 import 'package:swagger/api.dart';
 
 var api_instance = new DefaultApi();
-var xListenAPIKey = xListenAPIKey_example; // String | Get API Key on listennotes.com/api
 var id = id_example; // String | The id of the show.
 
 try {
-    var result = api_instance.getPodcastRecommendationsBasedOnPodcast(xListenAPIKey, id);
+    var result = api_instance.getPodcastRecommendationsBasedOnPodcast(id);
     print(result);
 } catch (e) {
     print("Exception when calling DefaultApi->getPodcastRecommendationsBasedOnPodcast: $e\n");
@@ -216,7 +256,6 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xListenAPIKey** | **String**| Get API Key on listennotes.com/api | 
  **id** | **String**| The id of the show. | 
 
 ### Return type
@@ -279,51 +318,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getShow**
-> Show getShow(id)
-
-used to get the details of a show.
-
-returns the details of a show.
-
-### Example
-```dart
-import 'package:swagger/api.dart';
-
-var api_instance = new DefaultApi();
-var id = id_example; // String | The id of the show.
-
-try {
-    var result = api_instance.getShow(id);
-    print(result);
-} catch (e) {
-    print("Exception when calling DefaultApi->getShow: $e\n");
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **String**| The id of the show. | 
-
-### Return type
-
-[**Show**](Show.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **getTheBestPodcasts**
-> BestPodcastsResponse getTheBestPodcasts(xListenAPIKey)
+> BestPodcastsResponse getTheBestPodcasts()
 
 Fetch the best podcasts.
 
@@ -334,10 +330,9 @@ Returns the best podcasts.
 import 'package:swagger/api.dart';
 
 var api_instance = new DefaultApi();
-var xListenAPIKey = xListenAPIKey_example; // String | Get API Key on listennotes.com/api
 
 try {
-    var result = api_instance.getTheBestPodcasts(xListenAPIKey);
+    var result = api_instance.getTheBestPodcasts();
     print(result);
 } catch (e) {
     print("Exception when calling DefaultApi->getTheBestPodcasts: $e\n");
@@ -345,10 +340,7 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xListenAPIKey** | **String**| Get API Key on listennotes.com/api | 
+This endpoint does not need any parameter.
 
 ### Return type
 

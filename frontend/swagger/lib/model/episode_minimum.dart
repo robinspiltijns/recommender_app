@@ -1,19 +1,17 @@
 part of swagger.api;
 
-class EpisodeSimple {
+class EpisodeMinimum {
   /* Episode id. */
   String id = null;
 /* Web link of this episode. */
   String link = null;
 /* Audio url of this episode, which can be played directly. */
   String audio = null;
-/* Image url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork image. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).  */
+/* Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).  */
   String image = null;
 /* Episode name. */
   String title = null;
-
-  PodcastMinimum podcast = null;
-/* Thumbnail image (300x300) url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image.  */
+/* Thumbnail image url for this podcast's artwork (300x300). */
   String thumbnail = null;
 /* Html of this episode's full description */
   String description = null;
@@ -30,21 +28,20 @@ class EpisodeSimple {
 /* Edit url of this episode where you can update the audio url if you find the audio is broken. */
   String listennotesEditUrl = null;
 
-  EpisodeSimple();
+  EpisodeMinimum();
 
   @override
   String toString() {
-    return 'EpisodeSimple[id=$id, link=$link, audio=$audio, image=$image, title=$title, podcast=$podcast, thumbnail=$thumbnail, description=$description, pubDateMs=$pubDateMs, listennotesUrl=$listennotesUrl, audioLengthSec=$audioLengthSec, explicitContent=$explicitContent, maybeAudioInvalid=$maybeAudioInvalid, listennotesEditUrl=$listennotesEditUrl, ]';
+    return 'EpisodeMinimum[id=$id, link=$link, audio=$audio, image=$image, title=$title, thumbnail=$thumbnail, description=$description, pubDateMs=$pubDateMs, listennotesUrl=$listennotesUrl, audioLengthSec=$audioLengthSec, explicitContent=$explicitContent, maybeAudioInvalid=$maybeAudioInvalid, listennotesEditUrl=$listennotesEditUrl, ]';
   }
 
-  EpisodeSimple.fromJson(Map<String, dynamic> json) {
+  EpisodeMinimum.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
     id = json['id'];
     link = json['link'];
     audio = json['audio'];
     image = json['image'];
     title = json['title'];
-    podcast = new PodcastMinimum.fromJson(json['podcast']);
     thumbnail = json['thumbnail'];
     description = json['description'];
     pubDateMs = json['pub_date_ms'];
@@ -62,7 +59,6 @@ class EpisodeSimple {
       'audio': audio,
       'image': image,
       'title': title,
-      'podcast': podcast,
       'thumbnail': thumbnail,
       'description': description,
       'pub_date_ms': pubDateMs,
@@ -74,14 +70,14 @@ class EpisodeSimple {
      };
   }
 
-  static List<EpisodeSimple> listFromJson(List<dynamic> json) {
-    return json == null ? new List<EpisodeSimple>() : json.map((value) => new EpisodeSimple.fromJson(value)).toList();
+  static List<EpisodeMinimum> listFromJson(List<dynamic> json) {
+    return json == null ? new List<EpisodeMinimum>() : json.map((value) => new EpisodeMinimum.fromJson(value)).toList();
   }
 
-  static Map<String, EpisodeSimple> mapFromJson(Map<String, Map<String, dynamic>> json) {
-    var map = new Map<String, EpisodeSimple>();
+  static Map<String, EpisodeMinimum> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, EpisodeMinimum>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) => map[key] = new EpisodeSimple.fromJson(value));
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new EpisodeMinimum.fromJson(value));
     }
     return map;
   }

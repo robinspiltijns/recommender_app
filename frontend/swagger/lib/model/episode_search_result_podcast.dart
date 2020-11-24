@@ -1,63 +1,63 @@
 part of swagger.api;
 
 class EpisodeSearchResultPodcast {
-  
-  PodcastIdField id = null;
+  /* Podcast id. */
+  String id = null;
+/* Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).  */
+  String image = null;
 
-  GenreIdsField genreIds = null;
-
-  PodcastLNUrlField listennotesUrl = null;
-
-  PodcastTitleHighlightedField titleHighlighted = null;
-
-  PodcastTitleOriginalField titleOriginal = null;
-
-  PublisherHighlightedField publisherHighlighted = null;
-
-  PublisherOriginalField publisherOriginal = null;
-
-  ImageField image = null;
-
-  ThumbnailField thumbnail = null;
-
-  ListenScoreField listenScore = null;
-
-  ListenScoreGlobalRankField listenScoreGlobalRank = null;
+  List<int> genreIds = [];
+/* Thumbnail image url for this podcast's artwork (300x300). */
+  String thumbnail = null;
+/* The estimated popularity score of a podcast compared to all other rss-based public podcasts in the world on a scale from 0 to 100. If the score is not available, it'll be null. Learn more at listennotes.com/listen-score  */
+  int listenScore = null;
+/* Plain text of podcast name. */
+  String titleOriginal = null;
+/* The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com). */
+  String listennotesUrl = null;
+/* Highlighted segment of podcast name. */
+  String titleHighlighted = null;
+/* Plain text of this podcast's publisher name. */
+  String publisherOriginal = null;
+/* Highlighted segment of this podcast's publisher name. */
+  String publisherHighlighted = null;
+/* The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score  */
+  String listenScoreGlobalRank = null;
 
   EpisodeSearchResultPodcast();
 
   @override
   String toString() {
-    return 'EpisodeSearchResultPodcast[id=$id, genreIds=$genreIds, listennotesUrl=$listennotesUrl, titleHighlighted=$titleHighlighted, titleOriginal=$titleOriginal, publisherHighlighted=$publisherHighlighted, publisherOriginal=$publisherOriginal, image=$image, thumbnail=$thumbnail, listenScore=$listenScore, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
+    return 'EpisodeSearchResultPodcast[id=$id, image=$image, genreIds=$genreIds, thumbnail=$thumbnail, listenScore=$listenScore, titleOriginal=$titleOriginal, listennotesUrl=$listennotesUrl, titleHighlighted=$titleHighlighted, publisherOriginal=$publisherOriginal, publisherHighlighted=$publisherHighlighted, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
   }
 
   EpisodeSearchResultPodcast.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    id = new PodcastIdField.fromJson(json['id']);
-    genreIds = new GenreIdsField.fromJson(json['genre_ids']);
-    listennotesUrl = new PodcastLNUrlField.fromJson(json['listennotes_url']);
-    titleHighlighted = new PodcastTitleHighlightedField.fromJson(json['title_highlighted']);
-    titleOriginal = new PodcastTitleOriginalField.fromJson(json['title_original']);
-    publisherHighlighted = new PublisherHighlightedField.fromJson(json['publisher_highlighted']);
-    publisherOriginal = new PublisherOriginalField.fromJson(json['publisher_original']);
-    image = new ImageField.fromJson(json['image']);
-    thumbnail = new ThumbnailField.fromJson(json['thumbnail']);
-    listenScore = new ListenScoreField.fromJson(json['listen_score']);
-    listenScoreGlobalRank = new ListenScoreGlobalRankField.fromJson(json['listen_score_global_rank']);
+    id = json['id'];
+    image = json['image'];
+    genreIds = (json['genre_ids'] as List).map((item) => item as int).toList();
+    thumbnail = json['thumbnail'];
+    listenScore = json['listen_score'];
+    titleOriginal = json['title_original'];
+    listennotesUrl = json['listennotes_url'];
+    titleHighlighted = json['title_highlighted'];
+    publisherOriginal = json['publisher_original'];
+    publisherHighlighted = json['publisher_highlighted'];
+    listenScoreGlobalRank = json['listen_score_global_rank'];
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'genre_ids': genreIds,
-      'listennotes_url': listennotesUrl,
-      'title_highlighted': titleHighlighted,
-      'title_original': titleOriginal,
-      'publisher_highlighted': publisherHighlighted,
-      'publisher_original': publisherOriginal,
       'image': image,
+      'genre_ids': genreIds,
       'thumbnail': thumbnail,
       'listen_score': listenScore,
+      'title_original': titleOriginal,
+      'listennotes_url': listennotesUrl,
+      'title_highlighted': titleHighlighted,
+      'publisher_original': publisherOriginal,
+      'publisher_highlighted': publisherHighlighted,
       'listen_score_global_rank': listenScoreGlobalRank
      };
   }

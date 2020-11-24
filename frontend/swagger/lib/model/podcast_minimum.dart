@@ -1,52 +1,44 @@
 part of swagger.api;
 
 class PodcastMinimum {
-  
-  ImageField image = null;
-
-  ThumbnailField thumbnail = null;
-
-  PodcastNameField title = null;
-
-  PodcastLNUrlField listennotesUrl = null;
-
-  PodcastIdField id = null;
-
-  PublisherField publisher = null;
-
-  ListenScoreField listenScore = null;
-
-  ListenScoreGlobalRankField listenScoreGlobalRank = null;
+  /* Podcast id. */
+  String id = null;
+/* Image url for this podcast's artwork. If you are using PRO plan, then it's a high resolution image (1400x1400). If you are using FREE plan, then it's the same as **thumbnail**, low resolution image (300x300).  */
+  String image = null;
+/* Podcast name. */
+  String title = null;
+/* Podcast publisher name. */
+  String publisher = null;
+/* Thumbnail image url for this podcast's artwork (300x300). */
+  String thumbnail = null;
+/* The url of this podcast on [ListenNotes.com](https://www.ListenNotes.com). */
+  String listennotesUrl = null;
 
   PodcastMinimum();
 
   @override
   String toString() {
-    return 'PodcastMinimum[image=$image, thumbnail=$thumbnail, title=$title, listennotesUrl=$listennotesUrl, id=$id, publisher=$publisher, listenScore=$listenScore, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
+    return 'PodcastMinimum[id=$id, image=$image, title=$title, publisher=$publisher, thumbnail=$thumbnail, listennotesUrl=$listennotesUrl, ]';
   }
 
   PodcastMinimum.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    image = new ImageField.fromJson(json['image']);
-    thumbnail = new ThumbnailField.fromJson(json['thumbnail']);
-    title = new PodcastNameField.fromJson(json['title']);
-    listennotesUrl = new PodcastLNUrlField.fromJson(json['listennotes_url']);
-    id = new PodcastIdField.fromJson(json['id']);
-    publisher = new PublisherField.fromJson(json['publisher']);
-    listenScore = new ListenScoreField.fromJson(json['listen_score']);
-    listenScoreGlobalRank = new ListenScoreGlobalRankField.fromJson(json['listen_score_global_rank']);
+    id = json['id'];
+    image = json['image'];
+    title = json['title'];
+    publisher = json['publisher'];
+    thumbnail = json['thumbnail'];
+    listennotesUrl = json['listennotes_url'];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'image': image,
-      'thumbnail': thumbnail,
-      'title': title,
-      'listennotes_url': listennotesUrl,
       'id': id,
+      'image': image,
+      'title': title,
       'publisher': publisher,
-      'listen_score': listenScore,
-      'listen_score_global_rank': listenScoreGlobalRank
+      'thumbnail': thumbnail,
+      'listennotes_url': listennotesUrl
      };
   }
 

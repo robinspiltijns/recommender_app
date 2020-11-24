@@ -1,4 +1,4 @@
-# swagger.model.EpisodeSimple
+# swagger.model.EpisodeFull
 
 ## Load the model package
 ```dart
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **audio** | **String** | Audio url of this episode, which can be played directly. | [optional] [default to null]
 **image** | **String** | Image url for this episode. If an episode doesn&#x27;t have its own image, then this field would be the url of the podcast artwork image. If you are using PRO plan, then it&#x27;s a high resolution image (1400x1400). If you are using FREE plan, then it&#x27;s the same as **thumbnail**, low resolution image (300x300).  | [optional] [default to null]
 **title** | **String** | Episode name. | [optional] [default to null]
-**podcast** | [**PodcastMinimum**](PodcastMinimum.md) |  | [optional] [default to null]
+**podcast** | [**PodcastSimple**](PodcastSimple.md) |  | [optional] [default to null]
 **thumbnail** | **String** | Thumbnail image (300x300) url for this episode. If an episode doesn&#x27;t have its own image, then this field would be the url of the podcast artwork thumbnail image.  | [optional] [default to null]
 **description** | **String** | Html of this episode&#x27;s full description | [optional] [default to null]
 **pubDateMs** | **int** | Published date for this episode. In millisecond. | [optional] [default to null]

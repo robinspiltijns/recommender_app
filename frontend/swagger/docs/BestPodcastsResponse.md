@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **hasPrevious** | **bool** |  | [default to null]
 **name** | **String** | This genre&#x27;s name. | [default to null]
-**listennotesUrl** | [**BestPodcastsLNUrlField**](BestPodcastsLNUrlField.md) |  | [default to null]
+**listennotesUrl** | **String** | Url of the list of best podcasts on [ListenNotes.com](https://www.ListenNotes.com). | [default to null]
 **previousPageNumber** | **int** |  | [default to null]
 **pageNumber** | **int** |  | [default to null]
 **hasNext** | **bool** |  | [default to null]

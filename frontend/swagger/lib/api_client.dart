@@ -37,138 +37,40 @@ class ApiClient {
           return value is bool ? value : '$value'.toLowerCase() == 'true';
         case 'double':
           return value is double ? value : double.parse('$value');
-        case 'AudioField':
-          return new AudioField.fromJson(value);
-        case 'AudioLengthSecField':
-          return new AudioLengthSecField.fromJson(value);
-        case 'BestOfGenreResult':
-          return new BestOfGenreResult.fromJson(value);
-        case 'BestPodcastsLNUrlField':
-          return new BestPodcastsLNUrlField.fromJson(value);
         case 'BestPodcastsResponse':
           return new BestPodcastsResponse.fromJson(value);
-        case 'CountryField':
-          return new CountryField.fromJson(value);
-        case 'CuratedIdField':
-          return new CuratedIdField.fromJson(value);
-        case 'CuratedLNUrlField':
-          return new CuratedLNUrlField.fromJson(value);
-        case 'CuratedListSearchResult':
-          return new CuratedListSearchResult.fromJson(value);
-        case 'CuratedPubDateMsField':
-          return new CuratedPubDateMsField.fromJson(value);
-        case 'CuratedSourceDomainField':
-          return new CuratedSourceDomainField.fromJson(value);
-        case 'CuratedSourceUrlField':
-          return new CuratedSourceUrlField.fromJson(value);
-        case 'EarliestPubDateMsField':
-          return new EarliestPubDateMsField.fromJson(value);
-        case 'EmailField':
-          return new EmailField.fromJson(value);
-        case 'Episode':
-          return new Episode.fromJson(value);
-        case 'EpisodeDescriptionField':
-          return new EpisodeDescriptionField.fromJson(value);
-        case 'EpisodeIdField':
-          return new EpisodeIdField.fromJson(value);
-        case 'EpisodeImageField':
-          return new EpisodeImageField.fromJson(value);
-        case 'EpisodeLNEditUrlField':
-          return new EpisodeLNEditUrlField.fromJson(value);
-        case 'EpisodeLNUrlField':
-          return new EpisodeLNUrlField.fromJson(value);
-        case 'EpisodeNameField':
-          return new EpisodeNameField.fromJson(value);
-        case 'EpisodePubDateMsField':
-          return new EpisodePubDateMsField.fromJson(value);
+        case 'EpisodeFull':
+          return new EpisodeFull.fromJson(value);
+        case 'EpisodeMinimum':
+          return new EpisodeMinimum.fromJson(value);
         case 'EpisodeSearchResult':
           return new EpisodeSearchResult.fromJson(value);
         case 'EpisodeSearchResultPodcast':
           return new EpisodeSearchResultPodcast.fromJson(value);
         case 'EpisodeSimple':
           return new EpisodeSimple.fromJson(value);
-        case 'EpisodeSimplePodcast':
-          return new EpisodeSimplePodcast.fromJson(value);
-        case 'EpisodeThumbnailField':
-          return new EpisodeThumbnailField.fromJson(value);
-        case 'ExplicitField':
-          return new ExplicitField.fromJson(value);
         case 'Genre':
           return new Genre.fromJson(value);
-        case 'GenreIdsField':
-          return new GenreIdsField.fromJson(value);
         case 'GetEpisodeRecommendationsResponse':
           return new GetEpisodeRecommendationsResponse.fromJson(value);
         case 'GetGenresResponse':
           return new GetGenresResponse.fromJson(value);
         case 'GetPodcastRecommendationsResponse':
           return new GetPodcastRecommendationsResponse.fromJson(value);
-        case 'ITunesIdField':
-          return new ITunesIdField.fromJson(value);
-        case 'ImageField':
-          return new ImageField.fromJson(value);
-        case 'IsClaimedField':
-          return new IsClaimedField.fromJson(value);
-        case 'LanguageField':
-          return new LanguageField.fromJson(value);
-        case 'LatestPubDateMsField':
-          return new LatestPubDateMsField.fromJson(value);
-        case 'LinkField':
-          return new LinkField.fromJson(value);
-        case 'ListenScoreField':
-          return new ListenScoreField.fromJson(value);
-        case 'ListenScoreGlobalRankField':
-          return new ListenScoreGlobalRankField.fromJson(value);
-        case 'MaybeAudioInvalidField':
-          return new MaybeAudioInvalidField.fromJson(value);
-        case 'PodcastDescriptionField':
-          return new PodcastDescriptionField.fromJson(value);
         case 'PodcastExtraField':
           return new PodcastExtraField.fromJson(value);
-        case 'PodcastIdField':
-          return new PodcastIdField.fromJson(value);
-        case 'PodcastLNUrlField':
-          return new PodcastLNUrlField.fromJson(value);
+        case 'PodcastFull':
+          return new PodcastFull.fromJson(value);
         case 'PodcastLookingForField':
           return new PodcastLookingForField.fromJson(value);
         case 'PodcastMinimum':
           return new PodcastMinimum.fromJson(value);
-        case 'PodcastNameField':
-          return new PodcastNameField.fromJson(value);
         case 'PodcastSearchResult':
           return new PodcastSearchResult.fromJson(value);
         case 'PodcastSimple':
           return new PodcastSimple.fromJson(value);
-        case 'PodcastTitleHighlightedField':
-          return new PodcastTitleHighlightedField.fromJson(value);
-        case 'PodcastTitleOriginalField':
-          return new PodcastTitleOriginalField.fromJson(value);
-        case 'PodcastTypeField':
-           return new PodcastTypeField.fromJson(value);
-        case 'PublisherField':
-          return new PublisherField.fromJson(value);
-        case 'PublisherHighlightedField':
-          return new PublisherHighlightedField.fromJson(value);
-        case 'PublisherOriginalField':
-          return new PublisherOriginalField.fromJson(value);
-        case 'RssField':
-          return new RssField.fromJson(value);
         case 'SearchResult':
           return new SearchResult.fromJson(value);
-        case 'Show':
-          return new Show.fromJson(value);
-        case 'ShowEpisodes':
-          return new ShowEpisodes.fromJson(value);
-        case 'ShowExtra':
-          return new ShowExtra.fromJson(value);
-        case 'ShowLookingFor':
-          return new ShowLookingFor.fromJson(value);
-        case 'ThumbnailField':
-          return new ThumbnailField.fromJson(value);
-        case 'TotalEpisodesField':
-          return new TotalEpisodesField.fromJson(value);
-        case 'WebsiteField':
-          return new WebsiteField.fromJson(value);
         default:
           {
             Match match;

@@ -1,6 +1,6 @@
 part of swagger.api;
 
-class EpisodeSimple {
+class EpisodeFull {
   /* Episode id. */
   String id = null;
 /* Web link of this episode. */
@@ -12,7 +12,7 @@ class EpisodeSimple {
 /* Episode name. */
   String title = null;
 
-  PodcastMinimum podcast = null;
+  PodcastSimple podcast = null;
 /* Thumbnail image (300x300) url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image.  */
   String thumbnail = null;
 /* Html of this episode's full description */
@@ -30,21 +30,21 @@ class EpisodeSimple {
 /* Edit url of this episode where you can update the audio url if you find the audio is broken. */
   String listennotesEditUrl = null;
 
-  EpisodeSimple();
+  EpisodeFull();
 
   @override
   String toString() {
-    return 'EpisodeSimple[id=$id, link=$link, audio=$audio, image=$image, title=$title, podcast=$podcast, thumbnail=$thumbnail, description=$description, pubDateMs=$pubDateMs, listennotesUrl=$listennotesUrl, audioLengthSec=$audioLengthSec, explicitContent=$explicitContent, maybeAudioInvalid=$maybeAudioInvalid, listennotesEditUrl=$listennotesEditUrl, ]';
+    return 'EpisodeFull[id=$id, link=$link, audio=$audio, image=$image, title=$title, podcast=$podcast, thumbnail=$thumbnail, description=$description, pubDateMs=$pubDateMs, listennotesUrl=$listennotesUrl, audioLengthSec=$audioLengthSec, explicitContent=$explicitContent, maybeAudioInvalid=$maybeAudioInvalid, listennotesEditUrl=$listennotesEditUrl, ]';
   }
 
-  EpisodeSimple.fromJson(Map<String, dynamic> json) {
+  EpisodeFull.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
     id = json['id'];
     link = json['link'];
     audio = json['audio'];
     image = json['image'];
     title = json['title'];
-    podcast = new PodcastMinimum.fromJson(json['podcast']);
+    podcast = new PodcastSimple.fromJson(json['podcast']);
     thumbnail = json['thumbnail'];
     description = json['description'];
     pubDateMs = json['pub_date_ms'];
@@ -74,14 +74,14 @@ class EpisodeSimple {
      };
   }
 
-  static List<EpisodeSimple> listFromJson(List<dynamic> json) {
-    return json == null ? new List<EpisodeSimple>() : json.map((value) => new EpisodeSimple.fromJson(value)).toList();
+  static List<EpisodeFull> listFromJson(List<dynamic> json) {
+    return json == null ? new List<EpisodeFull>() : json.map((value) => new EpisodeFull.fromJson(value)).toList();
   }
 
-  static Map<String, EpisodeSimple> mapFromJson(Map<String, Map<String, dynamic>> json) {
-    var map = new Map<String, EpisodeSimple>();
+  static Map<String, EpisodeFull> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, EpisodeFull>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) => map[key] = new EpisodeSimple.fromJson(value));
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new EpisodeFull.fromJson(value));
     }
     return map;
   }

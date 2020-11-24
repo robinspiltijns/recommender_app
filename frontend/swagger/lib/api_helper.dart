@@ -38,8 +38,6 @@ String parameterToString(dynamic value) {
     return '';
   } else if (value is DateTime) {
     return value.toUtc().toIso8601String();
-  } else if (value is PodcastTypeField) {
-    return PodcastTypeField.encode(value).toString();
   } else {
     return value.toString();
   }

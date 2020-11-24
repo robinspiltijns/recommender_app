@@ -10,7 +10,7 @@ class DefaultApi {
   /// Used to get the best podcast from a given genre.
   ///
   /// Returns a list of podcast shows that belong to the given genre id, ranked by popularity.
-  Future<BestOfGenreResult> getBestOfGenre(String genreId) async {
+  Future<BestPodcastsResponse> getBestOfGenre(String genreId) async {
     Object postBody = null;
 
     // verify required params are set
@@ -54,7 +54,7 @@ class DefaultApi {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
       return
-          apiClient.deserialize(response.body, 'BestOfGenreResult') as BestOfGenreResult ;
+          apiClient.deserialize(response.body, 'BestPodcastsResponse') as BestPodcastsResponse ;
     } else {
       return null;
     }
@@ -62,7 +62,7 @@ class DefaultApi {
   /// used to get the details of an episode
   ///
   /// returns the details of the podcast episode with the given episode id
-  Future<Episode> getEpisode(String id) async {
+  Future<EpisodeFull> getEpisode(String id) async {
     Object postBody = null;
 
     // verify required params are set
@@ -106,7 +106,7 @@ class DefaultApi {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
       return
-          apiClient.deserialize(response.body, 'Episode') as Episode ;
+          apiClient.deserialize(response.body, 'EpisodeFull') as EpisodeFull ;
     } else {
       return null;
     }
@@ -114,13 +114,10 @@ class DefaultApi {
   /// Fetch recommendations based on an episode.
   ///
   /// Fetch recommendations based on the given episode id.
-  Future<GetEpisodeRecommendationsResponse> getEpisodeRecommendationsBasedOnEpisode(String xListenAPIKey, String id) async {
+  Future<GetEpisodeRecommendationsResponse> getEpisodeRecommendationsBasedOnEpisode(String id) async {
     Object postBody = null;
 
     // verify required params are set
-    if(xListenAPIKey == null) {
-     throw new ApiException(400, "Missing required param: xListenAPIKey");
-    }
     if(id == null) {
      throw new ApiException(400, "Missing required param: id");
     }
@@ -133,8 +130,7 @@ class DefaultApi {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
       queryParams.addAll(_convertParametersForCollectionFormat("", "id", id));
-    headerParams["X-ListenAPI-Key"] = xListenAPIKey;
-
+    
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -215,16 +211,65 @@ class DefaultApi {
       return null;
     }
   }
-  /// Fetch recommendations for a podcast
+  /// used to get the details of a podcast.
   ///
-  /// Fetch up to 8 podcast recommendations based on the given podcast id.
-  Future<GetPodcastRecommendationsResponse> getPodcastRecommendationsBasedOnPodcast(String xListenAPIKey, String id) async {
+  /// returns the details of a podcast.
+  Future<PodcastFull> getPodcast(String id) async {
     Object postBody = null;
 
     // verify required params are set
-    if(xListenAPIKey == null) {
-     throw new ApiException(400, "Missing required param: xListenAPIKey");
+    if(id == null) {
+     throw new ApiException(400, "Missing required param: id");
     }
+
+    // create path and map variables
+    String path = "podcast".replaceAll("{format}","json");
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+      queryParams.addAll(_convertParametersForCollectionFormat("", "id", id));
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(path,
+                                             'GET',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return
+          apiClient.deserialize(response.body, 'PodcastFull') as PodcastFull ;
+    } else {
+      return null;
+    }
+  }
+  /// Fetch recommendations for a podcast
+  ///
+  /// Fetch up to 8 podcast recommendations based on the given podcast id.
+  Future<GetPodcastRecommendationsResponse> getPodcastRecommendationsBasedOnPodcast(String id) async {
+    Object postBody = null;
+
+    // verify required params are set
     if(id == null) {
      throw new ApiException(400, "Missing required param: id");
     }
@@ -237,8 +282,7 @@ class DefaultApi {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
       queryParams.addAll(_convertParametersForCollectionFormat("", "id", id));
-    headerParams["X-ListenAPI-Key"] = xListenAPIKey;
-
+    
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -327,68 +371,13 @@ class DefaultApi {
       return null;
     }
   }
-  /// used to get the details of a show.
-  ///
-  /// returns the details of a show.
-  Future<Show> getShow(String id) async {
-    Object postBody = null;
-
-    // verify required params are set
-    if(id == null) {
-     throw new ApiException(400, "Missing required param: id");
-    }
-
-    // create path and map variables
-    String path = "show".replaceAll("{format}","json");
-
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("", "id", id));
-    
-    List<String> contentTypes = [];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             contentType,
-                                             authNames);
-
-    if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
-    } else if(response.body != null) {
-      return
-          apiClient.deserialize(response.body, 'Show') as Show ;
-    } else {
-      return null;
-    }
-  }
   /// Fetch the best podcasts.
   ///
   /// Returns the best podcasts.
-  Future<BestPodcastsResponse> getTheBestPodcasts(String xListenAPIKey) async {
+  Future<BestPodcastsResponse> getTheBestPodcasts() async {
     Object postBody = null;
 
     // verify required params are set
-    if(xListenAPIKey == null) {
-     throw new ApiException(400, "Missing required param: xListenAPIKey");
-    }
 
     // create path and map variables
     String path = "get-best-podcasts".replaceAll("{format}","json");
@@ -397,8 +386,7 @@ class DefaultApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    headerParams["X-ListenAPI-Key"] = xListenAPIKey;
-
+    
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
