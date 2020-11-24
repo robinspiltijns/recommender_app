@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/components/genre_card.dart';
-import 'package:frontend/object_model/genre.dart';
+import 'package:frontend/liked-view/components/genres-list.dart';
+import 'package:frontend/object-model/genre.dart';
 
 class LikesWidget extends StatefulWidget {
   @override
@@ -15,8 +15,7 @@ class LikesWidgetState extends State<LikesWidget> {
     new Genre(67, "Finance"),
     new Genre(12, "Health"),
     new Genre(33, "Technology"),
-    new Genre(3, "News"),
-
+    new Genre(56, "News"),
   ];
 
   // mock data
@@ -36,23 +35,13 @@ class LikesWidgetState extends State<LikesWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 16, right: 16),
-      child: Column(
-        children: [
-          SizedBox(height: 30),
-          Column( // genres overview
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Your most liked genres",
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-              ),
-              GenreCard(likedGenres[0]),
-            ]
-          )
-        ]
-      )
-    );
+      child:
+        Column(
+          children: [
+            SizedBox(height: 30),
+            LikedGenresWidget(likedGenres)
+          ]
+        )
+      );
   }
 }
