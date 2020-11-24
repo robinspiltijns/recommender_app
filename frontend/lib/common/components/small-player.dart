@@ -1,7 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swagger/api.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class SmallPlayerWidget extends StatelessWidget {
+
+  playEpisode(EpisodeFull episodeFull) {
+    final audio = episodeFull.audio;
+    print(audio);
+    AudioPlayer audioPlayer = AudioPlayer();
+    audioPlayer.play(audio);
+  }
+
+  _onPlay() {
+    final api = DefaultApi();
+    Future<EpisodeFull> futureEpisode = api.getEpisode("02f0123246c944e289ee2bb90804e41b");
+    futureEpisode.then((episodeFull) => {
+       playEpisode(episodeFull)
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,9 +50,7 @@ class SmallPlayerWidget extends StatelessWidget {
               child: IconButton(
                 color: Color(0xffEF476F),
                 icon: Icon(Icons.play_arrow),
-                onPressed: () => {
-                  print('pressed')
-                },
+                onPressed: _onPlay
               )
             ),
           ],
