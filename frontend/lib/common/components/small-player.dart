@@ -3,26 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:swagger/api.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class SmallPlayerWidget extends StatelessWidget {
+class SmallPlayerWidget extends StatefulWidget {
+  @override
+  _SmallPlayerWidgetState createState() => _SmallPlayerWidgetState();
+}
 
-  playEpisode(EpisodeFull episodeFull) {
-    final audio = episodeFull.audio;
-    print(audio);
-    AudioPlayer audioPlayer = AudioPlayer();
-    audioPlayer.play(audio);
+class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
+
+  // TODO: Permission to play audio a long time. (https://pub.dev/documentation/audioplayers/latest/)
+
+  final AudioPlayer audioPlayer = AudioPlayer();
+  final api = DefaultApi();
+
+  bool isPlayingAudio = false;
+
+  _onPlayButtonPress() {
+    if(!isPlayingAudio) {
+      Future<EpisodeFull> futureEpisode = api.getEpisode("02f0123246c944e289ee2bb90804e41b");
+      futureEpisode.then((episodeFull) => {
+        audioPlayer.play(episodeFull.audio).then((result) => {
+          if (result == 1) {
+            this.setState(() {
+              isPlayingAudio = true;
+            })
+          }
+        })
+      });
+    } else {
+      audioPlayer.pause();
+      this.setState(() {
+        isPlayingAudio = false;
+      });
+    }
   }
 
-  _onPlay() {
-    final api = DefaultApi();
-    Future<EpisodeFull> futureEpisode = api.getEpisode("02f0123246c944e289ee2bb90804e41b");
-    futureEpisode.then((episodeFull) => {
-       playEpisode(episodeFull)
-    });
-
+  Icon get playButtonIcon {
+    return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
         color: Color(0xff3F3C57),
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
@@ -49,8 +70,8 @@ class SmallPlayerWidget extends StatelessWidget {
               flex: 10,
               child: IconButton(
                 color: Color(0xffEF476F),
-                icon: Icon(Icons.play_arrow),
-                onPressed: _onPlay
+                icon: playButtonIcon,
+                onPressed: _onPlayButtonPress
               )
             ),
           ],
