@@ -2,19 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
 import 'package:swagger/api.dart';
 
-class FeedWidget extends StatelessWidget {
+class FeedWidget extends StatefulWidget {
+  
+  @override
+  _FeedWidgetState createState() => _FeedWidgetState();
+}
+
+class _FeedWidgetState extends State<FeedWidget> {
   final api = DefaultApi();
 
-  FeedWidget() {
-    /*
-    Future<GetPodcastRecommendationsResponse> futureResponse = api.getPodcastRecommendationsBasedOnPodcast("4d3fe717742d4963a85562e9f84d8c79");
-    futureResponse.then((result) => {
-      this.podcast = result.recommendations[0]});
-    print("response : " + this.podcast.toString());
-     */
-  }
+  Future<GetPodcastRecommendationsResponse> futureResp;
 
-  //PodcastSimple podcast;
+  @override
+  void initState() {
+    super.initState();
+    futureResp = api.getPodcastRecommendationsBasedOnPodcast("4d3fe717742d4963a85562e9f84d8c79");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,19 @@ class FeedWidget extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PodcastCardWidget(/*podcast: this.podcast*/),
+          FutureBuilder<GetPodcastRecommendationsResponse>(
+          future: futureResp,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return PodcastCardWidget(podcast: snapshot.data.recommendations[0],);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
 
+              // By default, show a loading spinner.
+              return Text("loading...");
+            },
+          )
           ],
         ));
   }

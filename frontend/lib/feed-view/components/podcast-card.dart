@@ -10,10 +10,10 @@ class PodcastCardWidget extends StatelessWidget {
   static const double CARD_CONTENT_PADDING = 10;
   static const double DESCRIPTION_HEIGHT_RATIO = 0.55;
 
-  PodcastCardWidget(/*{PodcastSimple podcast}*/) {
-    this.podcastTitle = "Title of podcast";
-    this.podcastDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    this.podcastArtworkURL = "https://images.unsplash.com/photo-1587675213549-82cd6379ee42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80";
+  PodcastCardWidget({PodcastSimple podcast}) {
+    this.podcastTitle = podcast.title;
+    this.podcastDescription = podcast.description;
+    this.podcastArtworkURL = podcast.image;
 
   }
 
