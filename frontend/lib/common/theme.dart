@@ -15,5 +15,8 @@ var themeData =  new ThemeData(
         fontSize: 20.0,
         color: Colors.white,
     ),
+      bodyText1: TextStyle(
+          color: Colors.white
+      )
   )
 );
