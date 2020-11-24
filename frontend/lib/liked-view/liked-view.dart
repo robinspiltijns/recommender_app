@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/liked-view/components/liked-genres.dart';
+import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'package:frontend/liked-view/components/liked-episodes.dart';
 
@@ -20,15 +21,43 @@ class LikesWidgetState extends State<LikesWidget> {
   ];
 
   // mock data
-  List<String> likedEpisodeIds = [
-    "805535e1de5a4c7991f4f323e82ce9e7",
-    "0c50725a87c64e66b8fe4d081c36bb00",
-    "3f6ce02435e44eea9fd76ac650ee1c49",
-    "c05fbbf0cd6a4f5fa5c5baf1b63e640a",
-    "f9d5885d7cf7485d891e82dea3186640",
-    "e3ae0115ca4f41d2a4e8bcbd94058255",
-    "76ef931774714179ae3d23758fef52f8",
-    "464433fd3bbe44febc4f7a0fe896316c",
+  List<Episode> likedEpisodes = [
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/star-wars-7x7-the-daily-star-wars-podcast-2LryqMj-sGP-AIg3cZVKCsL.300x300.jpg",
+        865),
   ];
 
 
