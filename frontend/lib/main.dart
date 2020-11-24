@@ -56,7 +56,6 @@ class _CastlyWidgetState extends State<CastlyWidget> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [Color(0xff221E48), Color(0xff0F0C26)])),
-      // TODO: Use different scaffolds per page?
       child: Scaffold(
         appBar: AppBar(
           title: _titles.elementAt(_selectedIndex),
@@ -64,9 +63,10 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           shadowColor: Colors.transparent,
           centerTitle: false,
         ),
-        body: Center(
-              child: _destinationViews.elementAt(_selectedIndex),
-            ),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _destinationViews,
+        ),
         // We kunnen dit eventueel later nog custom doen.
         // Cfr. https://github.com/pedromassango/bottom_navy_bar https://www.youtube.com/watch?v=jJPSKEEiN-E
         bottomNavigationBar: BottomNavyBar(
