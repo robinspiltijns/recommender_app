@@ -20,33 +20,36 @@ class _BottomControlsWidgetState extends State<BottomControlsWidget> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SmallPlayerWidget(),
-        BottomNavigationBar(
-        currentIndex: widget.selectedRouteIndex,
-        elevation: 0.0,
-        onTap: widget.routeChanged,
-        backgroundColor: Color(0xff3F3C57),
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Color(0xffEF476F),
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Likes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Feed',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-      )],
+    return Container(
+      color: Color(0xff3F3C57),
+      child:  Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SmallPlayerWidget(),
+          BottomNavigationBar(
+            currentIndex: widget.selectedRouteIndex,
+            elevation: 0.0,
+            onTap: widget.routeChanged,
+            backgroundColor: Colors.transparent,
+            unselectedItemColor: Colors.white,
+            selectedItemColor: Color(0xffEF476F),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'Likes',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Feed',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+            ],
+            type: BottomNavigationBarType.fixed,
+          )],
+      ),
     )
       ;
   }
