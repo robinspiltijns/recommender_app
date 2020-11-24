@@ -14,10 +14,21 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   Future<GetPodcastRecommendationsResponse> futureResp;
 
+  List<Map<String, dynamic>> sections = [
+    {"basis" : RecommendationBasis.PODCAST, "id" : "4d3fe717742d4963a85562e9f84d8c79", "sectionTitleDescription" : "Star Wars"}
+  ];
+
+  List futures;
+
   @override
   void initState() {
     super.initState();
-    futureResp = api.getPodcastRecommendationsBasedOnPodcast("4d3fe717742d4963a85562e9f84d8c79");
+    futures = sections.map((section) => {switch (section["basis"])
+    {
+    case RecommendationBasis.PODCAST: {api.getPodcastRecommendationsBasedOnPodcast(section["id"]);}
+    break;
+    }
+    }).toList();
   }
 
   @override
