@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/liked-view/components/liked-genres.dart';
 import 'package:frontend/object-model/genre.dart';
+import 'package:frontend/liked-view/components/liked-episodes.dart';
 
 class LikesWidget extends StatefulWidget {
   @override
@@ -39,7 +40,11 @@ class LikesWidgetState extends State<LikesWidget> {
         Column(
           children: [
             SizedBox(height: 30),
-            LikedGenresWidget(likedGenres)
+            LikedGenresWidget(likedGenres),
+            SizedBox(height: 30),
+            LikedEpisodesWidget(),
+
+
           ]
         )
       );
