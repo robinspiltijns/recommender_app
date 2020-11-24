@@ -171,6 +171,8 @@ paths:
 definitions:
   PodcastFull:
     type: "object"
+    required:
+     - genre_ids
     properties:
       id:
         type: string
@@ -288,6 +290,8 @@ definitions:
           to paginate through episodes of that podcast.
   PodcastSimple:
     type: object
+    required: 
+     - genre_ids
     properties:
       id:
         type: string
@@ -798,6 +802,8 @@ definitions:
             low resolution image (300x300).
         podcast:
           type: object
+          required:
+            - genre_ids
           properties:
             id:
               type: string
@@ -927,6 +933,8 @@ definitions:
           description: Highlighted segment of this episode's description
   PodcastSearchResult:
       type: object
+      required:
+        - genre_ids
       properties:
         id:
           type: string

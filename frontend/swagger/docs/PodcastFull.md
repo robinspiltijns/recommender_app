@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **website** | **String** | Website url of this podcast. | [optional] [default to null]
 **episodes** | [**List&lt;EpisodeMinimum&gt;**](EpisodeMinimum.md) |  | [optional] [default to []]
 **language** | **String** | The language of this podcast. You can get all supported languages from &#x60;GET /languages&#x60;. | [optional] [default to null]
-**genreIds** | **List&lt;int&gt;** |  | [optional] [default to []]
+**genreIds** | **List&lt;int&gt;** |  | [default to []]
 **itunesId** | **int** | iTunes id for this podcast. | [optional] [default to null]
 **publisher** | **String** | Podcast publisher name. | [optional] [default to null]
 **thumbnail** | **String** | Thumbnail image url for this podcast&#x27;s artwork (300x300). | [optional] [default to null]

@@ -22,7 +22,7 @@ type PodcastSearchResult struct {
 	// Website url of this podcast.
 	Website string `json:"website,omitempty"`
 
-	GenreIds []int32 `json:"genre_ids,omitempty"`
+	GenreIds []int32 `json:"genre_ids"`
 	// iTunes id for this podcast.
 	ItunesId int32 `json:"itunes_id,omitempty"`
 	// Thumbnail image url for this podcast's artwork (300x300).
