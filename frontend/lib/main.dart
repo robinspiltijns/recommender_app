@@ -1,9 +1,10 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/feed-view/feed-view.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-view.dart';
-import 'package:frontend/theme.dart';
+import 'package:frontend/common/theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -68,32 +69,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
         ),
         // We kunnen dit eventueel later nog custom doen.
         // Cfr. https://github.com/pedromassango/bottom_navy_bar https://www.youtube.com/watch?v=jJPSKEEiN-E
-        bottomNavigationBar: BottomNavyBar(
-          selectedIndex: _selectedIndex,
-          showElevation: false,
-          onItemSelected: _onItemTapped,
-          backgroundColor: Colors.transparent,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          items: <BottomNavyBarItem>[
-            BottomNavyBarItem(
-                icon: Icon(Icons.account_circle),
-                title: Text('Likes'),
-                activeColor: Color(0xffEF476F),
-                inactiveColor: Colors.white
-            ),
-            BottomNavyBarItem(
-                icon: Icon(Icons.home),
-                title: Text('Feed'),
-                activeColor: Color(0xffEF476F),
-                inactiveColor: Colors.white
-            ), BottomNavyBarItem(
-                icon: Icon(Icons.search),
-                title: Text('Search'),
-                activeColor: Color(0xffEF476F),
-                inactiveColor: Colors.white
-            ),
-          ],
-        ),
+        bottomNavigationBar: BottomControlsWidget(_selectedIndex, _onItemTapped),
       ),
     );
   }
