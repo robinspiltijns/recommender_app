@@ -24,7 +24,7 @@ class LikedGenresWidget extends StatelessWidget {
         GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
-          childAspectRatio: 130/80,
+          childAspectRatio: 13/8,
           children: [
             GenreCard(_likedGenres[0]),
             GenreCard(_likedGenres[1]),

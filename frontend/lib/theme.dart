@@ -17,3 +17,12 @@ var themeData =  new ThemeData(
     ),
   )
 );
+
+extension CustomStyles on TextTheme {
+    TextStyle get genreTitle =>
+        TextStyle(
+            fontSize: 20.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+        );
+}
