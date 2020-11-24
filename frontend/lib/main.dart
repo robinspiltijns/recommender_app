@@ -68,7 +68,6 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           children: _destinationViews,
         ),
         // We kunnen dit eventueel later nog custom doen.
-        // Cfr. https://github.com/pedromassango/bottom_navy_bar https://www.youtube.com/watch?v=jJPSKEEiN-E
         bottomNavigationBar: BottomControlsWidget(_selectedIndex, _onItemTapped),
       ),
     );

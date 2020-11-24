@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/small-player.dart';
 
 class BottomControlsWidget extends StatefulWidget {
   final ValueChanged<int> routeChanged;
@@ -13,33 +16,38 @@ class BottomControlsWidget extends StatefulWidget {
 }
 
 class _BottomControlsWidgetState extends State<BottomControlsWidget> {
-  int _selectedRouteIndex = 1;
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavyBar(
-      selectedIndex: _selectedRouteIndex,
-      showElevation: false,
-      onItemSelected: widget.routeChanged,
-      backgroundColor: Colors.transparent,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      items: <BottomNavyBarItem>[
-        BottomNavyBarItem(
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SmallPlayerWidget(),
+        BottomNavigationBar(
+        currentIndex: widget.selectedRouteIndex,
+        elevation: 0.0,
+        onTap: widget.routeChanged,
+        backgroundColor: Color(0xff3F3C57),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xffEF476F),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            title: Text('Likes'),
-            activeColor: Color(0xffEF476F),
-            inactiveColor: Colors.white),
-        BottomNavyBarItem(
+            label: 'Likes',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Feed'),
-            activeColor: Color(0xffEF476F),
-            inactiveColor: Colors.white),
-        BottomNavyBarItem(
+            label: 'Feed',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            title: Text('Search'),
-            activeColor: Color(0xffEF476F),
-            inactiveColor: Colors.white),
-      ],
-    );
+            label: 'Search',
+          ),
+        ],
+        type: BottomNavigationBarType.fixed,
+      )],
+    )
+      ;
   }
 }
