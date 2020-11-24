@@ -71,7 +71,7 @@ class LikesWidgetState extends State<LikesWidget> {
             SizedBox(height: 30),
             LikedGenresWidget(likedGenres),
             SizedBox(height: 30),
-            LikedEpisodesWidget(),
+            LikedEpisodesWidget(likedEpisodes),
 
 
           ]
