@@ -21,21 +21,15 @@ class LikedGenresWidget extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10),
-        Column( // genre cards
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          childAspectRatio: 130/80,
           children: [
-            Row(
-              children: [
-                GenreCard(_likedGenres[0]),
-                GenreCard(_likedGenres[1]),
-              ]
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                 GenreCard(_likedGenres[2]),
-                 GenreCard(_likedGenres[3]),
-               ]
-            )
+            GenreCard(_likedGenres[0]),
+            GenreCard(_likedGenres[1]),
+            GenreCard(_likedGenres[2]),
+            GenreCard(_likedGenres[3]),
           ]
         )
       ]

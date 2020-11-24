@@ -20,13 +20,18 @@ class GenreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.0,
-      height: 50.0,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: getGenreColor(this._genre.getId())),
-      child: Text("bla"),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: getGenreColor(this._genre.getId())),
+          child: Text("bla"),
+        )
+      )
     );
+
   }
 
   Color getGenreColor(int id) {
