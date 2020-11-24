@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/liked-view/components/genres-list.dart';
+import 'package:frontend/liked-view/components/liked-genres.dart';
 import 'package:frontend/object-model/genre.dart';
 
 class LikesWidget extends StatefulWidget {
@@ -34,7 +34,7 @@ class LikesWidgetState extends State<LikesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child:
         Column(
           children: [
