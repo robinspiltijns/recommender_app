@@ -65,29 +65,12 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          children: generateSections()
-
-    /*[
-          FutureBuilder<GetPodcastRecommendationsResponse>(
-          future: sections[0]["recommendations"],
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.runtimeType == GetPodcastRecommendationsResponse) {
-                  var res = snapshot.data as GetPodcastRecommendationsResponse;
-                  return FeedViewSection(b: sections[0]["basis"], recDescription: sections[0]["sectionTitleDescription"], resList: res.recommendations,);
-                }
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-
-              // By default, show a loading spinner.
-              return Text("loading...");
-            },
-          )
-          ]*/,
-        ));
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: [Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+            children: generateSections(),
+          ),]
+    );
   }
 }

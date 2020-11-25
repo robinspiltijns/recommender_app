@@ -14,6 +14,7 @@ class FeedViewSection extends StatelessWidget {
 
   static const double SECTION_HEIGHT = PodcastCardWidget.CARD_HEIGHT + 2*PodcastCardWidget.CARD_MARGIN;
   static const double SECTION_MARGIN_TOP = 10;
+  static const int NB_CARDS_PER_SECTION = 3;
 
   Map<RecommendationBasis, String> sectionTitles = {
     RecommendationBasis.PODCAST : "Because you listened to ", 
@@ -31,6 +32,14 @@ class FeedViewSection extends StatelessWidget {
   dynamic resultList;
   RecommendationBasis basis;
   String recommendationDescription;
+
+  List<Widget> generatePodcastCards(int nbCards) {
+    List<Widget> result = [];
+    for (int i = 0; i < nbCards; i++) {
+      result.add(PodcastCardWidget(podcast: resultList[i],));
+    }
+    return result;
+  }
 
 
   @override
@@ -56,11 +65,26 @@ class FeedViewSection extends StatelessWidget {
             height: SECTION_HEIGHT,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
-                PodcastCardWidget(podcast: resultList[0],),
-                PodcastCardWidget(podcast: resultList[1],),
-                PodcastCardWidget(podcast: resultList[2],),
-              ],
+              children: generatePodcastCards(NB_CARDS_PER_SECTION) + [Container(
+                margin: EdgeInsets.only(left: PodcastCardWidget.CARD_MARGIN, right: PodcastCardWidget.CARD_MARGIN),
+                alignment: Alignment.center,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    color: Color.fromRGBO(36, 39, 73, 100),
+                    alignment: Alignment.center,
+                    child: FlatButton(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [Icon(Icons.arrow_forward, color: Colors.white,), Text("More", style: TextStyle(color: Colors.white),)],
+                      ),
+                    ),
+                  ),
+                ),
+              )],
             ),
           )
         ],
