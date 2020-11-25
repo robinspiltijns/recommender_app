@@ -56,7 +56,7 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost:8080/*
+All URIs are relative to *http://picasso.experiments.cs.kuleuven.be:3955/*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

@@ -5,7 +5,7 @@
 import 'package:swagger/api.dart';
 ```
 
-All URIs are relative to *http://localhost:8080/*
+All URIs are relative to *http://picasso.experiments.cs.kuleuven.be:3955/*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

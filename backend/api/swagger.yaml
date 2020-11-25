@@ -7,7 +7,7 @@ info:
     email: joren.sjongers@icloud.com
   version: 1.0.0
 servers:
-- url: http://localhost:8080/
+- url: http://picasso.experiments.cs.kuleuven.be:3955/
 paths:
   test:
     get:
