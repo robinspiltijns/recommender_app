@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/player-view/player-view.dart';
 import 'package:swagger/api.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -38,6 +39,23 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
     }
   }
 
+  _onOpenPlayerPress() {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => PlayerViewWidget(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
+    );
+  }
+
   Icon get playButtonIcon {
     return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
   }
@@ -52,7 +70,11 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
         children: [
           IconButton(
               icon: Icon(Icons.keyboard_arrow_up, color: Colors.white),
-              onPressed: null),
+              // TODO: Dit zou cleaner moeten kunnen, maar dit is kinda functioneel dus weet niet meteen hoe.
+              onPressed: () {
+                Navigator.of(context).push(_onOpenPlayerPress());
+              }
+          ),
           Container(
               color: Color(0xff3F3C57),
               padding:
