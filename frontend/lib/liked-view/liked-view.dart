@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/liked-view/components/liked-genres.dart';
+import 'package:frontend/object-model/episode.dart';
+import 'package:frontend/object-model/genre.dart';
+import 'package:frontend/liked-view/components/liked-episodes.dart';
 
 class LikesWidget extends StatefulWidget {
   @override
@@ -9,48 +13,69 @@ class LikesWidget extends StatefulWidget {
 class LikesWidgetState extends State<LikesWidget> {
 
   // mock data
-  List<String> likedGenreIds = [
-    "67",
-    "18",
-    "13",
-    "19",
+  List<Genre> likedGenres = [
+    new Genre(67, "Finance"),
+    new Genre(12, "Health"),
+    new Genre(33, "Technology"),
+    new Genre(56, "News"),
   ];
 
   // mock data
-  List<String> likedEpisodeIds = [
-    "805535e1de5a4c7991f4f323e82ce9e7",
-    "0c50725a87c64e66b8fe4d081c36bb00",
-    "3f6ce02435e44eea9fd76ac650ee1c49",
-    "c05fbbf0cd6a4f5fa5c5baf1b63e640a",
-    "f9d5885d7cf7485d891e82dea3186640",
-    "e3ae0115ca4f41d2a4e8bcbd94058255",
-    "76ef931774714179ae3d23758fef52f8",
-    "464433fd3bbe44febc4f7a0fe896316c",
+  List<Episode> likedEpisodes = [
+    new Episode("1,775: mkn",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
+    new Episode("1,775: Happy 75th Birthday, George Lucas!",
+        "02f0123246c944e289ee2bb90804e41b",
+        "https://cdn-images-1.listennotes.com/podcasts/becoming-wise-on-being-studios-TP9tL1-admI-_S4ml0gj925.1400x1400.jpg",
+        Duration(seconds: 865)),
   ];
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16),
-      child: Column(
-        children: [
-          SizedBox(height: 30),
-          Column( // genres overview
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Your most liked genres",
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-              )
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      child:
+        ListView(
+          children: [
+            SizedBox(height: 30),
+            LikedGenresWidget(likedGenres),
+            SizedBox(height: 30),
+            LikedEpisodesWidget(likedEpisodes),
 
 
-            ]
-          )
-        ]
-      )
-    );
+          ]
+        )
+      );
   }
 }
