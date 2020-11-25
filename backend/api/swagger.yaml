@@ -202,6 +202,8 @@ paths:
 components:
   schemas:
     PodcastFull:
+      required:
+      - genre_ids
       type: object
       properties:
         id:
@@ -404,6 +406,8 @@ components:
           pub_date_ms: 1474873200000
           maybe_audio_invalid: false
     PodcastSimple:
+      required:
+      - genre_ids
       type: object
       properties:
         id:
@@ -1412,6 +1416,8 @@ components:
         audio: https://www.listennotes.com/e/p/11b34041e804491b9704d11f283c74de/
         pub_date_ms: 1474873200000
     PodcastSearchResult:
+      required:
+      - genre_ids
       type: object
       properties:
         id:
@@ -1810,6 +1816,8 @@ components:
         wechat_handle: wechat_handle
         patreon_handle: sw7x7
     EpisodeSearchResult_podcast:
+      required:
+      - genre_ids
       type: object
       properties:
         id:
