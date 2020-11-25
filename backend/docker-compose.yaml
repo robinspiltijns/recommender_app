@@ -1,0 +1,7 @@
+version: "2"
+services:
+  podcast_recommender:
+    container_name: podcast-recommender
+    build: .
+    ports: 
+      - "3955:8080"
