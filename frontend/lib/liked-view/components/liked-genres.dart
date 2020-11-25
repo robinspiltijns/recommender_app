@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/object-model/genre.dart';
-import 'package:frontend/components/genres-list.dart';
+import 'package:frontend/common/components/genres-list.dart';
 
 class LikedGenresWidget extends StatelessWidget {
 

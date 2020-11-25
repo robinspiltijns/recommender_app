@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/object-model/episode.dart';
-import 'package:frontend/theme.dart';
-import 'package:frontend/components/buttons/custom-icon-button.dart';
-import 'package:frontend/components/buttons/custom-text-button.dart';
+import 'package:frontend/common/theme.dart';
+import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/components/buttons/custom-text-button.dart';
 
 
 class LikedEpisodeCard extends StatelessWidget {

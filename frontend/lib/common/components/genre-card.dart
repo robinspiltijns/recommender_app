@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/object-model/genre.dart';
-import 'package:frontend/theme.dart';
+import 'package:frontend/common/theme.dart';
 
 List<Color> GENRE_COLORS = [
   Color(0xFF9BC995),

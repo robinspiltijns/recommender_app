@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/components/genre-card.dart';
+import 'package:frontend/common/components/genre-card.dart';
 import 'package:frontend/object-model/genre.dart';
 
 class GenresList extends StatelessWidget {
