@@ -1,13 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
+import 'package:swagger/api.dart';
 
-class PodcastDetails extends StatelessWidget {
+
+class PodcastDetails extends StatefulWidget {
+
   static const String routeName = '/details';
 
   final String id;
 
   PodcastDetails(this.id);
+
+  @override
+  _PodcastDetailsState createState() => _PodcastDetailsState();
+}
+
+
+class _PodcastDetailsState extends State<PodcastDetails> {
+
+  DefaultApi api = DefaultApi();
+
+  PodcastFull podcast;
+
+  @override
+  void initState() async {
+    super.initState();
+  }
+
+  getPodcast() async {
+    PodcastFull result = await api.getPodcast(widget.id);
+    setState(() {
+      podcast = result;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
