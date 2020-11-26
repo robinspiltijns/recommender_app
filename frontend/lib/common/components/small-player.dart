@@ -5,6 +5,8 @@ import 'package:frontend/player-view/player-view.dart';
 import 'package:provider/provider.dart';
 import 'package:swagger/api.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:frontend/common/theme.dart';
+
 
 class SmallPlayerWidget extends StatefulWidget {
   @override
@@ -71,20 +73,22 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                 return Row(
                   children: [
                     Expanded(
-                      flex: 10,
+                      flex: 12,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(playerService.currentlyPlayingThumbnail)),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 15),
                     Expanded(
-                        flex: 80,
-                        child: Text(
-                          playerService.currentlyPlayingTitle,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyText1,
+                        flex: 78,
+                        child:  Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(playerService.currentlyPlayingTitle, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
+                            Text(playerService.currentlyPlayingPublisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
+                          ],
                         )),
-                    SizedBox(width: 10),
+                    SizedBox(width: 5),
                     Expanded(
                         flex: 10,
                         child: IconButton(
