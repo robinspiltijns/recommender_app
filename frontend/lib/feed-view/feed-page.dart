@@ -22,6 +22,8 @@ class FeedPage extends StatelessWidget {
                       return FeedWidget();
                     case "/details":
                       return PodcastDetails("test");
+                    default:
+                      return FeedWidget();
                   }
                 });
           }
