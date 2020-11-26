@@ -8,10 +8,17 @@ class PlayerService extends ChangeNotifier {
   final AudioPlayer audioPlayer = AudioPlayer();
   final api = DefaultApi();
 
+  String _currentlyPlayingTitle = "No podcast playing at the moment";
+  String image = "";
+
   bool _isPlayingAudio = false;
 
   bool get isPlayingAudio {
     return _isPlayingAudio;
+  }
+
+  String get currentlyPlayingTitle {
+    return _currentlyPlayingTitle;
   }
 
   void pause() {
@@ -26,15 +33,16 @@ class PlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void play(String episodeId){
+  void play(String episodeId) {
     Future<EpisodeFull> futureEpisodeFull = api.getEpisode(episodeId);
     futureEpisodeFull.then((episodeFull) => {
-        audioPlayer.play(episodeFull.audio).then((result) {
-          if (result == 1){
-            _isPlayingAudio = true;
-            notifyListeners();
-          }
-        })
-    });
+          audioPlayer.play(episodeFull.audio).then((result) {
+            if (result == 1) {
+              _isPlayingAudio = true;
+              _currentlyPlayingTitle = episodeFull.title;
+              notifyListeners();
+            }
+          })
+        });
   }
 }

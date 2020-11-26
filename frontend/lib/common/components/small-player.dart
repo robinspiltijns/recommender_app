@@ -82,7 +82,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                     Expanded(
                         flex: 80,
                         child: Text(
-                          "Becoming wise episode #100: we are doing stuff",
+                          playerService.currentlyPlayingTitle,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodyText1,
                         )),
