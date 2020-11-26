@@ -25,13 +25,22 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Search", style: Theme.of(context).textTheme.headline6),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        centerTitle: false,
+      ),
+      body: Container(
         margin: const EdgeInsets.only(left: 30, right: 30),
         child: Column(
           children: [
             SearchFieldWidget(onSubmit: _onSubmit),
             Column(children: results.map((result) => Text(result)).toList())
           ],
-        ));
+        )
+      )
+    );
   }
 }

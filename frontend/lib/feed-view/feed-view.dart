@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/feed-view-section.dart';
-import 'package:frontend/feed-view/components/podcast-card.dart';
 import 'package:swagger/api.dart';
 
 class FeedWidget extends StatefulWidget {
@@ -65,12 +65,22 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: [Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-            children: generateSections(),
-          ),]
+     return Scaffold(
+       appBar: AppBar(
+         title: Text("Feed",
+           style: Theme.of(context).textTheme.headline6
+         ),
+         backgroundColor: Colors.transparent,
+         shadowColor: Colors.transparent,
+         centerTitle: false,
+       ),
+       body:  ListView(
+         scrollDirection: Axis.vertical,
+         children: [Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: generateSections(),
+         ),]
+     )
     );
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/podcast-details-view/podcast-details-view.dart';
-
 import 'feed-view.dart';
 
 GlobalKey<NavigatorState> feedNavigatorKey = GlobalKey<NavigatorState>();
-
 
 class FeedPage extends StatelessWidget {
   @override

@@ -1,8 +1,6 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/feed-view/feed-page.dart';
-import 'package:frontend/feed-view/feed-view.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-view.dart';
 import 'package:frontend/common/theme.dart';
@@ -28,15 +26,6 @@ class CastlyWidget extends StatefulWidget {
 class _CastlyWidgetState extends State<CastlyWidget> {
   int _selectedIndex = 1;
 
-  static const TextStyle titleStyle =
-  TextStyle(fontWeight: FontWeight.bold, fontSize: 36.0);
-
-  static List<Widget> _titles = <Widget>[
-    Text('Your Likes', style: titleStyle,),
-    Text('Feed', style: titleStyle,),
-    Text('Search', style: titleStyle,),
-  ];
-
   static List<Widget> _destinationViews = <Widget>[
     LikesWidget(),
     FeedPage(),
@@ -58,12 +47,6 @@ class _CastlyWidgetState extends State<CastlyWidget> {
               end: Alignment.bottomRight,
               colors: [Color(0xff221E48), Color(0xff0F0C26)])),
       child: Scaffold(
-        appBar: AppBar(
-          title: _titles.elementAt(_selectedIndex),
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          centerTitle: false,
-        ),
         body: IndexedStack(
           index: _selectedIndex,
           children: _destinationViews,
