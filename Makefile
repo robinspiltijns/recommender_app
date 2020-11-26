@@ -11,3 +11,15 @@ generate-frontend:
 	perl -i -pe's/browser_client/io_client/g' frontend/swagger/lib/api.dart
 	echo 'environment:\n  sdk: ">=2.7.0 <3.0.0"' >> frontend/swagger/pubspec.yaml
 	cd frontend/swagger; flutter pub get
+
+deploy:
+	docker-compose -f backend/docker-compose.yaml build
+	docker-compose -f backend/docker-compose.yaml down -v
+	docker-compose -f backend/docker-compose.yaml up -d --force-recreate
+
+save-image:
+	docker save -o ./docker-image.tar backend_podcast_recommender:latest
+
+copy-to-server:
+	ssh -L 10022:picasso.experiments.cs.kuleuven.be:2222 $(rNumber)@st.cs.kuleuven.be
+	scp -P 10022 docker-image.tar student@127.0.0.1:~/group12/

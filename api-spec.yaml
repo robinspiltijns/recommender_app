@@ -6,7 +6,7 @@ info:
   contact:
     email: "joren.sjongers@icloud.com"
 schemes: [http]
-host: "localhost:8080"
+host: "picasso.experiments.cs.kuleuven.be:3955"
 paths:
   test:
     get:
