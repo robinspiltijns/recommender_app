@@ -4,6 +4,8 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/small-player.dart';
+import 'package:frontend/common/services/player-service.dart';
+import 'package:provider/provider.dart';
 
 class BottomControlsWidget extends StatefulWidget {
   final ValueChanged<int> routeChanged;
@@ -25,6 +27,16 @@ class _BottomControlsWidgetState extends State<BottomControlsWidget> {
       child:  Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Consumer<PlayerService>(
+            builder: (context, playerService, child) {
+              return ElevatedButton(
+                onPressed: () {
+                  playerService.play("02f0123246c944e289ee2bb90804e41b");
+                },
+                child: Text("start"),
+              );
+            },
+          ),
           SmallPlayerWidget(),
           BottomNavigationBar(
             currentIndex: widget.selectedRouteIndex,

@@ -9,6 +9,17 @@ class PlayerViewWidget extends StatefulWidget {
 }
 
 class _PlayerViewWidgetState extends State<PlayerViewWidget> {
+  Icon getPlayButtonIcon(bool isPlayingAudio) {
+    return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
+  }
+
+  _onPlayButtonPress(PlayerService playerService) {
+    if (playerService.isPlayingAudio) {
+      playerService.pause();
+    } else {
+      playerService.resume();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +37,24 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
         shadowColor: Colors.transparent,
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: 
-        Consumer<PlayerService>(
-          builder: (context, playerService, child) {
-            return ElevatedButton(
-              onPressed: () {
-                playerService.play("02f0123246c944e289ee2bb90804e41b");
-              },
-              child: Text("start"),
-            );
-          },
-        )
-      ),
+      body: Consumer<PlayerService>(
+        builder: (context, playerService, child) {
+          return Column(
+            children: [
+              Image.network(playerService.currentlyPlayingImage),
+              Text(playerService.currentlyPlayingTitle),
+              Text(playerService.currentlyPlayingPublisher),
+              IconButton(
+                  color: Color(0xffEF476F),
+                  icon:
+                  getPlayButtonIcon(playerService.isPlayingAudio),
+                  onPressed: () {
+                    _onPlayButtonPress(playerService);
+                  })
+            ],
+          );
+        },
+      )
     );
   }
 }

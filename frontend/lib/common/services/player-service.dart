@@ -11,6 +11,7 @@ class PlayerService extends ChangeNotifier {
   String _currentlyPlayingTitle = "No podcast playing at the moment";
   String _currentlyPlayingImage = "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg";
   String _currentlyPlayingThumbnail = "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg";
+  String _currentlyPlayingPublisher = "unknown";
 
   bool _isPlayingAudio = false;
 
@@ -22,12 +23,17 @@ class PlayerService extends ChangeNotifier {
     return _currentlyPlayingTitle;
   }
 
+  //Misschien image storen ipv string.
   String get currentlyPlayingImage {
     return _currentlyPlayingImage;
   }
 
   String get currentlyPlayingThumbnail {
     return _currentlyPlayingThumbnail;
+  }
+
+  String get currentlyPlayingPublisher {
+    return _currentlyPlayingPublisher;
   }
 
   void pause() {
@@ -42,10 +48,6 @@ class PlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadNewPodcastData(EpisodeFull) {
-
-  }
-
   void play(String episodeId) {
     Future<EpisodeFull> futureEpisodeFull = api.getEpisode(episodeId);
     futureEpisodeFull.then((episodeFull) => {
@@ -55,6 +57,7 @@ class PlayerService extends ChangeNotifier {
               _currentlyPlayingTitle = episodeFull.title;
               _currentlyPlayingImage = episodeFull.image;
               _currentlyPlayingThumbnail = episodeFull.thumbnail;
+              _currentlyPlayingPublisher = episodeFull.podcast.publisher;
               notifyListeners();
             }
           })
