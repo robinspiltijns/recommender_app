@@ -20,7 +20,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
   bool isPlayingAudio = false;
 
   _onPlayButtonPress(PlayerService playerService) {
-    if(playerService.isPlayingAudio) {
+    if (playerService.isPlayingAudio) {
       playerService.pause();
     } else {
       playerService.resume();
@@ -45,7 +45,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
         });
   }
 
-  Icon get playButtonIcon {
+  Icon getPlayButtonIcon(bool isPlayingAudio) {
     return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
   }
 
@@ -91,7 +91,8 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                         flex: 10,
                         child: IconButton(
                             color: Color(0xffEF476F),
-                            icon: playButtonIcon,
+                            icon:
+                                getPlayButtonIcon(playerService.isPlayingAudio),
                             onPressed: () {
                               _onPlayButtonPress(playerService);
                             })),
