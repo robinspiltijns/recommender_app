@@ -22,6 +22,7 @@ class _PodcastDetailsState extends State<PodcastDetails> {
   DefaultApi api = DefaultApi();
 
   PodcastFull podcast;
+  bool loaded = false;
 
   @override
   void initState() async {
@@ -29,10 +30,13 @@ class _PodcastDetailsState extends State<PodcastDetails> {
   }
 
   getPodcast() async {
-    PodcastFull result = await api.getPodcast(widget.id);
-    setState(() {
-      podcast = result;
-    });
+    Future<PodcastFull> podcastResult = api.getPodcast(widget.id);
+    podcastResult.then((result) =>
+        setState(() {
+          podcast = result;
+          loaded = true;
+          }
+        ));
   }
 
 
