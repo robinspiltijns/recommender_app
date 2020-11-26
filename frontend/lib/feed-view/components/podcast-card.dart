@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/feed-view/feed-page.dart';
-import 'package:frontend/podcast-details-view/podcast-details-view.dart';
 import 'package:swagger/api.dart';
 
 class PodcastCardWidget extends StatelessWidget {
@@ -13,12 +11,14 @@ class PodcastCardWidget extends StatelessWidget {
   static const double DESCRIPTION_HEIGHT_RATIO = 0.55;
   static const double CARD_MARGIN = 10;
 
-  PodcastCardWidget({PodcastSimple podcast}) {
+  PodcastCardWidget(this.navigatorStateKey, {PodcastSimple podcast}) {
     this.podcastTitle = podcast.title;
     this.podcastDescription = podcast.description;
     this.podcastArtworkURL = podcast.image;
     this.podcastId = podcast.id;
   }
+
+  final GlobalKey<NavigatorState> navigatorStateKey;
 
   String podcastDescription;
   String podcastTitle;
@@ -40,7 +40,7 @@ class PodcastCardWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () {
-            feedNavigatorKey.currentState.pushNamed("/details");
+            navigatorStateKey.currentState.pushNamed("/details");
           },
           child: Column(
             children: [

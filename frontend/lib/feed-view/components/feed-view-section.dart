@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
-import 'package:swagger/api.dart';
+
+import '../feed-page.dart';
 
 
 enum RecommendationBasis {
@@ -36,7 +37,9 @@ class FeedViewSection extends StatelessWidget {
   List<Widget> generatePodcastCards(int nbCards) {
     List<Widget> result = [];
     for (int i = 0; i < nbCards; i++) {
-      result.add(PodcastCardWidget(podcast: resultList[i],));
+      result.add(PodcastCardWidget(
+          FeedPage.feedNavigatorKey,
+          podcast: resultList[i]));
     }
     return result;
   }

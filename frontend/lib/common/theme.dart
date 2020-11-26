@@ -7,10 +7,15 @@ var themeData = new ThemeData(
   primaryColor: Color(0xFFEF476F),
   buttonColor: Color(0x26FFFFFF),
   textTheme: TextTheme(
-    headline6: TextStyle(
+    headline6: TextStyle(  // Main view titles
         fontWeight: FontWeight.bold,
         color: Colors.white,
         fontSize: 36.0
+    ),
+    headline5: TextStyle(  // Secondary view titles
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        fontSize: 30.0
     ),
     headline1: TextStyle(
         fontWeight: FontWeight.bold,
