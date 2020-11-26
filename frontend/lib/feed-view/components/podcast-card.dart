@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/feed-view/feed-page.dart';
 import 'package:frontend/podcast-details-view/podcast-details-view.dart';
 import 'package:swagger/api.dart';
 
@@ -39,10 +40,7 @@ class PodcastCardWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PodcastDetails(podcastId)),
-            );
+            feedNavigatorKey.currentState.pushNamed("/details");
           },
           child: Column(
             children: [
