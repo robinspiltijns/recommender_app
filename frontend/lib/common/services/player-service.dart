@@ -9,7 +9,8 @@ class PlayerService extends ChangeNotifier {
   final api = DefaultApi();
 
   String _currentlyPlayingTitle = "No podcast playing at the moment";
-  String image = "";
+  String _currentlyPlayingImage = "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg";
+  String _currentlyPlayingThumbnail = "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg";
 
   bool _isPlayingAudio = false;
 
@@ -19,6 +20,14 @@ class PlayerService extends ChangeNotifier {
 
   String get currentlyPlayingTitle {
     return _currentlyPlayingTitle;
+  }
+
+  String get currentlyPlayingImage {
+    return _currentlyPlayingImage;
+  }
+
+  String get currentlyPlayingThumbnail {
+    return _currentlyPlayingThumbnail;
   }
 
   void pause() {
@@ -33,6 +42,10 @@ class PlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
+  void loadNewPodcastData(EpisodeFull) {
+
+  }
+
   void play(String episodeId) {
     Future<EpisodeFull> futureEpisodeFull = api.getEpisode(episodeId);
     futureEpisodeFull.then((episodeFull) => {
@@ -40,6 +53,8 @@ class PlayerService extends ChangeNotifier {
             if (result == 1) {
               _isPlayingAudio = true;
               _currentlyPlayingTitle = episodeFull.title;
+              _currentlyPlayingImage = episodeFull.image;
+              _currentlyPlayingThumbnail = episodeFull.thumbnail;
               notifyListeners();
             }
           })

@@ -74,9 +74,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                       flex: 10,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image(
-                            image: AssetImage('assets/becoming-wise.jpg'),
-                          )),
+                          child: Image.network(playerService.currentlyPlayingThumbnail)),
                     ),
                     SizedBox(width: 10),
                     Expanded(
