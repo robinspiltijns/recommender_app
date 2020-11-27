@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
 
+  static const double SQUARE_DIMENSIONS = 30;
+
   final IconData icon;
 
   CustomIconButton(this.icon);
@@ -11,8 +13,8 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 30,
-      height: 30,
+      width: SQUARE_DIMENSIONS,
+      height: SQUARE_DIMENSIONS,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         color: Theme.of(context).buttonColor,

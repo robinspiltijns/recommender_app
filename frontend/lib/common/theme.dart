@@ -54,4 +54,9 @@ extension CustomStyles on TextTheme {
           color: themeData.primaryColor,
           fontWeight: FontWeight.w600,
         );
+    TextStyle get description =>
+        TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        );
 }
