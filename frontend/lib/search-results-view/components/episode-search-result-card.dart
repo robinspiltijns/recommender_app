@@ -10,6 +10,8 @@ import 'package:swagger/api.dart';
 
 class EpisodeSearchResultCard extends StatelessWidget {
 
+  static const double HEIGHT = CARD_HEIGHT + TOP_MARGIN + DESCRIPTION_TOP_MARGIN;
+
   static const double CARD_HEIGHT = 103;
   static const double LEFT_MARGIN = SearchResultsSection.LEFT_MARGIN;
   static const double TOP_MARGIN = 10;
