@@ -42,6 +42,12 @@ extension CustomStyles on TextTheme {
           color: Colors.white.withOpacity(0.5),
           fontWeight: FontWeight.w600,
         );
+    TextStyle get timeDuration =>
+        TextStyle(
+          fontSize: 12.0,
+          color: Colors.white.withOpacity(0.5),
+          fontWeight: FontWeight.w400,
+        );
     TextStyle get episodeDuration =>
         TextStyle(
           fontSize: 12.0,
