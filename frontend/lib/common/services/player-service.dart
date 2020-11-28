@@ -17,36 +17,31 @@ class PlayerService extends ChangeNotifier {
   Duration _episodeDuration;
   Duration _episodePosition;
   bool _isPlayingAudio;
-  bool _loadedPodcastAudio;
-  bool _loadedPodcastData;
+  bool _loadedEpisodeAudio;
+  bool _loadedEpisodeData;
 
   PlayerService() {
     _initializeState();
+    // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
-      // Possible performance bottleneck.
       _episodePosition = position;
+      int seconds = position.inSeconds;
+      if(seconds % 20 == 0) {
+        _persistResumePoint(seconds);
+      }
       notifyListeners();
     });
-    _audioPlayer.onDurationChanged.listen((duration) {
-      _episodeDuration = duration;
-      notifyListeners();
-    });
-    notifyListeners();
     _loadPersistedEpisode();
   }
 
   Future<void> _loadPersistedEpisode() async {
     final prefs = await SharedPreferences.getInstance();
     final episodeId = prefs.getString('episodeId') ?? "";
+    final resumePoint = prefs.getInt('resumePoint') ?? 0;
     if (episodeId != "") {
       Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
       futureEpisodeFull.then((episodeFull) {
-        _episodeTitle = episodeFull.title;
-        _episodeImage = Image.network(episodeFull.image);
-        _episodeThumbnail = Image.network(episodeFull.thumbnail);
-        _episodePublisher = episodeFull.podcast.publisher;
-        _episodeAudio = episodeFull.audio;
-        _loadedPodcastData = true;
+        _loadEpisodeData(episodeFull, resumePoint);
         notifyListeners();
       });
     }
@@ -60,8 +55,8 @@ class PlayerService extends ChangeNotifier {
     _episodeDuration = Duration(seconds: 0);
     _episodePosition = Duration(seconds: 0);
     _isPlayingAudio = false;
-    _loadedPodcastData = false;
-    _loadedPodcastAudio = false;
+    _loadedEpisodeData = false;
+    _loadedEpisodeAudio = false;
     notifyListeners();
   }
 
@@ -99,13 +94,17 @@ class PlayerService extends ChangeNotifier {
     notifyListeners();
   }
 
+  // TODO: Play button verandert te vlug als ge pas hebt heropgestart. Is het zelfs niet trager dan de "start" button?
   void resume() {
-    if (_loadedPodcastData) {
-      if (_loadedPodcastAudio) {
+    if (_loadedEpisodeData) {
+      if (_loadedEpisodeAudio) {
         _audioPlayer.resume();
       } else {
-        _audioPlayer.play(_episodeAudio).then((result) => {
-              if (result == 1) {_loadedPodcastAudio = true}
+        _audioPlayer.play(_episodeAudio).then((result) {
+              if (result == 1) {
+                _loadedEpisodeAudio = true;
+                _audioPlayer.seek(_episodePosition);
+              }
             });
       }
       _isPlayingAudio = true;
@@ -119,6 +118,7 @@ class PlayerService extends ChangeNotifier {
 
   void seek(Duration position) {
     _audioPlayer.seek(position);
+    _persistResumePoint(position.inSeconds);
   }
 
   void forward(Duration duration) {
@@ -134,21 +134,35 @@ class PlayerService extends ChangeNotifier {
     prefs.setString("episodeId", episodeId);
   }
 
+  Future<void> _persistResumePoint(int resumePoint) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt("resumePoint", resumePoint);
+  }
+
+  void _loadEpisodeData(EpisodeFull episodeFull, int resumePoint) {
+    _episodeTitle = episodeFull.title;
+    _episodeImage = Image.network(episodeFull.image);
+    _episodeThumbnail = Image.network(episodeFull.thumbnail);
+    _episodePublisher = episodeFull.podcast.publisher;
+    _episodeAudio = episodeFull.audio;
+    _episodeDuration = Duration(seconds: episodeFull.audioLengthSec);
+    _episodePosition = Duration(seconds: resumePoint);
+    _loadedEpisodeData = true;
+  }
+
   void play(String episodeId) {
     Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
-    futureEpisodeFull.then((episodeFull) => {
-          _audioPlayer.play(episodeFull.audio).then((result) async {
+    futureEpisodeFull.then((episodeFull) {
+        _loadEpisodeData(episodeFull, 0);
+        notifyListeners();
+        _audioPlayer.play(episodeFull.audio).then((result) async {
             if (result == 1) {
-              _loadedPodcastData = true;
               _isPlayingAudio = true;
-              _episodeTitle = episodeFull.title;
-              _episodeImage = Image.network(episodeFull.image);
-              _episodeThumbnail = Image.network(episodeFull.thumbnail);
-              _episodePublisher = episodeFull.podcast.publisher;
               notifyListeners();
               await _persistPlayingEpisode(episodeId);
+              await _persistResumePoint(0);
             }
-          })
+          });
         });
   }
 }
