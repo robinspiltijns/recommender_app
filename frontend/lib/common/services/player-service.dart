@@ -3,61 +3,99 @@ import 'package:flutter/cupertino.dart';
 import 'package:swagger/api.dart';
 
 class PlayerService extends ChangeNotifier {
+  PlayerService() {
+    _audioPlayer.onAudioPositionChanged.listen((position) {
+      // Possible performance bottleneck.
+      _episodePosition = position;
+      notifyListeners();
+    });
+    _audioPlayer.onDurationChanged.listen((duration) {
+      // Possible performance bottleneck.
+      _episodeDuration = duration;
+      notifyListeners();
+    });
+  }
+
   // TODO: Permission to play audio a long time. (https://pub.dev/documentation/audioplayers/latest/)
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  final _api = DefaultApi();
 
-  final AudioPlayer audioPlayer = AudioPlayer();
-  final api = DefaultApi();
-
-  String _currentlyPlayingTitle = "No podcast playing at the moment";
-  Image _currentlyPlayingImage = Image(image: AssetImage('assets/becoming-wise.jpg'));
-  String _currentlyPlayingThumbnail = "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg";
-  String _currentlyPlayingPublisher = "unknown";
-
+  String _episodeTitle = "No podcast playing at the moment";
+  Image _episodeImage = Image.network(
+      "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg");
+  Image _episodeThumbnail = Image.network(
+      "https://image.freepik.com/free-vector/loading-icon_167801-436.jpg");
+  String _episodePublisher = "unknown";
+  Duration _episodeDuration = Duration(seconds: 0);
+  Duration _episodePosition = Duration(seconds: 0);
   bool _isPlayingAudio = false;
 
   bool get isPlayingAudio {
     return _isPlayingAudio;
   }
 
-  String get currentlyPlayingTitle {
-    return _currentlyPlayingTitle;
+  String get episodeTitle {
+    return _episodeTitle;
   }
 
-  //Misschien image storen ipv string.
-  Image get currentlyPlayingImage {
-    return _currentlyPlayingImage;
+  Duration get episodeDuration {
+    return _episodeDuration;
   }
 
-  String get currentlyPlayingThumbnail {
-    return _currentlyPlayingThumbnail;
+  Duration get episodePosition {
+    return _episodePosition;
   }
 
-  String get currentlyPlayingPublisher {
-    return _currentlyPlayingPublisher;
+  Image get episodeImage {
+    return _episodeImage;
+  }
+
+  Image get episodeThumbnail {
+    return _episodeThumbnail;
+  }
+
+  String get episodePublisher {
+    return _episodePublisher;
   }
 
   void pause() {
-    audioPlayer.pause();
+    _audioPlayer.pause();
     _isPlayingAudio = false;
     notifyListeners();
   }
 
   void resume() {
-    audioPlayer.resume();
+    _audioPlayer.resume();
     _isPlayingAudio = true;
     notifyListeners();
   }
 
+  void addAudioPlayerDurationListener(Function(Duration) listener) {
+    _audioPlayer.onDurationChanged.listen(listener);
+  }
+
+  void seek(Duration position) {
+    _audioPlayer.seek(position);
+  }
+
+  void forward(Duration duration) {
+    seek(_episodePosition + duration);
+  }
+
+  void replay(Duration duration) {
+    seek(_episodePosition - duration);
+  }
+
   void play(String episodeId) {
-    Future<EpisodeFull> futureEpisodeFull = api.getEpisode(episodeId);
+    Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
     futureEpisodeFull.then((episodeFull) => {
-          audioPlayer.play(episodeFull.audio).then((result) {
+          _audioPlayer.play(episodeFull.audio).then((result) {
             if (result == 1) {
               _isPlayingAudio = true;
-              _currentlyPlayingTitle = episodeFull.title;
-              _currentlyPlayingImage = Image.network(episodeFull.image);
-              _currentlyPlayingThumbnail = episodeFull.thumbnail;
-              _currentlyPlayingPublisher = episodeFull.podcast.publisher;
+              _episodeTitle = episodeFull.title;
+              _episodeImage = Image.network(episodeFull.image);
+              _episodeThumbnail = Image.network(episodeFull.thumbnail);
+              _episodePublisher = episodeFull.podcast.publisher;
               notifyListeners();
             }
           })

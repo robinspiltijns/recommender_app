@@ -76,7 +76,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                       flex: 12,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(playerService.currentlyPlayingThumbnail)),
+                          child: playerService.episodeThumbnail),
                     ),
                     SizedBox(width: 15),
                     Expanded(
@@ -84,8 +84,8 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                         child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(playerService.currentlyPlayingTitle, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
-                            Text(playerService.currentlyPlayingPublisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
+                            Text(playerService.episodeTitle, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
+                            Text(playerService.episodePublisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
                           ],
                         )),
                     SizedBox(width: 5),
