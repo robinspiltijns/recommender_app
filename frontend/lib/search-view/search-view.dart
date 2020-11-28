@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/search-view/components/search-field.dart';
+import 'package:provider/provider.dart';
 import 'package:swagger/api.dart';
 
 class SearchWidget extends StatefulWidget {
@@ -30,6 +32,16 @@ class _SearchWidgetState extends State<SearchWidget> {
         child: Column(
           children: [
             SearchFieldWidget(onSubmit: _onSubmit),
+            Consumer<PlayerService>(
+              builder: (context, playerService, child) {
+                return ElevatedButton(
+                  onPressed: () {
+                    playerService.play("02f0123246c944e289ee2bb90804e41b");
+                  },
+                  child: Text("start"),
+                );
+              },
+            ),
             Column(children: results.map((result) => Text(result)).toList())
           ],
         ));
