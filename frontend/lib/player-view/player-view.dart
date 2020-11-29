@@ -70,6 +70,7 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
     return Scaffold(
         backgroundColor: Color(0xff28263B),
         appBar: AppBar(
+          centerTitle: true,
           title: IconButton(
               icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),
               onPressed: () {
@@ -180,6 +181,13 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
                               color: Colors.white),
                         ],
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          playerService
+                              .play("02f0123246c944e289ee2bb90804e41b");
+                        },
+                        child: Text("start"),
+                      )
                     ],
                   ),
                 ));

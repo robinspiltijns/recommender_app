@@ -46,9 +46,15 @@ class _SearchWidgetState extends State<SearchWidget> {
         children: [
           SearchFieldWidget(onSubmit: _onSubmit),
           SizedBox(height: 20),
-          RecentSearchesWidget(),
-          SizedBox(height: 20),
-          LikedGenresWidget("Browse genres", genres),
+          Expanded(
+            child: ListView(
+              children: [
+                RecentSearchesWidget(),
+                SizedBox(height: 20),
+                GenresWidget("Browse genres", genres),
+              ],
+            ),
+          )
         ],
       ),
     );
