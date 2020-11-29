@@ -8,7 +8,7 @@ class PlayerService extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
-  // TODO: Refactor naar bv episode data objecten?
+
   String _episodeTitle;
   Image _episodeImage;
   Image _episodeThumbnail;
@@ -16,9 +16,7 @@ class PlayerService extends ChangeNotifier {
   String _episodeAudio;
   Duration _episodeDuration;
   Duration _episodePosition;
-  bool _isPlayingAudio;
-  bool _loadedEpisodeAudio;
-  bool _loadedEpisodeData;
+  AudioPlayerState _audioPlayerState;
 
   PlayerService() {
     _initializeState();
@@ -26,9 +24,13 @@ class PlayerService extends ChangeNotifier {
     _audioPlayer.onAudioPositionChanged.listen((position) {
       _episodePosition = position;
       int seconds = position.inSeconds;
-      if(seconds % 20 == 0) {
+      if (seconds % 20 == 0) {
         _persistResumePoint(seconds);
       }
+      notifyListeners();
+    });
+    _audioPlayer.onPlayerStateChanged.listen((event) {
+      _audioPlayerState = event;
       notifyListeners();
     });
     _loadPersistedEpisode();
@@ -54,14 +56,8 @@ class PlayerService extends ChangeNotifier {
     _episodePublisher = "Unavailable";
     _episodeDuration = Duration(seconds: 0);
     _episodePosition = Duration(seconds: 0);
-    _isPlayingAudio = false;
-    _loadedEpisodeData = false;
-    _loadedEpisodeAudio = false;
+    _audioPlayerState = AudioPlayerState.STOPPED;
     notifyListeners();
-  }
-
-  bool get isPlayingAudio {
-    return _isPlayingAudio;
   }
 
   String get episodeTitle {
@@ -88,32 +84,34 @@ class PlayerService extends ChangeNotifier {
     return _episodePublisher;
   }
 
+  bool get isPlaying {
+    return _audioPlayerState == AudioPlayerState.PLAYING;
+  }
+
   void pause() {
     _audioPlayer.pause();
-    _isPlayingAudio = false;
     notifyListeners();
   }
 
   // TODO: Play button verandert te vlug als ge pas hebt heropgestart. Is het zelfs niet trager dan de "start" button?
   void resume() {
-    if (_loadedEpisodeData) {
-      if (_loadedEpisodeAudio) {
-        _audioPlayer.resume();
-      } else {
+    switch (_audioPlayerState) {
+      case AudioPlayerState.STOPPED:
         _audioPlayer.play(_episodeAudio).then((result) {
-              if (result == 1) {
-                _loadedEpisodeAudio = true;
-                _audioPlayer.seek(_episodePosition);
-              }
-            });
-      }
-      _isPlayingAudio = true;
-      notifyListeners();
+          if (result == 1) {
+            _audioPlayer.seek(_episodePosition);
+          }
+        });
+        break;
+      case AudioPlayerState.PLAYING:
+        break;
+      case AudioPlayerState.PAUSED:
+        _audioPlayer.resume();
+        break;
+      case AudioPlayerState.COMPLETED:
+        // TODO: Handle this case.
+        break;
     }
-  }
-
-  void addAudioPlayerDurationListener(Function(Duration) listener) {
-    _audioPlayer.onDurationChanged.listen(listener);
   }
 
   void seek(Duration position) {
@@ -147,22 +145,20 @@ class PlayerService extends ChangeNotifier {
     _episodeAudio = episodeFull.audio;
     _episodeDuration = Duration(seconds: episodeFull.audioLengthSec);
     _episodePosition = Duration(seconds: resumePoint);
-    _loadedEpisodeData = true;
   }
 
   void play(String episodeId) {
     Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
     futureEpisodeFull.then((episodeFull) {
-        _loadEpisodeData(episodeFull, 0);
-        notifyListeners();
-        _audioPlayer.play(episodeFull.audio).then((result) async {
-            if (result == 1) {
-              _isPlayingAudio = true;
-              notifyListeners();
-              await _persistPlayingEpisode(episodeId);
-              await _persistResumePoint(0);
-            }
-          });
-        });
+      _loadEpisodeData(episodeFull, 0);
+      notifyListeners();
+      _audioPlayer.play(episodeFull.audio).then((result) async {
+        if (result == 1) {
+          notifyListeners();
+          await _persistPlayingEpisode(episodeId);
+          await _persistResumePoint(0);
+        }
+      });
+    });
   }
 }

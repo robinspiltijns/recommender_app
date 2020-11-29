@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/common/services/player-service.dart';
+import 'package:frontend/player-view/components/time-slider.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/common/theme.dart';
 
@@ -18,32 +19,11 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
   }
 
   _onPlayButtonPress(PlayerService playerService) {
-    if (playerService.isPlayingAudio) {
+    if (playerService.isPlaying) {
       playerService.pause();
     } else {
       playerService.resume();
     }
-  }
-
-  void _onStartSeeking(double value) {
-    setState(() {
-      _seekingPosition = value;
-      _isSeeking = true;
-    });
-  }
-
-  void _onEndSeeking(double value, PlayerService playerService) {
-    playerService.seek(Duration(seconds: value.round()));
-    setState(() {
-      _seekingPosition = value;
-      _isSeeking = false;
-    });
-  }
-
-  void _onSeekChange(double value) {
-    setState(() {
-      _seekingPosition = value;
-    });
   }
 
   VoidCallback _forwardThirty(PlayerService playerService) {
@@ -52,17 +32,6 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
 
   VoidCallback _replayTen(PlayerService playerService) {
     return () => playerService.replay(Duration(seconds: 10));
-  }
-
-  static String _formatDuration(Duration duration) {
-    String minutes = duration.inMinutes.toString();
-    String seconds = duration.inSeconds.remainder(60).toString();
-    return minutes.padLeft(2, "0") + ":" + seconds.padLeft(2, "0");
-  }
-
-  static String _formatTimeLeft(Duration position, Duration duration) {
-    Duration timeLeft = duration - position;
-    return timeLeft.inMinutes.toString() + " min. left";
   }
 
   @override
@@ -123,40 +92,7 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
                               color: Colors.white),
                         ],
                       ),
-                      Slider(
-                        onChangeStart: _onStartSeeking,
-                        onChangeEnd: (value) =>
-                            _onEndSeeking(value, playerService),
-                        onChanged: _onSeekChange,
-                        value: _isSeeking
-                            ? _seekingPosition
-                            : playerService.episodePosition.inSeconds
-                                .toDouble(),
-                        activeColor: Colors.white,
-                        inactiveColor: Colors.white.withOpacity(0.1),
-                        min: 0,
-                        max: playerService.episodeDuration.inSeconds.toDouble(),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                              _formatDuration(_isSeeking
-                                  ? Duration(seconds: _seekingPosition.round())
-                                  : playerService.episodePosition),
-                              style: Theme.of(context).textTheme.timeDuration),
-                          Text(
-                              _formatTimeLeft(
-                                  _isSeeking
-                                      ? Duration(
-                                          seconds: _seekingPosition.round())
-                                      : playerService.episodePosition,
-                                  playerService.episodeDuration),
-                              style: Theme.of(context).textTheme.timeDuration),
-                          Text(_formatDuration(playerService.episodeDuration),
-                              style: Theme.of(context).textTheme.timeDuration),
-                        ],
-                      ),
+                      TimeSliderWidget(),
                       SizedBox(height: 40),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +106,7 @@ class _PlayerViewWidgetState extends State<PlayerViewWidget> {
                               color: Color(0xffEF476F),
                               iconSize: 48.0,
                               icon: getPlayButtonIcon(
-                                  playerService.isPlayingAudio),
+                                  playerService.isPlaying),
                               onPressed: () {
                                 _onPlayButtonPress(playerService);
                               }),
