@@ -64,6 +64,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
               end: Alignment.bottomRight,
               colors: [Color(0xff221E48), Color(0xff0F0C26)])),
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           title: _titles.elementAt(_selectedIndex),
           backgroundColor: Colors.transparent,
