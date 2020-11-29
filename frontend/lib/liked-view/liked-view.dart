@@ -69,7 +69,7 @@ class LikesWidgetState extends State<LikesWidget> {
         ListView(
           children: [
             SizedBox(height: 30),
-            LikedGenresWidget(likedGenres),
+            LikedGenresWidget("Your most liked genres", likedGenres),
             SizedBox(height: 30),
             LikedEpisodesWidget(likedEpisodes),
 
