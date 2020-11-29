@@ -119,12 +119,12 @@ class PlayerService extends ChangeNotifier {
     _persistResumePoint(position.inSeconds);
   }
 
-  void forward(Duration duration) {
-    seek(_episodePosition + duration);
+  void forward(int seconds) {
+    seek(_episodePosition + Duration(seconds: seconds));
   }
 
-  void replay(Duration duration) {
-    seek(_episodePosition - duration);
+  void replay(int seconds) {
+    seek(_episodePosition - Duration(seconds: seconds));
   }
 
   Future<void> _persistPlayingEpisode(String episodeId) async {

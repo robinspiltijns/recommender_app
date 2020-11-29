@@ -11,7 +11,6 @@ class LikesWidget extends StatefulWidget {
 }
 
 class LikesWidgetState extends State<LikesWidget> {
-
   // mock data
   List<Genre> likedGenres = [
     new Genre(67, "Finance"),
