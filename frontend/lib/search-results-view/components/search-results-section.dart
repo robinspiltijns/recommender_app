@@ -19,14 +19,16 @@ class SearchResultsSection extends StatefulWidget {
   static const int RESULTS_INCREASE_NB = 3;
 
 
-  SearchResultsSection({List<dynamic> results, ResultType t, int nbRes, Function callbackFunction}) {
+  SearchResultsSection({List<dynamic> results, ResultType t, int nbRes, Function callbackFunction, Function setHeightFunction}) {
     this.episodes = results;
     this.type = t;
     this.nbResults = nbRes;
     this.callback = callbackFunction;
+    this.setHeightF = setHeightFunction;
   }
 
   Function callback;
+  Function setHeightF;
   int nbResults;
   List<dynamic> episodes;
   ResultType type;
@@ -50,12 +52,13 @@ class _SearchResultsSectionState extends State<SearchResultsSection> {
     this.res = generateResultList();
     this.resultsPartHeight = EpisodeSearchResultCard.HEIGHT * this.nbResults;
     SECTION_HEIGHT = SearchResultsSection.TITLE_PART_HEIGT + resultsPartHeight + SearchResultsSection.MORE_PART_HEIGT + 40;
+    this.widget.setHeightF(this.widget.type, SECTION_HEIGHT);
   }
 
 
   showMore() {
     print("widget: " + this.widget.toStringShort());
-    this.widget.callback(SearchResultsSection(nbRes: nbResults + SearchResultsSection.RESULTS_INCREASE_NB, t: this.widget.type, callbackFunction: this.widget.callback,), this.widget.type);
+    this.widget.callback(SearchResultsSection(results: this.widget.episodes, nbRes: nbResults + SearchResultsSection.RESULTS_INCREASE_NB, t: this.widget.type, callbackFunction: this.widget.callback, setHeightFunction: this.widget.setHeightF,), this.widget.type);
     print("shows " + nbResults.toString() + " results");
   }
 

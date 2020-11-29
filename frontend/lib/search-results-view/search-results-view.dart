@@ -23,19 +23,27 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
   SearchResultsSection episodeResultsSection;
   SearchResultsSection podcastResultsSection;
 
+  double episodeSectionHeight;
+  double podcastSectionHeight;
+
   @override
   void initState() {
     super.initState();
-    episodeResultsSection = SearchResultsSection(results: this.widget.episodes, t: ResultType.EPISODES, nbRes: 3, callbackFunction: this.callback,);
+    generateNewEpisodeResultsSection();
     generateListView();
   }
 
+  generateNewEpisodeResultsSection() async {
+    episodeResultsSection = SearchResultsSection(results: this.widget.episodes, t: ResultType.EPISODES, nbRes: 3, callbackFunction: this.callback, setHeightFunction: this.setHeight,);
+  }
+
   ListView generateListView() {
+    print("height: " + episodeSectionHeight.toString());
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
         Container(
-          height: episodeResultsSection.,
+          height: this.episodeSectionHeight,
           child: Column(
             children: [
               episodeResultsSection,
@@ -45,6 +53,14 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
         )
       ],
     );
+  }
+
+  void setHeight(ResultType type, double height) {
+    if (type == ResultType.EPISODES) {
+      this.episodeSectionHeight = height;
+    } else if (type == ResultType.PODCASTS) {
+      this.podcastSectionHeight = height;
+    }
   }
 
   void callback(SearchResultsSection section, ResultType type) {
