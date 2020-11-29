@@ -42,14 +42,11 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        Container(
-          height: this.episodeSectionHeight,
-          child: Column(
-            children: [
-              episodeResultsSection,
-              //podcastResultsSecion,
-            ],
-          ),
+        Column(
+          children: [
+            episodeResultsSection,
+            //podcastResultsSecion,
+          ],
         )
       ],
     );

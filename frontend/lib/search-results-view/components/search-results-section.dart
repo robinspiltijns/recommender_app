@@ -57,9 +57,7 @@ class _SearchResultsSectionState extends State<SearchResultsSection> {
 
 
   showMore() {
-    print("widget: " + this.widget.toStringShort());
     this.widget.callback(SearchResultsSection(results: this.widget.episodes, nbRes: nbResults + SearchResultsSection.RESULTS_INCREASE_NB, t: this.widget.type, callbackFunction: this.widget.callback, setHeightFunction: this.widget.setHeightF,), this.widget.type);
-    print("shows " + nbResults.toString() + " results");
   }
 
   List<Widget> generateResultList() {
