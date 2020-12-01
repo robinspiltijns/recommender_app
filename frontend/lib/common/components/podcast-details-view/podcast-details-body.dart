@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swagger/api.dart';
 import 'package:frontend/common/theme.dart';
+import 'episodes-overview.dart';
 
 class PodcastDetailsBody extends StatelessWidget {
   final PodcastFull podcast;
@@ -11,7 +12,9 @@ class PodcastDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
       SizedBox(height: 30),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +36,7 @@ class PodcastDetailsBody extends StatelessWidget {
                 height: 10,
               ),
               Text(podcast.title,
-                  style: Theme.of(context).textTheme.podcastTitle),
+                  style: Theme.of(context).textTheme.headline2),
               SizedBox(height: 5),
               Text(podcast.publisher,
                   style: Theme.of(context).textTheme.podcastProducer),
@@ -41,16 +44,15 @@ class PodcastDetailsBody extends StatelessWidget {
           )
         ],
       ),
-      Expanded(
-          child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(podcast.description,
-                      style: Theme.of(context).textTheme.bodyText1)))),
-      //Divider(
-      //color: Theme.of(context).
-      //)
+      SizedBox(height: 20),
+      Text(podcast.description, style: Theme.of(context).textTheme.bodyText1),
+      Divider(
+      color: Theme.of(context).buttonColor,
+        thickness: 2,
+      ),
+      SizedBox(height: 10),
+      Text("All Episodes", style: Theme.of(context).textTheme.headline2),
+      EpisodesOverview(podcast.episodes),
     ]);
   }
 }

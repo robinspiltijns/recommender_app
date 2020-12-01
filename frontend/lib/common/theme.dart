@@ -27,10 +27,14 @@ var themeData = new ThemeData(
         fontSize: 20.0,
         color: Colors.white,
     ),
-      bodyText1: TextStyle(
-          color: Colors.white,
-          fontSize: 12.0,
-      )
+    bodyText1: TextStyle(
+        color: Colors.white,
+        fontSize: 12.0,
+    ),
+    bodyText2: TextStyle(
+      color: Colors.white.withOpacity(0.72),
+      fontSize: 12.0,
+    )
   )
 );
 
@@ -61,7 +65,7 @@ extension CustomStyles on TextTheme {
         );
     TextStyle get podcastProducer =>
         TextStyle(
-          fontSize: 14.0,
+          fontSize: 16.0,
           color: Color(0xBAFFFFFF),
           fontWeight: FontWeight.w600,
         );
@@ -71,4 +75,5 @@ extension CustomStyles on TextTheme {
           color: themeData.primaryColor,
           fontWeight: FontWeight.w600,
         );
+
 }
