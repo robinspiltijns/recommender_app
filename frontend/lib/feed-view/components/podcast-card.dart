@@ -38,7 +38,10 @@ class PodcastCardWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () {
-            Navigator.pushNamed(context, "/details");
+            Navigator.pushNamed(
+                context,
+                "/details",
+                arguments: podcastId);
           },
           child: Column(
             children: [

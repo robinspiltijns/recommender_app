@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/common/components/buttons/custom-text-button.dart';
+import 'package:frontend/common/components/podcast-details-view/podcast-details-body.dart';
 import 'package:swagger/api.dart';
 
 
@@ -21,22 +21,17 @@ class _PodcastDetailsState extends State<PodcastDetails> {
 
   DefaultApi api = DefaultApi();
 
-  PodcastFull podcast;
-  bool loaded = false;
+  Future<PodcastFull> podcast;
 
   @override
   void initState() {
     super.initState();
+    podcast = getPodcast();
   }
 
-  getPodcast() async {
-    Future<PodcastFull> podcastResult = api.getPodcast(widget.id);
-    podcastResult.then((result) =>
-        setState(() {
-          podcast = result;
-          loaded = true;
-          }
-        ));
+  Future<PodcastFull> getPodcast() {
+    print(widget.id);
+    return api.getPodcast(widget.id);
   }
 
 
@@ -50,10 +45,21 @@ class _PodcastDetailsState extends State<PodcastDetails> {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          children: [CustomTextButton("go back", callBack: () => {Navigator.pop(context)})
-          ]
-        )
+        child: FutureBuilder<PodcastFull>(
+          future: podcast,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.title);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return CircularProgressIndicator();
+          }
+
+
+
+      )
+
       )
     );
   }

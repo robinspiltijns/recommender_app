@@ -19,7 +19,8 @@ class FeedPage extends StatelessWidget {
                     case "/":
                       return FeedWidget();
                     case PodcastDetails.routeName:
-                      return PodcastDetails("test");
+                      final String id = settings.arguments;
+                      return PodcastDetails(id);
                   }
                 });
           }
