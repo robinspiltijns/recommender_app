@@ -49,7 +49,7 @@ class _PodcastDetailsState extends State<PodcastDetails> {
           future: podcast,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.title);
+              return PodcastDetailsBody(snapshot.data);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }

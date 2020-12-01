@@ -28,7 +28,8 @@ var themeData = new ThemeData(
         color: Colors.white,
     ),
       bodyText1: TextStyle(
-          color: Colors.white
+          color: Colors.white,
+          fontSize: 12.0,
       )
   )
 );
@@ -49,6 +50,18 @@ extension CustomStyles on TextTheme {
     TextStyle get episodeDuration =>
         TextStyle(
           fontSize: 12.0,
+          color: Color(0xBAFFFFFF),
+          fontWeight: FontWeight.w600,
+        );
+    TextStyle get podcastTitle =>
+        TextStyle(
+          fontSize: 16.0,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        );
+    TextStyle get podcastProducer =>
+        TextStyle(
+          fontSize: 14.0,
           color: Color(0xBAFFFFFF),
           fontWeight: FontWeight.w600,
         );
