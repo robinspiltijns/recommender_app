@@ -7,12 +7,9 @@ import 'feed-view.dart';
 
 class FeedPage extends StatelessWidget {
 
-  static final GlobalKey<NavigatorState> feedNavigatorKey = GlobalKey<NavigatorState>();
-
   @override
   Widget build(BuildContext context) {
     return Navigator(
-          key: feedNavigatorKey,
           onGenerateRoute: (RouteSettings settings) {
             return MaterialPageRoute(
                 settings: settings,

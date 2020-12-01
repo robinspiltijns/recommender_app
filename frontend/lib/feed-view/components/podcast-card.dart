@@ -11,14 +11,12 @@ class PodcastCardWidget extends StatelessWidget {
   static const double DESCRIPTION_HEIGHT_RATIO = 0.55;
   static const double CARD_MARGIN = 10;
 
-  PodcastCardWidget(this.navigatorStateKey, {PodcastSimple podcast}) {
+  PodcastCardWidget({PodcastSimple podcast}) {
     this.podcastTitle = podcast.title;
     this.podcastDescription = podcast.description;
     this.podcastArtworkURL = podcast.image;
     this.podcastId = podcast.id;
   }
-
-  final GlobalKey<NavigatorState> navigatorStateKey;
 
   String podcastDescription;
   String podcastTitle;
@@ -40,7 +38,7 @@ class PodcastCardWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () {
-            navigatorStateKey.currentState.pushNamed("/details");
+            Navigator.pushNamed(context, "/details");
           },
           child: Column(
             children: [

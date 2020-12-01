@@ -25,7 +25,7 @@ class _PodcastDetailsState extends State<PodcastDetails> {
   bool loaded = false;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
   }
 
