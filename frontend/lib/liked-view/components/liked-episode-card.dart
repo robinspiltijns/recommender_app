@@ -58,7 +58,7 @@ class LikedEpisodeCard extends StatelessWidget {
           )
           ),
           SizedBox(width: 10),
-          CustomIconButton(Icons.more_horiz),
+          CustomIconButton(Icons.more_horiz, () => {}),
           SizedBox(width: 10),
           CustomTextButton("More like this"),
         ]

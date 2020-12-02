@@ -1,7 +1,9 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/player-service.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:swagger/api.dart';
 import 'package:frontend/common/theme.dart';
 
@@ -44,9 +46,15 @@ class EpisodeDetailsCard extends StatelessWidget {
                   )
               ),
               SizedBox(width: 10),
-              CustomIconButton(Icons.play_arrow),
-              SizedBox(width: 10),
-              CustomIconButton(Icons.queue),
+              Consumer<PlayerService> (
+                builder: (context, playerService, child) {
+                  return Row(
+                    children: [CustomIconButton(Icons.play_arrow, () => playerService.play(episode.id)),
+                      SizedBox(width: 10),
+                      CustomIconButton(Icons.queue, () => {})],
+                  );
+                },
+              )
             ]
         )
       );
