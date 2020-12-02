@@ -5,6 +5,7 @@ import 'package:frontend/search-view/components/recent-searches.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
+import 'package:frontend/object-model/episode.dart';
 
 
 class SearchWidget extends StatefulWidget {
