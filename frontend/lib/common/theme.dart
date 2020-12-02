@@ -7,6 +7,16 @@ var themeData = new ThemeData(
   primaryColor: Color(0xFFEF476F),
   buttonColor: Color(0x26FFFFFF),
   textTheme: TextTheme(
+    headline6: TextStyle(  // Main view titles
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        fontSize: 36.0
+    ),
+    headline5: TextStyle(  // Secondary view titles
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+        fontSize: 30.0
+    ),
     headline1: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 36.0,
@@ -17,9 +27,14 @@ var themeData = new ThemeData(
         fontSize: 20.0,
         color: Colors.white,
     ),
-      bodyText1: TextStyle(
-          color: Colors.white
-      )
+    bodyText1: TextStyle(
+        color: Colors.white,
+        fontSize: 12.0,
+    ),
+    bodyText2: TextStyle(
+      color: Colors.white.withOpacity(0.72),
+      fontSize: 12.0,
+    )
   )
 );
 
@@ -54,10 +69,23 @@ extension CustomStyles on TextTheme {
           color: Color(0xBAFFFFFF),
           fontWeight: FontWeight.w600,
         );
+    TextStyle get podcastTitle =>
+        TextStyle(
+          fontSize: 16.0,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        );
+    TextStyle get podcastProducer =>
+        TextStyle(
+          fontSize: 16.0,
+          color: Color(0xBAFFFFFF),
+          fontWeight: FontWeight.w600,
+        );
     TextStyle get buttonText =>
         TextStyle(
           fontSize: 12.0,
           color: themeData.primaryColor,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         );
+
 }

@@ -27,6 +27,9 @@ dependencies:
   provider: ^3.0.0
   shared_preferences: '>=0.5.0 <2.0.0'
   audioplayers: ^0.17.0
+  intl: ^0.16.1
+  flutter_html: ^0.8.2
+  expandable_text: 1.0.1
   flutter:
     sdk: flutter
   swagger:
