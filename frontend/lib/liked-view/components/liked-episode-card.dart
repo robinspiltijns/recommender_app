@@ -50,7 +50,7 @@ class LikedEpisodeCard extends StatelessWidget {
                   Spacer(),
                   Align(
                       alignment: Alignment.topLeft,
-                      child: Text(Utils.durationString(episode.duration),
+                      child: Text(    Utils.durationString(episode.duration),
                           style: Theme.of(context).textTheme.episodeDuration)
                   )
                 ]

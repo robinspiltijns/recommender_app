@@ -11,7 +11,9 @@ class EpisodesOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EpisodeDetailsCard(episodes[0]);
+    return Column(
+        children: episodes.map((episode) => EpisodeDetailsCard(episode)).toList(),
+      );
   }
 
 }

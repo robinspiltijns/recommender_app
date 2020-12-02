@@ -1,5 +1,6 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:intl/intl.dart';
 import 'package:swagger/api.dart';
 import 'package:frontend/common/theme.dart';
@@ -13,31 +14,42 @@ class EpisodeDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-              Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(episode.title,
-                      style: Theme.of(context).textTheme.episodeTitle),
-                ),
-
-
-                Text(
-                    releaseDateDurationString(
-                        episode.pubDateMs, episode.audioLengthSec),
-                    style: Theme.of(context).textTheme.episodeDuration),
-                SizedBox(height: 10),
-                Text(
-                    removeAllHtmlTags(episode.description),
-                    style: Theme.of(context).textTheme.bodyText2,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3
-                ),
-              ])
-      ]
-    );
-
+    return
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 15),
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(episode.title,
+                            style: Theme.of(context).textTheme.episodeTitle
+                        ),
+                        Text(
+                            releaseDateDurationString(episode.pubDateMs,
+                                episode.audioLengthSec),
+                            style: Theme.of(context).textTheme.episodeDuration
+                        ),
+                        SizedBox(height: 10),
+                        ExpandableText(removeAllHtmlTags(episode.description),
+                            style: Theme.of(context).textTheme.bodyText2,
+                            expandText: "Show more",
+                            collapseText: "Show less",
+                            maxLines: 3,
+                            linkColor: Colors.white,
+                        )
+                      ]
+                  )
+              ),
+              SizedBox(width: 10),
+              CustomIconButton(Icons.play_arrow),
+              SizedBox(width: 10),
+              CustomIconButton(Icons.queue),
+            ]
+        )
+      );
   }
 
   String releaseDateDurationString(int pubDateMs, int audioLengthSec) {
@@ -48,11 +60,7 @@ class EpisodeDetailsCard extends StatelessWidget {
   }
 
   String removeAllHtmlTags(String htmlText) {
-    RegExp exp = RegExp(
-        r"<[^>]*>",
-        multiLine: true,
-        caseSensitive: true
-    );
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
     return htmlText.replaceAll(exp, '');
   }

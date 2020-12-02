@@ -26,6 +26,7 @@ dependencies:
   audioplayers: ^0.17.0
   intl: ^0.16.1
   flutter_html: ^0.8.2
+  expandable_text: 1.0.1
   flutter:
     sdk: flutter
   swagger:
