@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'package:frontend/common/components/genres-list.dart';
 
-class LikedGenresWidget extends StatelessWidget {
+class GenresWidget extends StatelessWidget {
 
   final List<Genre> likedGenres;
+  final String title;
 
-  LikedGenresWidget(this.likedGenres);
+  GenresWidget(this.title, this.likedGenres);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class LikedGenresWidget extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Your most liked genres",
+              title,
               style: Theme.of(context).textTheme.headline2,
             ),
           ),

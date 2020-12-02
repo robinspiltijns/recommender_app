@@ -11,6 +11,7 @@ class LikesWidget extends StatefulWidget {
 }
 
 class LikesWidgetState extends State<LikesWidget> {
+
   // mock data
   List<Genre> likedGenres = [
     new Genre(67, "Finance"),
@@ -81,7 +82,7 @@ class LikesWidgetState extends State<LikesWidget> {
             margin: const EdgeInsets.symmetric(horizontal: 8),
             child: ListView(children: [
               SizedBox(height: 30),
-              LikedGenresWidget(likedGenres),
+              GenresWidget("Your most liked genres", likedGenres),
               SizedBox(height: 30),
               LikedEpisodesWidget(likedEpisodes),
             ])));

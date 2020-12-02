@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
-import 'package:frontend/feed-view/feed-page.dart';
+import 'package:frontend/common/services/player-service.dart';
+import 'package:frontend/feed-view/feed-view.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-view.dart';
 import 'package:frontend/common/theme.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+  ChangeNotifierProvider(
+          create: (context) => PlayerService(),
+          child: MyApp(),
+  )
+);
 
 class MyApp extends StatelessWidget {
 
@@ -47,6 +54,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
               end: Alignment.bottomRight,
               colors: [Color(0xff221E48), Color(0xff0F0C26)])),
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: IndexedStack(
           index: _selectedIndex,
           children: _destinationViews,
