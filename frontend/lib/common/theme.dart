@@ -85,7 +85,7 @@ extension CustomStyles on TextTheme {
         TextStyle(
           fontSize: 12.0,
           color: themeData.primaryColor,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         );
 
 }
