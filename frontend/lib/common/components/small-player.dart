@@ -22,7 +22,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
   bool isPlayingAudio = false;
 
   _onPlayButtonPress(PlayerService playerService) {
-    if (playerService.isPlayingAudio) {
+    if (playerService.isPlaying) {
       playerService.pause();
     } else {
       playerService.resume();
@@ -94,7 +94,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                         child: IconButton(
                             color: Color(0xffEF476F),
                             icon:
-                                getPlayButtonIcon(playerService.isPlayingAudio),
+                                getPlayButtonIcon(playerService.isPlaying),
                             onPressed: () {
                               _onPlayButtonPress(playerService);
                             })),
