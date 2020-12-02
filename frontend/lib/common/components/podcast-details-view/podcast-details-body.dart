@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swagger/api.dart';
@@ -48,7 +49,13 @@ class PodcastDetailsBody extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-              Text(podcast.description, style: Theme.of(context).textTheme.bodyText1),
+              ExpandableText(
+                  podcast.description,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  linkColor: Theme.of(context).primaryColor,
+                  expandText: "Show more",
+                  collapseText: "Show less",
+                  maxLines: 15,),
             ]
           )
         ),

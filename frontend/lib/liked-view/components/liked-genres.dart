@@ -15,7 +15,6 @@ class GenresWidget extends StatelessWidget {
     return Column( // genres overview
       children: [
         Container(
-          margin: EdgeInsets.only(left: 10),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
