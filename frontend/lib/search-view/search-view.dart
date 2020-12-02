@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/liked-view/components/liked-genres.dart';
 import 'package:frontend/search-view/components/recent-searches.dart';
 import 'package:frontend/search-view/components/search-field.dart';
-import 'package:provider/provider.dart';
 import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
 
@@ -64,6 +62,7 @@ class _SearchWidgetState extends State<SearchWidget> {
             )
           ],
         ),
+      )
     );
   }
 }
