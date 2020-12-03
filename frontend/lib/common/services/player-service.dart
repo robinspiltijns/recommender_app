@@ -9,6 +9,7 @@ class PlayerService extends ChangeNotifier {
   final _api = DefaultApi();
 
   String _episodeTitle;
+  String _episodeId;
   Image _episodeImage;
   Image _episodeThumbnail;
   String _episodePublisher;
@@ -50,6 +51,7 @@ class PlayerService extends ChangeNotifier {
 
   Future<void> _initializeState() async {
     _episodeTitle = "No currently playing episode.";
+    _episodeId = "";
     _episodeImage = Image.asset('assets/no-podcast.png');
     _episodeThumbnail = Image.asset('assets/no-podcast.png');
     _episodePublisher = "Unavailable";
@@ -61,6 +63,10 @@ class PlayerService extends ChangeNotifier {
 
   String get episodeTitle {
     return _episodeTitle;
+  }
+
+  String get episodeId {
+    return _episodeId;
   }
 
   Duration get episodeDuration {
@@ -138,6 +144,7 @@ class PlayerService extends ChangeNotifier {
 
   void _loadEpisodeData(EpisodeFull episodeFull, int resumePoint) {
     _episodeTitle = episodeFull.title;
+    _episodeId = episodeFull.id;
     _episodeImage = Image.network(episodeFull.image);
     _episodeThumbnail = Image.network(episodeFull.thumbnail);
     _episodePublisher = episodeFull.podcast.publisher;
