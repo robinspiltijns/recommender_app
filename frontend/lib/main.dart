@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
+import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
+import 'package:frontend/db-helper.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-view.dart';
 import 'package:frontend/common/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'feed-view/feed-page.dart';
 
-void main() => runApp(ChangeNotifierProvider(
-      create: (context) => PlayerService(),
-      child: MyApp(),
-    ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Database database = await DatabaseHelper().database;
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => PlayerService(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => LikedEpisodesService(database),
+          )
+        ],
+        child: MyApp(),
+    )
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
