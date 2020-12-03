@@ -30,7 +30,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,17 +74,9 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           children: _destinationViews,
         ),
         // We kunnen dit eventueel later nog custom doen.
-        bottomNavigationBar: BottomControlsWidget(_selectedIndex, _onItemTapped),
+        bottomNavigationBar:
+            BottomControlsWidget(_selectedIndex, _onItemTapped),
       ),
-    );
-  }
-}
-
-class LoadingScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("loading...")
     );
   }
 }
