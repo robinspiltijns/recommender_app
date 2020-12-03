@@ -4,7 +4,6 @@ import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/feed-view/feed-view.dart';
 import 'package:frontend/liked-view/liked-view.dart';
-import 'package:frontend/search-results-view/SearchResultsViewTestLayer.dart';
 import 'package:frontend/search-view/search-view.dart';
 import 'package:frontend/common/theme.dart';
 import 'package:provider/provider.dart';
@@ -46,8 +45,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
 
   static List<Widget> _destinationViews = <Widget>[
     LikesWidget(),
-    //FeedWidget(),
-    SearchResultsViewTestLayer(),
+    FeedWidget(),
     SearchWidget(),
   ];
 
