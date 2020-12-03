@@ -1,3 +1,4 @@
+import 'package:frontend/db-helper.dart';
 import 'package:swagger/api.dart';
 
 
@@ -52,6 +53,34 @@ class Episode {
     var pubDate = DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
 
     return new Episode(episodeSimple.title, episodeSimple.id, episodeSimple.image, duration, position, null, null, episodeSimple.description, pubDate);
+  }
+
+  static Episode fromDatabaseMap(Map<String, dynamic> map) {
+    return Episode(
+        map[DatabaseHelper.titleColumn],
+        map[DatabaseHelper.idColumn],
+        map[DatabaseHelper.imageColumn],
+        Duration(seconds: map[DatabaseHelper.durationColumn]),
+        Duration(seconds: map[DatabaseHelper.positionColumn]),
+        map[DatabaseHelper.podcastIdColumn],
+        map[DatabaseHelper.publisherColumn],
+        map[DatabaseHelper.idColumn],
+        map[DatabaseHelper.idColumn],
+      );
+  }
+
+  Map<String, dynamic> toMap() {
+      return <String, dynamic>{
+        DatabaseHelper.idColumn: id,
+        DatabaseHelper.titleColumn: title,
+        DatabaseHelper.imageColumn: imageUrl,
+        DatabaseHelper.durationColumn: duration.inSeconds,
+        DatabaseHelper.positionColumn: duration.inSeconds,
+        DatabaseHelper.publisherColumn: publisher,
+        DatabaseHelper.podcastIdColumn: podcastId,
+        DatabaseHelper.descriptionColumn: description,
+        DatabaseHelper.publishDateColumn: publishDate.toIso8601String(),
+    };
   }
 
 
