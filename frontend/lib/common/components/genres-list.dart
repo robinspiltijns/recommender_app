@@ -11,6 +11,7 @@ class GenresList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: 2,
         shrinkWrap: true,
         childAspectRatio: 13/8,

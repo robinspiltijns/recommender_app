@@ -27,16 +27,6 @@ class _BottomControlsWidgetState extends State<BottomControlsWidget> {
       child:  Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Consumer<PlayerService>(
-            builder: (context, playerService, child) {
-              return ElevatedButton(
-                onPressed: () {
-                  playerService.play("02f0123246c944e289ee2bb90804e41b");
-                },
-                child: Text("start"),
-              );
-            },
-          ),
           SmallPlayerWidget(),
           BottomNavigationBar(
             currentIndex: widget.selectedRouteIndex,

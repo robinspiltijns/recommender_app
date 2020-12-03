@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/player-view.dart';
 import 'package:provider/provider.dart';
@@ -21,11 +22,11 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
 
   bool isPlayingAudio = false;
 
-  _onPlayButtonPress(PlayerService playerService) {
-    if (playerService.isPlayingAudio) {
-      playerService.pause();
+  VoidCallback _onPlayButtonPress(PlayerService playerService) {
+    if (playerService.isPlaying) {
+      return () => playerService.pause();
     } else {
-      playerService.resume();
+      return ()=> playerService.resume();
     }
   }
 
@@ -47,8 +48,8 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
         });
   }
 
-  Icon getPlayButtonIcon(bool isPlayingAudio) {
-    return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
+  IconData _getPlayButtonIcon(bool isPlayingAudio) {
+    return isPlayingAudio ? Icons.pause : Icons.play_arrow;
   }
 
   @override
@@ -76,7 +77,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                       flex: 12,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(playerService.currentlyPlayingThumbnail)),
+                          child: playerService.episodeThumbnail),
                     ),
                     SizedBox(width: 15),
                     Expanded(
@@ -84,20 +85,18 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                         child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(playerService.currentlyPlayingTitle, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
-                            Text(playerService.currentlyPlayingPublisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
+                            Text(playerService.episodeTitle, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
+                            Text(playerService.episodePublisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
                           ],
                         )),
                     SizedBox(width: 5),
                     Expanded(
                         flex: 10,
-                        child: IconButton(
-                            color: Color(0xffEF476F),
-                            icon:
-                                getPlayButtonIcon(playerService.isPlayingAudio),
-                            onPressed: () {
-                              _onPlayButtonPress(playerService);
-                            })),
+                        child: CustomIconButton(
+                          icon: _getPlayButtonIcon(playerService.isPlaying),
+                          onTap: _onPlayButtonPress(playerService),
+                        )
+                    ),
                   ],
                 );
               }))

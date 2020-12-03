@@ -1,26 +1,41 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
+  const CustomIconButton(
+      {@required this.icon,
+      @required this.onTap,
+      this.size = 35,
+      this.color = const Color(0xFFEF476F)});
 
   static const double SQUARE_DIMENSIONS = 30;
 
   final IconData icon;
-
-  CustomIconButton(this.icon);
+  final VoidCallback onTap;
+  final double size;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: SQUARE_DIMENSIONS,
-      height: SQUARE_DIMENSIONS,
-      decoration: BoxDecoration(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Theme.of(context).buttonColor,
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: Theme.of(context).buttonColor,
+          ),
+          child: Icon(
+            icon,
+            color: color,
+            size: size * 0.69,
+          ),
+        ),
+        onTap: onTap,
       ),
-      child: Icon(icon,
-        color: Theme.of(context).primaryColor),
     );
   }
 }
