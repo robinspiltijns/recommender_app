@@ -8,7 +8,6 @@ class PlayerService extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
-
   String _episodeTitle;
   Image _episodeImage;
   Image _episodeThumbnail;

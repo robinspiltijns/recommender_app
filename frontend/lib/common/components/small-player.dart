@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/player-view.dart';
 import 'package:provider/provider.dart';
@@ -21,11 +22,11 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
 
   bool isPlayingAudio = false;
 
-  _onPlayButtonPress(PlayerService playerService) {
+  VoidCallback _onPlayButtonPress(PlayerService playerService) {
     if (playerService.isPlaying) {
-      playerService.pause();
+      return () => playerService.pause();
     } else {
-      playerService.resume();
+      return ()=> playerService.resume();
     }
   }
 
@@ -47,8 +48,8 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
         });
   }
 
-  Icon getPlayButtonIcon(bool isPlayingAudio) {
-    return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
+  IconData _getPlayButtonIcon(bool isPlayingAudio) {
+    return isPlayingAudio ? Icons.pause : Icons.play_arrow;
   }
 
   @override
@@ -91,13 +92,11 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                     SizedBox(width: 5),
                     Expanded(
                         flex: 10,
-                        child: IconButton(
-                            color: Color(0xffEF476F),
-                            icon:
-                                getPlayButtonIcon(playerService.isPlaying),
-                            onPressed: () {
-                              _onPlayButtonPress(playerService);
-                            })),
+                        child: CustomIconButton(
+                          icon: _getPlayButtonIcon(playerService.isPlaying),
+                          onTap: _onPlayButtonPress(playerService),
+                        )
+                    ),
                   ],
                 );
               }))

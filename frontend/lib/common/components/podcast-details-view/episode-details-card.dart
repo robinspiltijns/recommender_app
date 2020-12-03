@@ -16,48 +16,44 @@ class EpisodeDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
+    return Container(
         margin: EdgeInsets.symmetric(vertical: 15),
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(episode.title,
-                            style: Theme.of(context).textTheme.episodeTitle
-                        ),
-                        Text(
-                            releaseDateDurationString(episode.pubDateMs,
-                                episode.audioLengthSec),
-                            style: Theme.of(context).textTheme.episodeDuration
-                        ),
-                        SizedBox(height: 10),
-                        ExpandableText(removeAllHtmlTags(episode.description),
-                            style: Theme.of(context).textTheme.bodyText2,
-                            expandText: "Show more",
-                            collapseText: "Show less",
-                            maxLines: 3,
-                            linkColor: Colors.white,
-                        )
-                      ]
-                  )
-              ),
-              SizedBox(width: 10),
-              Consumer<PlayerService> (
-                builder: (context, playerService, child) {
-                  return Row(
-                    children: [CustomIconButton(Icons.play_arrow, () => playerService.play(episode.id)),
-                      SizedBox(width: 10),
-                      CustomIconButton(Icons.queue, () => {})],
-                  );
-                },
-              )
-            ]
-        )
-      );
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Text(episode.title,
+                    style: Theme.of(context).textTheme.episodeTitle),
+                Text(
+                    releaseDateDurationString(
+                        episode.pubDateMs, episode.audioLengthSec),
+                    style: Theme.of(context).textTheme.episodeDuration),
+                SizedBox(height: 10),
+                ExpandableText(
+                  removeAllHtmlTags(episode.description),
+                  style: Theme.of(context).textTheme.bodyText2,
+                  expandText: "Show more",
+                  collapseText: "Show less",
+                  maxLines: 3,
+                  linkColor: Colors.white,
+                )
+              ])),
+          SizedBox(width: 10),
+          Consumer<PlayerService>(
+            builder: (context, playerService, child) {
+              return Row(
+                children: [
+                  CustomIconButton(
+                      icon: Icons.play_arrow,
+                      onTap: () => playerService.play(episode.id)),
+                  SizedBox(width: 10),
+                  CustomIconButton(icon: Icons.queue, onTap: () => {})
+                ],
+              );
+            },
+          )
+        ]));
   }
 
   String releaseDateDurationString(int pubDateMs, int audioLengthSec) {

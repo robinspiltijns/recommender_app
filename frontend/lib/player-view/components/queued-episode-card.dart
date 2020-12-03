@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/common/theme.dart';
 
@@ -48,10 +49,7 @@ class QueuedEpisodeCardWidget extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10),
-        IconButton(
-            icon: Icon(Icons.play_arrow),
-            color: Color(0xffEF476F),
-            onPressed: () {})
+        CustomIconButton(icon: Icons.play_arrow, onTap: () {}),
       ],
     );
   }

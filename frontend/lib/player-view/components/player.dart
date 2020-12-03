@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/components/time-slider.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   bool _isSeeking = false;
   double _seekingPosition = 0;
 
-  Icon getPlayButtonIcon(bool isPlayingAudio) {
-    return isPlayingAudio ? Icon(Icons.pause) : Icon(Icons.play_arrow);
+  IconData getPlayButtonIcon(bool isPlayingAudio) {
+    return isPlayingAudio ? Icons.pause : Icons.play_arrow;
   }
 
   _onPlayButtonPress(PlayerService playerService) {
@@ -70,25 +71,23 @@ class _PlayerWidgetState extends State<PlayerWidget> {
             ],
           ),
           TimeSliderWidget(),
+          SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  icon: Icon(Icons.replay_10),
-                  onPressed: () => playerService.replay(10),
+              CustomIconButton(
+                  icon: Icons.replay_10,
+                  onTap: () => playerService.replay(10),
                   color: Colors.white),
               SizedBox(width: 40),
-              IconButton(
-                  color: Color(0xffEF476F),
-                  iconSize: 48.0,
+              CustomIconButton(
                   icon: getPlayButtonIcon(playerService.isPlaying),
-                  onPressed: () {
-                    _onPlayButtonPress(playerService);
-                  }),
+                  onTap: () => _onPlayButtonPress(playerService),
+                  size: 45),
               SizedBox(width: 40),
-              IconButton(
-                  icon: Icon(Icons.forward_30),
-                  onPressed: () => playerService.forward(30),
+              CustomIconButton(
+                  icon: Icons.forward_30,
+                  onTap: () => playerService.forward(30),
                   color: Colors.white),
             ],
           ),

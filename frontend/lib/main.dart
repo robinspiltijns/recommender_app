@@ -8,15 +8,12 @@ import 'package:provider/provider.dart';
 
 import 'feed-view/feed-page.dart';
 
-void main() => runApp(
-  ChangeNotifierProvider(
-    create: (context) => PlayerService(),
-    child: MyApp(),
-  )
-);
+void main() => runApp(ChangeNotifierProvider(
+      create: (context) => PlayerService(),
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -61,7 +58,8 @@ class _CastlyWidgetState extends State<CastlyWidget> {
           children: _destinationViews,
         ),
         // We kunnen dit eventueel later nog custom doen.
-        bottomNavigationBar: BottomControlsWidget(_selectedIndex, _onItemTapped),
+        bottomNavigationBar:
+            BottomControlsWidget(_selectedIndex, _onItemTapped),
       ),
     );
   }

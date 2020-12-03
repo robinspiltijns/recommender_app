@@ -7,9 +7,7 @@ import 'package:frontend/common/theme.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
 
-
 class LikedEpisodeCard extends StatelessWidget {
-
   final Episode episode;
 
   LikedEpisodeCard(this.episode);
@@ -17,10 +15,8 @@ class LikedEpisodeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 58,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        height: 58,
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           CachedNetworkImage(
             imageUrl: episode.imageUrl,
             imageBuilder: (context, imageProvider) => Container(
@@ -31,38 +27,33 @@ class LikedEpisodeCard extends StatelessWidget {
                 image: DecorationImage(image: imageProvider),
               ),
             ),
-            placeholder: (context, url) => Container(child: CircularProgressIndicator()),
+            placeholder: (context, url) =>
+                Container(child: CircularProgressIndicator()),
             errorWidget: (context, url, error) => Icon(Icons.error),
           ),
           SizedBox(width: 10),
           Expanded(
-            child: Container(
-              height: 34,
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(episode.title,
-                      style: Theme.of(context).textTheme.episodeTitle,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Spacer(),
-                  Align(
+              child: Container(
+                  height: 34,
+                  child: Column(children: [
+                    Align(
                       alignment: Alignment.topLeft,
-                      child: Text(    Utils.durationString(episode.duration),
-                          style: Theme.of(context).textTheme.episodeDuration)
-                  )
-                ]
-              )
-          )
-          ),
+                      child: Text(
+                        episode.title,
+                        style: Theme.of(context).textTheme.episodeTitle,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Spacer(),
+                    Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(Utils.durationString(episode.duration),
+                            style: Theme.of(context).textTheme.episodeDuration))
+                  ]))),
           SizedBox(width: 10),
-          CustomIconButton(Icons.more_horiz, () => {}),
+           CustomIconButton(icon: Icons.more_horiz, onTap: () => {}),
           SizedBox(width: 10),
           CustomTextButton("More like this"),
-        ]
-      )
-    );
+        ]));
   }
 }
