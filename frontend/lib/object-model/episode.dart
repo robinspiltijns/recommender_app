@@ -64,8 +64,8 @@ class Episode {
         Duration(seconds: map[DatabaseHelper.positionColumn]),
         map[DatabaseHelper.podcastIdColumn],
         map[DatabaseHelper.publisherColumn],
-        map[DatabaseHelper.idColumn],
-        map[DatabaseHelper.idColumn],
+        map[DatabaseHelper.descriptionColumn],
+        DateTime.parse(map[DatabaseHelper.publishDateColumn]),
       );
   }
 
