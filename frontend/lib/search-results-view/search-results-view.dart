@@ -121,107 +121,33 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
+            child: Text(
+              titles[ResultType.EPISODES], 
+              style: Theme.of(context).textTheme.headline2,
+            ),
+          ),
+        ),
         episodeResults(),
         moreButtonEpisodes(),
+        SliverToBoxAdapter(
+          child: SizedBox(height: 20,),
+        ),
+        SliverToBoxAdapter(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
+            child: Text(
+              titles[ResultType.PODCASTS],
+              style: Theme.of(context).textTheme.headline2,
+            ),
+          ),
+        ),
         podcastResults(),
         moreButtonPodcasts(),
       ],
     );
-
   }
-
-    /*
-    return ListView(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      children: [
-        Column(
-          children: [
-            Container(
-              height: SearchResultsViewWidget.TITLE_PART_HEIGHT,
-              alignment: AlignmentDirectional.centerStart,
-              margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
-              child: Text(
-                titles[ResultType.EPISODES],
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
-            new Expanded(
-              child: new ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: (presentEpisodes <= this.widget.episodes.length) ? showingEpisodes.length + 1 : showingEpisodes.length,
-                itemBuilder: (context, index) {
-                  return (index == showingEpisodes.length ) ?
-                    Container(
-                      height: SearchResultsViewWidget.MORE_PART_HEIGHT,
-                      child: FlatButton(
-                        child: MoreButton(),
-                        onPressed: () {
-                          setState(() {
-                            if((presentEpisodes + perPage)> this.widget.episodes.length) {
-                              showingEpisodes.addAll(
-                                  this.widget.episodes.getRange(presentEpisodes, this.widget.episodes.length));
-                            } else {
-                              showingEpisodes.addAll(
-                                  this.widget.episodes.getRange(presentEpisodes, presentEpisodes + perPage));
-                            }
-                            presentEpisodes = presentEpisodes + perPage;
-                            this.height = height + perPage*EpisodeSearchResultCard.HEIGHT;
-                        });
-                      },),
-                    )
-                  :
-                  EpisodeSearchResultCard(
-                    ep: this.showingEpisodes[index]);
-                },
-              ),
-            ),
-            Container(
-              height: SearchResultsViewWidget.TITLE_PART_HEIGHT,
-              alignment: AlignmentDirectional.centerStart,
-              margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
-              child: Text(
-                titles[ResultType.PODCASTS],
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
-            new Expanded(
-              child: new ListView.builder(
-                shrinkWrap: true,
-                itemCount: (presentPodcasts <= this.widget.podcasts.length) ? showingPodcasts.length + 1 : showingPodcasts.length,
-                itemBuilder: (context, index) {
-                  return (index == showingPodcasts.length ) ?
-                  Container(
-                    height: SearchResultsViewWidget.MORE_PART_HEIGHT,
-                    child: FlatButton(
-                      child: MoreButton(),
-                      onPressed: () {
-                        setState(() {
-                          if((presentPodcasts + perPage)> this.widget.podcasts.length) {
-                            showingPodcasts.addAll(
-                                this.widget.podcasts.getRange(presentPodcasts, this.widget.podcasts.length));
-                          } else {
-                            showingPodcasts.addAll(
-                                this.widget.podcasts.getRange(presentPodcasts, presentPodcasts + perPage));
-                          }
-                          presentPodcasts = presentPodcasts + perPage;
-                          this.height = height + perPage*PodcastSearchResultCard.HEIGHT;
-                        });
-                      },),
-                  )
-                      :
-                  PodcastSearchResultCard(
-                      this.showingPodcasts[index]);
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-     */
 }
 
