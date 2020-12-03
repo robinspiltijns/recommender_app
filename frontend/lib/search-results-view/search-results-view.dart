@@ -66,23 +66,41 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
   }
 
   Widget moreButtonEpisodes() {
-    return SliverToBoxAdapter(
-      child: FlatButton(
-        child: MoreButton(),
-        onPressed: () {
-          setState(() {
-            if((presentEpisodes + perPage)> this.widget.episodes.length) {
-              showingEpisodes.addAll(
-                  this.widget.episodes.getRange(presentEpisodes, this.widget.episodes.length));
-            } else {
-              showingEpisodes.addAll(
-                  this.widget.episodes.getRange(presentEpisodes, presentEpisodes + perPage));
-            }
-            presentEpisodes = presentEpisodes + perPage;
-            this.height = height + perPage*EpisodeSearchResultCard.HEIGHT;
-          });
-        },),
-    );
+    if (showingEpisodes.length >= 9) {
+      return SliverToBoxAdapter(
+        child: Container(
+          margin: EdgeInsets.only(top: 20, bottom: 10),
+          alignment: Alignment.center,
+          child: Text(
+            "No more episodes to show",
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText1,
+          ),
+        ),
+      );
+    } else {
+      return SliverToBoxAdapter(
+        child: FlatButton(
+          child: MoreButton(),
+          onPressed: () {
+            setState(() {
+              if ((presentEpisodes + perPage) > this.widget.episodes.length) {
+                showingEpisodes.addAll(
+                    this.widget.episodes.getRange(
+                        presentEpisodes, this.widget.episodes.length));
+              } else {
+                showingEpisodes.addAll(
+                    this.widget.episodes.getRange(
+                        presentEpisodes, presentEpisodes + perPage));
+              }
+              presentEpisodes = presentEpisodes + perPage;
+              this.height = height + perPage * EpisodeSearchResultCard.HEIGHT;
+            });
+          },),
+      );
+    }
   }
 
   Widget podcastResults() {
@@ -97,23 +115,41 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
   }
 
   Widget moreButtonPodcasts() {
-    return SliverToBoxAdapter(
-      child: FlatButton(
-        child: MoreButton(),
-        onPressed: () {
-          setState(() {
-            if((presentPodcasts + perPage)> this.widget.podcasts.length) {
-              showingPodcasts.addAll(
-                  this.widget.podcasts.getRange(presentPodcasts, this.widget.podcasts.length));
-            } else {
-              showingPodcasts.addAll(
-                  this.widget.podcasts.getRange(presentPodcasts, presentPodcasts + perPage));
-            }
-            presentPodcasts = presentPodcasts + perPage;
-            this.height = height + perPage*PodcastSearchResultCard.HEIGHT;
-          });
-        },),
-    );
+    if (showingPodcasts.length >= 9) {
+      return SliverToBoxAdapter(
+        child: Container(
+          margin: EdgeInsets.only(top: 20, bottom: 10),
+          alignment: Alignment.center,
+          child: Text(
+            "No more podcasts to show",
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText1,
+          ),
+        ),
+      );
+    } else {
+      return SliverToBoxAdapter(
+        child: FlatButton(
+          child: MoreButton(),
+          onPressed: () {
+            setState(() {
+              if ((presentPodcasts + perPage) > this.widget.podcasts.length) {
+                showingPodcasts.addAll(
+                    this.widget.podcasts.getRange(
+                        presentPodcasts, this.widget.podcasts.length));
+              } else {
+                showingPodcasts.addAll(
+                    this.widget.podcasts.getRange(
+                        presentPodcasts, presentPodcasts + perPage));
+              }
+              presentPodcasts = presentPodcasts + perPage;
+              this.height = height + perPage * PodcastSearchResultCard.HEIGHT;
+            });
+          },),
+      );
+    }
   }
 
 
