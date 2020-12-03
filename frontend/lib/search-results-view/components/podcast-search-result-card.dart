@@ -9,18 +9,17 @@ import 'package:swagger/api.dart';
 
 class PodcastSearchResultCard extends StatelessWidget {
 
-  static const double HEIGHT = CARD_HEIGHT + TOP_MARGIN + DESCRIPTION_TOP_MARGIN;
+  static const double HEIGHT = CARD_HEIGHT + TOP_MARGIN + DESCRIPTION_TOP_MARGIN ;
 
   static const double CARD_HEIGHT = 103;
   static const double LEFT_MARGIN = 10;
   static const double TOP_MARGIN = 10;
 
-  static const double BUTTON_SIDE_WIDTH = 2*CustomIconButton.SQUARE_DIMENSIONS + 3*BUTTON_BETWEEN_SPACING;
-  static const double BUTTON_BETWEEN_SPACING = 10;
+  static const double DESCRIPTION_HEIGHT_RATIO = 0.6;
+  static const double ARTWORK_DIM = 40;
 
 
-  static const double DESCRIPTION_HEIGHT = 50;
-  static const int NB_LINES_DESCRIPTION = 3;
+  static const int NB_LINES_DESCRIPTION = 2;
   static const double DESCRIPTION_TOP_MARGIN = 10;
 
 
@@ -33,52 +32,54 @@ class PodcastSearchResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left: LEFT_MARGIN, top: TOP_MARGIN),
-        height: CARD_HEIGHT,
+      margin: EdgeInsets.only(left: LEFT_MARGIN),
+      child: Container(
+        height: HEIGHT,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Container(
+              height: CARD_HEIGHT*(1-DESCRIPTION_HEIGHT_RATIO),
+              child: Row(
                 children: [
-                  Expanded( //container with all the text (left side of card)
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container( // container with title
-                              child: Text(podcast.titleOriginal,
-                                style: Theme.of(context).textTheme.episodeTitle,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              alignment: Alignment.centerLeft,
-                            ),
-                            Container( // container with description
-                                margin: EdgeInsets.only(top: DESCRIPTION_TOP_MARGIN),
-                                height: DESCRIPTION_HEIGHT,
-                                child: Text(podcast.descriptionOriginal,
-                                  style: Theme.of(context).textTheme.description,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                  maxLines: NB_LINES_DESCRIPTION,)
-                            )
-                          ])
+                  ClipRRect(
+                    child: Image(
+                      image: NetworkImage(this.podcast.image),
+                      width: ARTWORK_DIM,
+                      height: ARTWORK_DIM,
+                      fit: BoxFit.fitHeight,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  Container( // container with the buttons (right)
-                    alignment: Alignment.topCenter,
-                    width: BUTTON_SIDE_WIDTH,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomIconButton(Icons.play_arrow_rounded),
-                        SizedBox(
-                          width: BUTTON_BETWEEN_SPACING,
+                  Flexible(
+                    child: Container(
+                      child: Text(
+                        this.podcast.titleOriginal,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
                         ),
-                        CustomIconButton(Icons.library_add_rounded)
-                      ],
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      margin: EdgeInsets.only(left: 10),
                     ),
                   ),
-                ]
+                ],
+              ),
+            ),
+            Container(
+                height: CARD_HEIGHT*DESCRIPTION_HEIGHT_RATIO,
+                alignment: Alignment.center,
+                child: Text(
+                  this.podcast.descriptionOriginal,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  maxLines: NB_LINES_DESCRIPTION,
+                )
             ),
             const Divider(
               height: 10,
@@ -86,29 +87,8 @@ class PodcastSearchResultCard extends StatelessWidget {
               color: Color(0xBAFFFFFF),
             )
           ],
-        )
+        ),
+      ),
     );
-  }
-
-  String durationString(int secs) {
-    String result = "";
-    var duration = Duration(seconds: secs);
-    if (duration.inHours > 0) {
-      if (duration.inHours == 1) {
-        result += "1 hr";
-      } else {
-        result += "${duration.inHours} hrs";
-      }
-    }
-
-    if (duration.inMinutes.remainder(60) > 0) {
-      if (duration.inMinutes.remainder(60) == 1) {
-        result += "1 min";
-      } else {
-        result += "${duration.inMinutes.remainder(60)} mins";
-      }
-    }
-
-    return result;
   }
 }
