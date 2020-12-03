@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
+import 'package:frontend/feed-view/components/episode-card.dart';
+
 
 
 enum RecommendationBasis {
@@ -32,10 +34,18 @@ class FeedViewSection extends StatelessWidget {
   RecommendationBasis basis;
   String recommendationDescription;
 
-  List<Widget> generatePodcastCards(int nbCards) {
+  List<Widget> generateCards(int nbCards) {
     List<Widget> result = [];
-    for (int i = 0; i < nbCards; i++) {
-      result.add(PodcastCardWidget(podcast: resultList[i]));}
+
+      if (basis == RecommendationBasis.PODCAST) {
+        for (int i = 0; i < nbCards; i++) {
+          result.add(PodcastCardWidget(podcast: resultList[i]));
+        }
+      } else if (basis ==  RecommendationBasis.EPISODE) {
+        for (int i = 0; i< nbCards; i++) {
+          result.add(EpisodeCardWidget(episode: resultList[i]));
+        }
+      }
     return result;
   }
 
@@ -63,7 +73,7 @@ class FeedViewSection extends StatelessWidget {
             height: SECTION_HEIGHT,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: generatePodcastCards(NB_CARDS_PER_SECTION) + [Container(
+              children: generateCards(NB_CARDS_PER_SECTION) + [Container(
                 margin: EdgeInsets.only(left: PodcastCardWidget.CARD_MARGIN, right: PodcastCardWidget.CARD_MARGIN),
                 alignment: Alignment.center,
                 child: ClipRRect(
