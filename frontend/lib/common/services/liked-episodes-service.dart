@@ -25,7 +25,9 @@ class LikedEpisodesService extends ChangeNotifier {
             columns: ["COUNT (*)"],
             where: "${DatabaseHelper.idColumn} = ?",
             whereArgs: [id])
-        .then((result) => result.isNotEmpty);
+        .then((result) {
+          return result[0]["COUNT (*)"] != 0;
+        });
   }
 
   void insertLikedEpisode(Episode episode) {
