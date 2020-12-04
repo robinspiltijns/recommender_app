@@ -74,11 +74,11 @@ class EpisodeSearchResultCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomIconButton(Icons.play_arrow_rounded),
+                        CustomIconButton(icon: Icons.play_arrow_rounded),
                         SizedBox(
                           width: BUTTON_BETWEEN_SPACING,
                         ),
-                        CustomIconButton(Icons.library_add_rounded)
+                        CustomIconButton(icon: Icons.library_add_rounded)
                       ],
                     ),
                   ),
