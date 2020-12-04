@@ -58,8 +58,7 @@ class FeedViewSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-            height: 40,
+            margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
             child: Text(
               sectionTitles[basis] + recommendationDescription,
               style: TextStyle(
@@ -67,6 +66,9 @@ class FeedViewSection extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Container(
