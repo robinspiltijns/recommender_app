@@ -23,7 +23,7 @@ class LikedEpisodesService extends ChangeNotifier {
     return database
         .query(DatabaseHelper.likedEpisodesTable,
             columns: ["COUNT (*)"],
-            where: "$DatabaseHelper.idColumn = ?",
+            where: "${DatabaseHelper.idColumn} = ?",
             whereArgs: [id])
         .then((result) => result.isNotEmpty);
   }
@@ -41,8 +41,9 @@ class LikedEpisodesService extends ChangeNotifier {
   void deleteLikedEpisode(String id) {
     database
         .delete(DatabaseHelper.likedEpisodesTable,
-            where: "$DatabaseHelper.idColumn = ?",
+            where: "${DatabaseHelper.idColumn} = ?",
             whereArgs: [id])
         .then((_) => notifyListeners());
   }
+
 }
