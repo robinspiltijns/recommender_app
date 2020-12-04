@@ -10,7 +10,8 @@ class LikedEpisodesService extends ChangeNotifier {
 
   Future<List<Episode>> getLikedEpisodes() {
     return database
-        .query(DatabaseHelper.likedEpisodesTable)
+        .query(DatabaseHelper.likedEpisodesTable,
+          orderBy: DatabaseHelper.likedDateColumn)
         .then((list) =>
             list.map((response) =>
                 Episode.fromDatabaseMap(response))
@@ -28,8 +29,12 @@ class LikedEpisodesService extends ChangeNotifier {
   }
 
   void insertLikedEpisode(Episode episode) {
+    var entry = episode.toMap();
+    entry.addAll(
+        {DatabaseHelper.likedDateColumn: DateTime.now().toIso8601String()}
+    );
     database
-        .insert(DatabaseHelper.likedEpisodesTable, episode.toMap())
+        .insert(DatabaseHelper.likedEpisodesTable, entry)
         .then((_) => notifyListeners());
   }
 

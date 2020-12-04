@@ -20,6 +20,7 @@ class DatabaseHelper {
   static String podcastIdColumn = "podcast_id";
   static String descriptionColumn = "description";
   static String publishDateColumn = "publish_date";
+  static String likedDateColumn = "liked_date";
 
   factory DatabaseHelper() {
     if (_databaseHelper == null) {
@@ -48,17 +49,20 @@ class DatabaseHelper {
   }
 
   void _createDb(Database db, int newVersion) async {
-    await db.execute("""
-       CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
-          $idColumn TEXT PRIMARY KEY, 
-          $titleColumn TEXT, 
-          $imageColumn TEXT,
-          $durationColumn INTEGER,
-          $positionColumn INTEGER,
-          $publisherColumn TEXT,
-          $podcastIdColumn TEXT,
-          $descriptionColumn TEXT,
-          $publishDateColumn TEXT
+    await db.execute(
+        """
+         DROP TABLE $likedEpisodesTable;
+         CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
+            $idColumn TEXT PRIMARY KEY, 
+            $titleColumn TEXT, 
+            $imageColumn TEXT,
+            $durationColumn INTEGER,
+            $positionColumn INTEGER,
+            $publisherColumn TEXT,
+            $podcastIdColumn TEXT,
+            $descriptionColumn TEXT,
+            $publishDateColumn TEXT,
+            $likedDateColumn TEXT
        )
        """
     );
