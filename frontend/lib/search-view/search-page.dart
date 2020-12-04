@@ -22,8 +22,8 @@ class SearchPage extends StatelessWidget {
                   case "/":
                     return SearchWidget();
                   case SearchResultsViewWidget.routeName:
-                    final SearchResult searchResult = settings.arguments;
-                    return SearchResultsViewWidget(searchResult: searchResult,);
+                    final List<dynamic> searchResult = settings.arguments;
+                    return SearchResultsViewWidget(arguments: searchResult,);
                 }
               });
         }

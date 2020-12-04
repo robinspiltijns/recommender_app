@@ -31,7 +31,7 @@ class _SearchWidgetState extends State<SearchWidget> {
           Navigator.pushNamed(
           context,
           "/search-results",
-          arguments: result)
+          arguments: [result, value])
         });
   }
 
