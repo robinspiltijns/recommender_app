@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/object-model/episode.dart';
 import 'package:swagger/api.dart';
 
 import 'episode-details-card.dart';
 
 class EpisodesOverview extends StatelessWidget {
 
-  final List<EpisodeMinimum> episodes;
+  final List<Episode> episodes;
 
   EpisodesOverview(this.episodes);
 

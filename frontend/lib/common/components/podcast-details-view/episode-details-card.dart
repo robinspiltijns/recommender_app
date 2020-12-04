@@ -2,15 +2,15 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/services/player-service.dart';
+import 'package:frontend/common/services/queue-service.dart';
+import 'package:frontend/object-model/episode.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:swagger/api.dart';
 import 'package:frontend/common/theme.dart';
-
 import '../../utils.dart';
 
 class EpisodeDetailsCard extends StatelessWidget {
-  final EpisodeMinimum episode;
+  final Episode episode;
 
   EpisodeDetailsCard(this.episode);
 
@@ -35,7 +35,7 @@ class EpisodeDetailsCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.episodeTitle),
                   Text(
                       releaseDateDurationString(
-                          episode.pubDateMs, episode.audioLengthSec),
+                          episode.publishDate, episode.duration.inSeconds),
                       style: Theme.of(context).textTheme.episodeDuration),
                   SizedBox(height: 10),
                   ExpandableText(
@@ -58,15 +58,21 @@ class EpisodeDetailsCard extends StatelessWidget {
                       onTap: () => playerService.play(episode.id));
                 }),
                 SizedBox(width: 10),
-                CustomIconButton(icon: Icons.queue, onTap: () => {})
+                Consumer<QueueService>(
+                  builder: (context, queueService, child) {
+                    return CustomIconButton(
+                        icon: Icons.queue,
+                        onTap: () =>
+                            {queueService.insertQueuedEpisode(episode)});
+                  },
+                ),
               ],
             )
           ],
         ));
   }
 
-  String releaseDateDurationString(int pubDateMs, int audioLengthSec) {
-    var dateTime = new DateTime.fromMillisecondsSinceEpoch(pubDateMs);
+  String releaseDateDurationString(DateTime dateTime, int audioLengthSec) {
     return DateFormat.yMMMMd('en_US').format(dateTime) +
         " - " +
         Utils.durationString(Duration(seconds: audioLengthSec));
