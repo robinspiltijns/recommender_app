@@ -32,6 +32,11 @@ var themeData = new ThemeData(
         )));
 
 extension CustomStyles on TextTheme {
+  TextStyle get description =>
+      TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+      );
   TextStyle get genreTitle => TextStyle(
         fontSize: 18.0,
         color: Colors.white,

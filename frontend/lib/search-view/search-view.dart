@@ -28,11 +28,10 @@ class _SearchWidgetState extends State<SearchWidget> {
   _onSubmit(String value) {
     Future<swagger.SearchResult> futureResult = api.getSearchResults(value, "title");
     futureResult.then((result) => {
-          setState(() {
-            results = result.episoderesults
-                .map((episoderesult) => episoderesult.titleOriginal)
-                .toList();
-          })
+          Navigator.pushNamed(
+          context,
+          "/search-results",
+          arguments: result)
         });
   }
 
