@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/utils.dart';
-import 'package:intl/intl.dart';
-import 'package:swagger/api.dart';
+import 'package:frontend/object-model/episode.dart';
+import 'package:provider/provider.dart';
 import 'package:frontend/common/theme.dart';
 
 
@@ -18,19 +19,9 @@ class EpisodeCardWidget extends StatelessWidget {
   static const double BUTTON_PART_WIDTH = 55;
   static const double VERT_SPACE_BETWEEN_BUTTONS = 20;
 
-  EpisodeCardWidget({EpisodeSimple episode}) {
-    this.episodeTitle = removeAllHtmlTags(episode.title);
-    this.episodeDescription = removeAllHtmlTags(episode.description);
-    this.episodeArtworkURL = episode.image;
-    this.episodeId = episode.id;
-    this.duration = durationString(episode.audioLengthSec);
-  }
+  EpisodeCardWidget({this.episode});
 
-  String episodeDescription;
-  String episodeTitle;
-  String episodeArtworkURL;
-  String episodeId;
-  String duration;
+  Episode episode;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +30,7 @@ class EpisodeCardWidget extends StatelessWidget {
         Navigator.pushNamed(
             context,
             "/details",
-            arguments: episodeId);
+            arguments: episode.id);
       },
       child: Container(
         margin: EdgeInsets.only(
@@ -68,7 +59,7 @@ class EpisodeCardWidget extends StatelessWidget {
                           children: [
                             ClipRRect(
                               child: Image(
-                                image: NetworkImage(this.episodeArtworkURL),
+                                image: NetworkImage(episode.imageUrl),
                                 width: ARTWORK_DIM,
                                 height: ARTWORK_DIM,
                                 fit: BoxFit.fitHeight,
@@ -81,7 +72,7 @@ class EpisodeCardWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      episodeTitle,
+                                      removeAllHtmlTags(episode.title),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -92,7 +83,7 @@ class EpisodeCardWidget extends StatelessWidget {
                                       softWrap: true,
                                     ),
                                     Text(
-                                      duration,
+                                      durationString(episode.duration.inSeconds),
                                       style: Theme.of(context).textTheme.episodeDuration,
                                     )
                                   ],
@@ -111,7 +102,7 @@ class EpisodeCardWidget extends StatelessWidget {
                             CARD_CONTENT_PADDING,
                             CARD_CONTENT_PADDING),
                         child: Text(
-                          episodeDescription,
+                          removeAllHtmlTags(episode.description),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -130,7 +121,11 @@ class EpisodeCardWidget extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomIconButton(icon: Icons.library_add_rounded, onTap: null),
+                      Consumer<QueueService>(
+                        builder: (context, queueService, child) {
+                          return CustomIconButton(icon: Icons.library_add_rounded, onTap:() => queueService.insertQueuedEpisode(episode));
+                        }
+                      ),
                       SizedBox(height: VERT_SPACE_BETWEEN_BUTTONS),
                       CustomIconButton(icon: Icons.play_arrow_rounded, onTap: null)
                     ],
