@@ -8,7 +8,6 @@ import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart';
 import 'package:swagger/api.dart' as swagger;
 
-
 enum ResultType {
   EPISODES,
   PODCASTS
