@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/buttons/custom-text-button.dart';
 import 'package:frontend/search-results-view/components/episode-search-result-card.dart';
 import 'package:frontend/search-results-view/components/podcast-search-result-card.dart';
 import 'package:frontend/search-results-view/components/more-button.dart';
+import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart';
+import 'package:swagger/api.dart' as swagger;
 
 enum ResultType {
   EPISODES,
@@ -12,10 +15,19 @@ enum ResultType {
 
 class SearchResultsViewWidget extends StatefulWidget {
 
+  static const String routeName = '/search-results';
+  final api = swagger.DefaultApi();
+
+
+  SearchResult searchResult;
+  String queryString;
+
   static const double TITLE_PART_HEIGHT = 50;
   static const double MORE_PART_HEIGHT = 60;
 
-  SearchResultsViewWidget({SearchResult searchResult}) {
+  SearchResultsViewWidget({@required List<dynamic> arguments}) {
+    this.searchResult = arguments[0];
+    this.queryString = arguments[1];
     this.episodes = searchResult.episoderesults;
     this.podcasts = searchResult.podcastresults;
   }
@@ -59,7 +71,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
       delegate: SliverChildBuilderDelegate(
             (context, index) {
           return EpisodeSearchResultCard(ep: showingEpisodes[index],);
-          },
+        },
         childCount: this.showingEpisodes.length,
       ),
     );
@@ -152,37 +164,64 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     }
   }
 
+  _onSubmit(String value) {
+    Future<swagger.SearchResult> futureResult = this.widget.api.getSearchResults(value, "title");
+    futureResult.then((result) => {
+      Navigator.pushNamed(
+          context,
+          "/search-results",
+          arguments: [result, value])
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverToBoxAdapter(
-          child: Container(
-            margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
-            child: Text(
-              titles[ResultType.EPISODES], 
-              style: Theme.of(context).textTheme.headline2,
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Container(
+          child: SearchFieldWidget(onSubmit: _onSubmit, query: this.widget.queryString,),
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(top: 5, bottom: 5, right: 10),
+              child: CustomTextButton("Cancel", color: Colors.white,)
+          )
+        ],
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        centerTitle: false,
+      ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(10, 20, 0, 20),
+              child: Text(
+                titles[ResultType.EPISODES],
+                style: Theme.of(context).textTheme.headline2,
+              ),
             ),
           ),
-        ),
-        episodeResults(),
-        moreButtonEpisodes(),
-        SliverToBoxAdapter(
-          child: SizedBox(height: 20,),
-        ),
-        SliverToBoxAdapter(
-          child: Container(
-            margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
-            child: Text(
-              titles[ResultType.PODCASTS],
-              style: Theme.of(context).textTheme.headline2,
+          episodeResults(),
+          moreButtonEpisodes(),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 20,),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
+              child: Text(
+                titles[ResultType.PODCASTS],
+                style: Theme.of(context).textTheme.headline2,
+              ),
             ),
           ),
-        ),
-        podcastResults(),
-        moreButtonPodcasts(),
-      ],
+          podcastResults(),
+          moreButtonPodcasts(),
+        ],
+      ),
     );
   }
 }
