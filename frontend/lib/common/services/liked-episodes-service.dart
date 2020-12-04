@@ -4,37 +4,46 @@ import 'package:frontend/object-model/episode.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LikedEpisodesService extends ChangeNotifier {
+  final Database database;
 
-  Database database;
+  LikedEpisodesService(this.database);
 
-  LikedEpisodesService(this.database) {
-    testDatabase();
+  Future<List<Episode>> getLikedEpisodes() {
+    return database
+        .query(DatabaseHelper.likedEpisodesTable,
+          orderBy: DatabaseHelper.likedDateColumn)
+        .then((list) =>
+            list.map((response) =>
+                Episode.fromDatabaseMap(response))
+            .toList()
+        );
   }
 
-  void testDatabase() async {
-
-
-
-    var result = await database.query(DatabaseHelper.likedEpisodesTable);
-    if (result.isEmpty) {
-      print("empty!");
-      Episode episode = Episode(
-          "test",
-          "test",
-          "test",
-          Duration(seconds: 4),
-          Duration(seconds: 4),
-          "test", "test", "test", DateTime.now());
-
-      await database.insert(DatabaseHelper.likedEpisodesTable, episode.toMap());
-      print("inserted");
-    } else {
-      print(Episode.fromDatabaseMap(result[0]));
-    }
-
-
+  Future<bool> isLiked(String id) {
+    return database
+        .query(DatabaseHelper.likedEpisodesTable,
+            columns: ["COUNT (*)"],
+            where: "${DatabaseHelper.idColumn} = ?",
+            whereArgs: [id])
+        .then((result) => result.isNotEmpty);
   }
 
+  void insertLikedEpisode(Episode episode) {
+    var entry = episode.toMap();
+    entry.addAll(
+        {DatabaseHelper.likedDateColumn: DateTime.now().toIso8601String()}
+    );
+    database
+        .insert(DatabaseHelper.likedEpisodesTable, entry)
+        .then((_) => notifyListeners());
+  }
 
+  void deleteLikedEpisode(String id) {
+    database
+        .delete(DatabaseHelper.likedEpisodesTable,
+            where: "${DatabaseHelper.idColumn} = ?",
+            whereArgs: [id])
+        .then((_) => notifyListeners());
+  }
 
 }
