@@ -6,7 +6,8 @@ class Episode {
   final String id;
   final String imageUrl;
   final Duration duration;
-  final Duration position;
+  // TODO: Denk eens na of dit ook final moet/kan.
+  Duration position;
   final String publisher;
   final String podcastId;
   final String description;

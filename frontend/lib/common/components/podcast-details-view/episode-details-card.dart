@@ -54,8 +54,8 @@ class EpisodeDetailsCard extends StatelessWidget {
                     builder: (context, playerService, child) {
                   return CustomIconButton(
                       icon: _getPlayButtonIcon(
-                          playerService.isPlaying, playerService.episodeId),
-                      onTap: () => playerService.play(episode.id));
+                          playerService.isPlaying, playerService.episode.id),
+                      onTap: () => playerService.play(episode));
                 }),
                 SizedBox(width: 10),
                 Consumer<QueueService>(

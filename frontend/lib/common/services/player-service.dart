@@ -1,28 +1,25 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:swagger/api.dart';
+import 'package:frontend/object-model/episode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swagger/api.dart';
 
 class PlayerService extends ChangeNotifier {
   // TODO: Permission to play audio a long time. (https://pub.dev/documentation/audioplayers/latest/)
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
-  String _episodeTitle;
-  String _episodeId;
+  Episode _episode;
   Image _episodeImage;
   Image _episodeThumbnail;
-  String _episodePublisher;
   String _episodeAudio;
-  Duration _episodeDuration;
-  Duration _episodePosition;
   AudioPlayerState _audioPlayerState;
 
   PlayerService() {
     _initializeState();
     // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
-      _episodePosition = position;
+      _episode.position = position;
       int seconds = position.inSeconds;
       if (seconds % 20 == 0) {
         _persistResumePoint(seconds);
@@ -49,33 +46,29 @@ class PlayerService extends ChangeNotifier {
     }
   }
 
-  Future<void> _initializeState() async {
-    _episodeTitle = "No currently playing episode.";
-    _episodeId = "";
+  void _initializeState() {
+    _episode = Episode(
+        "No currently playing episode.",
+        "",
+        // TODO: Figure image
+        "",
+        Duration(seconds: 0),
+        Duration(seconds: 0),
+        "Unavailable",
+        "",
+        "",
+        DateTime.now()
+    );
     _episodeImage = Image.asset('assets/no-podcast.png');
     _episodeThumbnail = Image.asset('assets/no-podcast.png');
-    _episodePublisher = "Unavailable";
-    _episodeDuration = Duration(seconds: 0);
-    _episodePosition = Duration(seconds: 0);
     _audioPlayerState = AudioPlayerState.STOPPED;
     notifyListeners();
   }
 
-  String get episodeTitle {
-    return _episodeTitle;
+  Episode get episode {
+    return _episode;
   }
 
-  String get episodeId {
-    return _episodeId;
-  }
-
-  Duration get episodeDuration {
-    return _episodeDuration;
-  }
-
-  Duration get episodePosition {
-    return _episodePosition;
-  }
 
   Image get episodeImage {
     return _episodeImage;
@@ -83,10 +76,6 @@ class PlayerService extends ChangeNotifier {
 
   Image get episodeThumbnail {
     return _episodeThumbnail;
-  }
-
-  String get episodePublisher {
-    return _episodePublisher;
   }
 
   bool get isPlaying {
@@ -104,7 +93,7 @@ class PlayerService extends ChangeNotifier {
       case AudioPlayerState.STOPPED:
         _audioPlayer.play(_episodeAudio).then((result) {
           if (result == 1) {
-            _audioPlayer.seek(_episodePosition);
+            _audioPlayer.seek(episode.position);
           }
         });
         break;
@@ -125,11 +114,11 @@ class PlayerService extends ChangeNotifier {
   }
 
   void forward(int seconds) {
-    seek(_episodePosition + Duration(seconds: seconds));
+    seek(episode.position + Duration(seconds: seconds));
   }
 
   void replay(int seconds) {
-    seek(_episodePosition - Duration(seconds: seconds));
+    seek(episode.position - Duration(seconds: seconds));
   }
 
   Future<void> _persistPlayingEpisode(String episodeId) async {
@@ -143,28 +132,19 @@ class PlayerService extends ChangeNotifier {
   }
 
   void _loadEpisodeData(EpisodeFull episodeFull, int resumePoint) {
-    _episodeTitle = episodeFull.title;
-    _episodeId = episodeFull.id;
     _episodeImage = Image.network(episodeFull.image);
     _episodeThumbnail = Image.network(episodeFull.thumbnail);
-    _episodePublisher = episodeFull.podcast.publisher;
     _episodeAudio = episodeFull.audio;
-    _episodeDuration = Duration(seconds: episodeFull.audioLengthSec);
-    _episodePosition = Duration(seconds: resumePoint);
   }
 
-  void play(String episodeId) {
-    Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
-    futureEpisodeFull.then((episodeFull) {
-      _loadEpisodeData(episodeFull, 0);
+  void play(Episode episode) {     _loadEpisodeData(episodeFull, 0);
       notifyListeners();
-      _audioPlayer.play(episodeFull.audio).then((result) async {
+      _audioPlayer.play(episode.a).then((result) async {
         if (result == 1) {
           notifyListeners();
-          await _persistPlayingEpisode(episodeId);
+          await _persistPlayingEpisode(episode.id);
           await _persistResumePoint(0);
         }
       });
-    });
   }
 }

@@ -7,7 +7,6 @@ import 'package:frontend/object-model/episode.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/common/theme.dart';
 
-
 class EpisodeCardWidget extends StatelessWidget {
   static const double CARD_WIDTH = 325;
   static const double CARD_HEIGHT = 115;
@@ -27,10 +26,7 @@ class EpisodeCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(
-            context,
-            "/details",
-            arguments: episode.id);
+        Navigator.pushNamed(context, "/details", arguments: episode.id);
       },
       child: Container(
         margin: EdgeInsets.only(
@@ -48,8 +44,10 @@ class EpisodeCardWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Container( // artwork + title
-                        height: CARD_HEIGHT * (1 - DESCRIPTION_HEIGHT_RATIO) - CARD_MARGIN,
+                      Container(
+                        // artwork + title
+                        height: CARD_HEIGHT * (1 - DESCRIPTION_HEIGHT_RATIO) -
+                            CARD_MARGIN,
                         margin: EdgeInsets.fromLTRB(
                             CARD_CONTENT_PADDING,
                             CARD_CONTENT_PADDING,
@@ -66,7 +64,8 @@ class EpisodeCardWidget extends StatelessWidget {
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            Expanded( // title + duration
+                            Expanded(
+                              // title + duration
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,8 +82,11 @@ class EpisodeCardWidget extends StatelessWidget {
                                       softWrap: true,
                                     ),
                                     Text(
-                                      durationString(episode.duration.inSeconds),
-                                      style: Theme.of(context).textTheme.episodeDuration,
+                                      durationString(
+                                          episode.duration.inSeconds),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .episodeDuration,
                                     )
                                   ],
                                 ),
@@ -95,7 +97,8 @@ class EpisodeCardWidget extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: CARD_HEIGHT * DESCRIPTION_HEIGHT_RATIO - CARD_MARGIN,
+                        height: CARD_HEIGHT * DESCRIPTION_HEIGHT_RATIO -
+                            CARD_MARGIN,
                         margin: EdgeInsets.fromLTRB(
                             CARD_CONTENT_PADDING,
                             CARD_CONTENT_PADDING / 2,
@@ -122,12 +125,15 @@ class EpisodeCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Consumer<QueueService>(
-                        builder: (context, queueService, child) {
-                          return CustomIconButton(icon: Icons.library_add_rounded, onTap:() => queueService.insertQueuedEpisode(episode));
-                        }
-                      ),
+                          builder: (context, queueService, child) {
+                        return CustomIconButton(
+                            icon: Icons.library_add_rounded,
+                            onTap: () =>
+                                queueService.insertQueuedEpisode(episode));
+                      }),
                       SizedBox(height: VERT_SPACE_BETWEEN_BUTTONS),
-                      CustomIconButton(icon: Icons.play_arrow_rounded, onTap: null)
+                      CustomIconButton(
+                          icon: Icons.play_arrow_rounded, onTap: null)
                     ],
                   ),
                 )
