@@ -40,7 +40,7 @@ class EpisodeSearchResultCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded( //container with all the text (left side of card)
                       child: Column(
@@ -58,13 +58,13 @@ class EpisodeSearchResultCard extends StatelessWidget {
                                   style: Theme.of(context).textTheme.episodeDuration),
                             ),
                             Container( // container with description
-                              margin: EdgeInsets.only(top: DESCRIPTION_TOP_MARGIN),
-                              height: DESCRIPTION_HEIGHT,
-                              child: Text(episode.descriptionOriginal,
-                              style: Theme.of(context).textTheme.description,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                              maxLines: NB_LINES_DESCRIPTION,)
+                                margin: EdgeInsets.only(top: DESCRIPTION_TOP_MARGIN),
+                                height: DESCRIPTION_HEIGHT,
+                                child: Text(episode.descriptionOriginal,
+                                  style: Theme.of(context).textTheme.description,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  maxLines: NB_LINES_DESCRIPTION,)
                             )
                           ])
                   ),

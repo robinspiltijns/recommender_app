@@ -5,7 +5,7 @@ class CustomIconButton extends StatelessWidget {
   const CustomIconButton(
       {@required this.icon,
       @required this.onTap,
-      this.size = 35,
+      this.size = SQUARE_DIMENSIONS,
       this.color = const Color(0xFFEF476F)});
 
   static const double SQUARE_DIMENSIONS = 30;
