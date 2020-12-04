@@ -8,7 +8,7 @@ class Episode {
   final String id;
   final String imageUrl;
   final Duration duration;
-  final Duration position;
+  Duration position;
   final String publisher;
   final String podcastId;
   final String description;

@@ -87,7 +87,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                               icon: Icon(Icons.favorite_border),
                               onPressed: () {
                                 likedEpisodesService
-                                    .insertLikedEpisode(episode);
+                                    .insertLikedEpisode(playerService.episode);
                               },
                               color: Colors.white);
                         }
@@ -95,6 +95,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                         // data is not loaded
                         return IconButton(
                             icon: Icon(Icons.favorite_border),
+                            onPressed: () {},
                             color: Theme.of(context).buttonColor);
                       }
                     });
