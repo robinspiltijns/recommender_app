@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:swagger/api.dart';
 
 class PodcastCardWidget extends StatelessWidget {
-  static const double CARD_WIDTH = 300;
-  static const double CARD_HEIGHT = 150;
-  static const double ARTWORK_DIM =
-      CARD_HEIGHT * (1 - DESCRIPTION_HEIGHT_RATIO) - 1.5 * CARD_CONTENT_PADDING;
+  static const double CARD_WIDTH = 200;
+  static const double CARD_HEIGHT = 201;
+  static const double ARTWORK_DIM = 50;
   static const double CARD_CONTENT_PADDING = 10;
   static const double DESCRIPTION_HEIGHT_RATIO = 0.55;
   static const double CARD_MARGIN = 10;
+
+  static const double TITLE_PART_HEIGHT = ARTWORK_DIM + 20;
+
+  static const int MAX_LINES_TITLE = 2;
+  static const int MAX_LINES_DESCRIPTION = 7;
 
   PodcastCardWidget({PodcastSimple podcast}) {
     this.podcastTitle = podcast.title;
@@ -54,14 +58,18 @@ class PodcastCardWidget extends StatelessWidget {
                     CARD_CONTENT_PADDING / 2),
                 child: Row(
                   children: [
-                    ClipRRect(
-                      child: Image(
-                        image: NetworkImage(this.podcastArtworkURL),
-                        width: ARTWORK_DIM,
-                        height: ARTWORK_DIM,
-                        fit: BoxFit.fitHeight,
+                    Container(
+                      height: TITLE_PART_HEIGHT,
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      child: ClipRRect(
+                        child: Image(
+                          image: NetworkImage(this.podcastArtworkURL),
+                          width: ARTWORK_DIM,
+                          height: ARTWORK_DIM,
+                          fit: BoxFit.fitHeight,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
                     ),
                     Flexible(
                       child: Container(
@@ -73,6 +81,8 @@ class PodcastCardWidget extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          maxLines: MAX_LINES_TITLE,
                         ),
                         margin: EdgeInsets.only(left: 10),
                       ),
@@ -80,24 +90,25 @@ class PodcastCardWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                  height: CARD_HEIGHT * DESCRIPTION_HEIGHT_RATIO,
-                  padding: EdgeInsets.fromLTRB(
-                      CARD_CONTENT_PADDING,
-                      CARD_CONTENT_PADDING / 2,
-                      CARD_CONTENT_PADDING,
-                      CARD_CONTENT_PADDING),
-                  alignment: Alignment.center,
-                  child: Text(
-                    podcastDescription,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                    maxLines: 4,
-                  ))
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.fromLTRB(
+                        CARD_CONTENT_PADDING,
+                        CARD_CONTENT_PADDING / 2,
+                        CARD_CONTENT_PADDING,
+                        CARD_CONTENT_PADDING),
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      podcastDescription,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      maxLines: MAX_LINES_DESCRIPTION,
+                    )),
+              )
             ],
           ),
         ),

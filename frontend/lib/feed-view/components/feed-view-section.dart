@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
+import 'package:frontend/feed-view/components/episode-card.dart';
+
 
 
 enum RecommendationBasis {
@@ -11,7 +13,7 @@ enum RecommendationBasis {
 
 class FeedViewSection extends StatelessWidget {
 
-  static const double SECTION_HEIGHT = PodcastCardWidget.CARD_HEIGHT + 2*PodcastCardWidget.CARD_MARGIN;
+  double SECTION_HEIGHT;
   static const double SECTION_MARGIN_TOP = 10;
   static const int NB_CARDS_PER_SECTION = 3;
 
@@ -26,16 +28,29 @@ class FeedViewSection extends StatelessWidget {
     this.resultList = resList;
     this.basis = b;
     this.recommendationDescription = recDescription;
+    if (b == RecommendationBasis.PODCAST) {
+      this.SECTION_HEIGHT = PodcastCardWidget.CARD_HEIGHT + 2*PodcastCardWidget.CARD_MARGIN;
+    } else if (b == RecommendationBasis.EPISODE) {
+      this.SECTION_HEIGHT = EpisodeCardWidget.CARD_HEIGHT + 2*EpisodeCardWidget.CARD_MARGIN;
+    }
   }
 
   dynamic resultList;
   RecommendationBasis basis;
   String recommendationDescription;
 
-  List<Widget> generatePodcastCards(int nbCards) {
+  List<Widget> generateCards(int nbCards) {
     List<Widget> result = [];
-    for (int i = 0; i < nbCards; i++) {
-      result.add(PodcastCardWidget(podcast: resultList[i]));}
+
+      if (basis == RecommendationBasis.PODCAST) {
+        for (int i = 0; i < nbCards; i++) {
+          result.add(PodcastCardWidget(podcast: resultList[i]));
+        }
+      } else if (basis ==  RecommendationBasis.EPISODE) {
+        for (int i = 0; i< nbCards; i++) {
+          result.add(EpisodeCardWidget(episode: resultList[i]));
+        }
+      }
     return result;
   }
 
@@ -48,8 +63,7 @@ class FeedViewSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-            height: 40,
+            margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
             child: Text(
               sectionTitles[basis] + recommendationDescription,
               style: TextStyle(
@@ -57,13 +71,16 @@ class FeedViewSection extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Container(
             height: SECTION_HEIGHT,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: generatePodcastCards(NB_CARDS_PER_SECTION) + [Container(
+              children: generateCards(NB_CARDS_PER_SECTION) + [Container(
                 margin: EdgeInsets.only(left: PodcastCardWidget.CARD_MARGIN, right: PodcastCardWidget.CARD_MARGIN),
                 alignment: Alignment.center,
                 child: ClipRRect(
