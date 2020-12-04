@@ -8,6 +8,8 @@ class CustomIconButton extends StatelessWidget {
       this.size = 35,
       this.color = const Color(0xFFEF476F)});
 
+  static const double SQUARE_DIMENSIONS = 30;
+
   final IconData icon;
   final VoidCallback onTap;
   final double size;

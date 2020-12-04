@@ -29,7 +29,16 @@ var themeData = new ThemeData(
         bodyText2: TextStyle(
           color: Colors.white.withOpacity(0.72),
           fontSize: 12.0,
-        )));
+          color: themeData.primaryColor,
+          fontWeight: FontWeight.w600,
+        );
+    TextStyle get description =>
+        TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        );
+}
+
 
 extension CustomStyles on TextTheme {
   TextStyle get genreTitle => TextStyle(
