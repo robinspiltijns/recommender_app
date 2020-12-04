@@ -13,7 +13,7 @@ enum RecommendationBasis {
 
 class FeedViewSection extends StatelessWidget {
 
-  static const double SECTION_HEIGHT = PodcastCardWidget.CARD_HEIGHT + 2*PodcastCardWidget.CARD_MARGIN;
+  double SECTION_HEIGHT;
   static const double SECTION_MARGIN_TOP = 10;
   static const int NB_CARDS_PER_SECTION = 3;
 
@@ -28,6 +28,11 @@ class FeedViewSection extends StatelessWidget {
     this.resultList = resList;
     this.basis = b;
     this.recommendationDescription = recDescription;
+    if (b == RecommendationBasis.PODCAST) {
+      this.SECTION_HEIGHT = PodcastCardWidget.CARD_HEIGHT + 2*PodcastCardWidget.CARD_MARGIN;
+    } else if (b == RecommendationBasis.EPISODE) {
+      this.SECTION_HEIGHT = EpisodeCardWidget.CARD_HEIGHT + 2*EpisodeCardWidget.CARD_MARGIN;
+    }
   }
 
   dynamic resultList;
