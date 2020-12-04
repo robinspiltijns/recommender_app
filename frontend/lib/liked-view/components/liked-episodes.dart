@@ -27,6 +27,15 @@ class LikedEpisodesWidget extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var episodes = snapshot.data as List<Episode>;
+                  if (episodes.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text("Episodes you have liked will show up here, \n"
+                            "so go play and like some episodes!",
+                            style: Theme.of(context).textTheme.bodyText1
+                      )
+                    );
+                  }
                   return ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -39,8 +48,7 @@ class LikedEpisodesWidget extends StatelessWidget {
                     },
                   );
                 } else {
-                  // TODO: put loading indicator here
-                  return Container();
+                  return CircularProgressIndicator();
                 }
               },
             );
