@@ -5,6 +5,7 @@ import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/liked-view/liked-view.dart';
+import 'package:frontend/search-view/search-page.dart';
 import 'package:frontend/search-view/search-view.dart';
 import 'package:frontend/common/theme.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
   static List<Widget> _destinationViews = <Widget>[
     LikesWidget(),
     FeedPage(),
-    SearchWidget(),
+    SearchPage(),
   ];
 
   void _onItemTapped(int index) {
