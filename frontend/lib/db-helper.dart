@@ -11,6 +11,7 @@ class DatabaseHelper {
   static final String likedEpisodesTable = "liked_episodes";
   static final String queueTable = "queue";
   static final String idColumn = "id";
+  static final String audioColumn = "audio";
   static final String titleColumn = "title";
   static final String imageColumn = "image_url";
   static final String durationColumn = "duration";
@@ -43,7 +44,7 @@ class DatabaseHelper {
     String path = directory.path + "episodes.db";
 
     // Uncomment this line to reset database when changes are done in _createDb().
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
 
     //OPEN/CREATE THE DB AT A GIVEN PATH
     var database = await openDatabase(path, version: 1, onCreate: _createDb);
@@ -55,6 +56,7 @@ class DatabaseHelper {
           CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
              $idColumn TEXT PRIMARY KEY,
              $titleColumn TEXT,
+             $audioColumn TEXT,
              $imageColumn TEXT,
              $durationColumn INTEGER,
              $positionColumn INTEGER,
@@ -70,6 +72,7 @@ class DatabaseHelper {
        CREATE TABLE IF NOT EXISTS $queueTable(
             $idColumn TEXT PRIMARY KEY, 
             $titleColumn TEXT, 
+            $audioColumn TEXT,
             $imageColumn TEXT,
             $durationColumn INTEGER,
             $positionColumn INTEGER,

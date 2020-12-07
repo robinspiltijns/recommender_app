@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/services/player-service.dart';
@@ -28,7 +29,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   double getSliderPosition(PlayerService playerService) {
     return _isSeeking
         ? _seekingPosition
-        : playerService.episode..inSeconds.toDouble();
+        : playerService.episode.position.inSeconds.toDouble();
   }
 
   @override
@@ -40,7 +41,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           Container(
             margin: EdgeInsets.only(left: 70, right: 70, top: 10),
             child: ClipRRect(
-              child: playerService.episodeImage,
+              child: CachedNetworkImage(imageUrl: playerService.episode.imageUrl),
               borderRadius: BorderRadius.circular(15),
             ),
           ),

@@ -10,9 +10,6 @@ class PlayerService extends ChangeNotifier {
   final _api = DefaultApi();
 
   Episode _episode;
-  Image _episodeImage;
-  Image _episodeThumbnail;
-  String _episodeAudio;
   AudioPlayerState _audioPlayerState;
 
   PlayerService() {
@@ -40,42 +37,21 @@ class PlayerService extends ChangeNotifier {
     if (episodeId != "") {
       Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
       futureEpisodeFull.then((episodeFull) {
-        _loadEpisodeData(episodeFull, resumePoint);
+        _loadEpisodeData(Episode.fromEpisodeFull(episodeFull), resumePoint);
         notifyListeners();
       });
     }
   }
 
   void _initializeState() {
-    _episode = Episode(
-        "No currently playing episode.",
-        "",
-        // TODO: Figure image
-        "",
-        Duration(seconds: 0),
-        Duration(seconds: 0),
-        "Unavailable",
-        "",
-        "",
-        DateTime.now()
-    );
-    _episodeImage = Image.asset('assets/no-podcast.png');
-    _episodeThumbnail = Image.asset('assets/no-podcast.png');
+    // TODO: Named parameters
+    _episode = Episode.initialEpisode();
     _audioPlayerState = AudioPlayerState.STOPPED;
     notifyListeners();
   }
 
   Episode get episode {
     return _episode;
-  }
-
-
-  Image get episodeImage {
-    return _episodeImage;
-  }
-
-  Image get episodeThumbnail {
-    return _episodeThumbnail;
   }
 
   bool get isPlaying {
@@ -91,7 +67,7 @@ class PlayerService extends ChangeNotifier {
   void resume() {
     switch (_audioPlayerState) {
       case AudioPlayerState.STOPPED:
-        _audioPlayer.play(_episodeAudio).then((result) {
+        _audioPlayer.play(_episode.audio).then((result) {
           if (result == 1) {
             _audioPlayer.seek(episode.position);
           }
@@ -131,20 +107,21 @@ class PlayerService extends ChangeNotifier {
     prefs.setInt("resumePoint", resumePoint);
   }
 
-  void _loadEpisodeData(EpisodeFull episodeFull, int resumePoint) {
-    _episodeImage = Image.network(episodeFull.image);
-    _episodeThumbnail = Image.network(episodeFull.thumbnail);
-    _episodeAudio = episodeFull.audio;
+  void _loadEpisodeData(Episode episode, int resumePoint) {
+    // Fuckt deze modification iets?
+    episode.position = Duration(seconds: resumePoint);
+    _episode = episode;
   }
 
-  void play(Episode episode) {     _loadEpisodeData(episodeFull, 0);
-      notifyListeners();
-      _audioPlayer.play(episode.a).then((result) async {
-        if (result == 1) {
-          notifyListeners();
-          await _persistPlayingEpisode(episode.id);
-          await _persistResumePoint(0);
-        }
-      });
+  void play(Episode episode) {
+    _loadEpisodeData(episode, 0);
+    notifyListeners();
+    _audioPlayer.play(episode.audio).then((result) async {
+      if (result == 1) {
+        notifyListeners();
+        await _persistPlayingEpisode(episode.id);
+        await _persistResumePoint(0);
+      }
+    });
   }
 }

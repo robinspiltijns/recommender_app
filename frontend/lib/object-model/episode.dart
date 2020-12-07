@@ -4,6 +4,7 @@ import 'package:swagger/api.dart';
 class Episode {
   final String title;
   final String id;
+  final String audio;
   final String imageUrl;
   final Duration duration;
   // TODO: Denk eens na of dit ook final moet/kan.
@@ -13,8 +14,18 @@ class Episode {
   final String description;
   final DateTime publishDate;
 
-  Episode(this.title, this.id, this.imageUrl, this.duration, this.position,
-      this.publisher, this.podcastId, this.description, this.publishDate);
+  Episode(
+      this.title,
+      this.id,
+      this.audio,
+      this.imageUrl,
+      this.duration,
+      this.position,
+      this.publisher,
+      this.podcastId,
+      this.description,
+      this.publishDate);
+
   static Episode fromEpisodeFull(EpisodeFull episodeFull, {Duration position}) {
     var duration = Duration(seconds: episodeFull.audioLengthSec);
     if (position == null) {
@@ -24,6 +35,7 @@ class Episode {
     return new Episode(
         episodeFull.title,
         episodeFull.id,
+        episodeFull.audio,
         episodeFull.image,
         duration,
         position,
@@ -46,6 +58,7 @@ class Episode {
     return new Episode(
         episodeMinimum.title,
         episodeMinimum.id,
+        episodeMinimum.audio,
         episodeMinimum.image,
         duration,
         position,
@@ -68,6 +81,7 @@ class Episode {
     return new Episode(
         episodeSearchResult.titleOriginal,
         episodeSearchResult.id,
+        episodeSearchResult.audio,
         episodeSearchResult.image,
         duration,
         position,
@@ -88,6 +102,7 @@ class Episode {
     return new Episode(
         episodeSimple.title,
         episodeSimple.id,
+        episodeSimple.audio,
         episodeSimple.image,
         duration,
         position,
@@ -101,6 +116,7 @@ class Episode {
     return Episode(
       map[DatabaseHelper.titleColumn],
       map[DatabaseHelper.idColumn],
+      map[DatabaseHelper.audioColumn],
       map[DatabaseHelper.imageColumn],
       Duration(seconds: map[DatabaseHelper.durationColumn]),
       Duration(seconds: map[DatabaseHelper.positionColumn]),
@@ -123,5 +139,19 @@ class Episode {
       DatabaseHelper.descriptionColumn: description,
       DatabaseHelper.publishDateColumn: publishDate.toIso8601String(),
     };
+  }
+
+  static Episode initialEpisode() {
+    return Episode(
+        "No currently playing episode.",
+        "id",
+        "audio",
+        "https://www.searchpng.com/wp-content/uploads/2019/09/Android-Loading-Icon-PNG-Image.jpg",
+        Duration(seconds: 0),
+        Duration(seconds: 0),
+        "Publisher",
+        "podcastId",
+        "description",
+        DateTime.now());
   }
 }
