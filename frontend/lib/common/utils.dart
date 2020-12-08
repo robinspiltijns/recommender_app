@@ -4,12 +4,11 @@ class Utils {
     String result = "";
     if (duration.inHours > 0) {
       if (duration.inHours == 1) {
-        result += "1 hr";
+        result += "1 hr ";
       } else {
-        result += "${duration.inHours} hrs";
+        result += "${duration.inHours} hrs ";
       }
     }
-    result += " ";
     if (duration.inMinutes.remainder(60) > 0) {
       if (duration.inMinutes.remainder(60) == 1) {
         result += "1 min";

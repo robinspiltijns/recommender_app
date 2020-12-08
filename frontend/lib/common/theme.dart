@@ -4,6 +4,7 @@ var themeData = new ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     primaryColor: Color(0xFFEF476F),
     buttonColor: Color(0x26FFFFFF),
+    backgroundColor: Color(0xff221E48),
     textTheme: TextTheme(
         headline6: TextStyle(
             // Main view titles
@@ -72,4 +73,9 @@ extension CustomStyles on TextTheme {
         color: themeData.primaryColor,
         fontWeight: FontWeight.w700,
       );
+  TextStyle get actionText => TextStyle(
+    fontSize: 15.0,
+    color: Colors.white,
+    fontWeight: FontWeight.w500,
+  );
 }
