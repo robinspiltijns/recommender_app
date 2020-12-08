@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/liked-view/components/liked-genres.dart';
-import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'package:frontend/liked-view/components/liked-episodes.dart';
 
@@ -19,12 +18,6 @@ class LikesWidgetState extends State<LikesWidget> {
     new Genre(56, "News"),
   ];
 
-  List<Episode> likedEpisodes = [
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +33,7 @@ class LikesWidgetState extends State<LikesWidget> {
               SizedBox(height: 30),
               GenresWidget("Your most liked genres", likedGenres),
               SizedBox(height: 30),
-              LikedEpisodesWidget(likedEpisodes),
+              LikedEpisodesWidget(),
             ])));
   }
 }

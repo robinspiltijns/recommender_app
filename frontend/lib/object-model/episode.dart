@@ -131,6 +131,7 @@ class Episode {
     return <String, dynamic>{
       DatabaseHelper.idColumn: id,
       DatabaseHelper.titleColumn: title,
+      DatabaseHelper.audioColumn: audio,
       DatabaseHelper.imageColumn: imageUrl,
       DatabaseHelper.durationColumn: duration.inSeconds,
       DatabaseHelper.positionColumn: duration.inSeconds,

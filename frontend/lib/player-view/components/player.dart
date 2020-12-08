@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/components/time-slider.dart';
 import 'package:provider/provider.dart';
@@ -65,10 +66,41 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   onPressed: () {},
                   color: Colors.white),
               SizedBox(width: 40),
-              IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  onPressed: () {},
-                  color: Colors.white),
+              Consumer<LikedEpisodesService>(
+                  builder: (context, likedEpisodesService, child) {
+                return FutureBuilder(
+                    future:
+                      likedEpisodesService.isLiked(playerService.episode.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data) {
+                          // episode is liked
+                          return IconButton(
+                              icon: Icon(Icons.favorite),
+                              onPressed: () {
+                                likedEpisodesService.deleteLikedEpisode(
+                                    playerService.episode.id);
+                              },
+                              color: Colors.white);
+                        } else {
+                          // episode is not liked
+                          return IconButton(
+                              icon: Icon(Icons.favorite_border),
+                              onPressed: () {
+                                likedEpisodesService
+                                    .insertLikedEpisode(playerService.episode);
+                              },
+                              color: Colors.white);
+                        }
+                      } else {
+                        // data is not loaded
+                        return IconButton(
+                            icon: Icon(Icons.favorite_border),
+                            onPressed: () {},
+                            color: Theme.of(context).buttonColor);
+                      }
+                    });
+              }),
             ],
           ),
           TimeSliderWidget(),
