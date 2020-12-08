@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
@@ -29,7 +30,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   double getSliderPosition(PlayerService playerService) {
     return _isSeeking
         ? _seekingPosition
-        : playerService.episodePosition.inSeconds.toDouble();
+        : playerService.episode.position.inSeconds.toDouble();
   }
 
   @override
@@ -41,7 +42,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           Container(
             margin: EdgeInsets.only(left: 70, right: 70, top: 10),
             child: ClipRRect(
-              child: playerService.episodeImage,
+              child: CachedNetworkImage(imageUrl: playerService.episode.imageUrl),
               borderRadius: BorderRadius.circular(15),
             ),
           ),
@@ -49,10 +50,10 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(playerService.episodeTitle,
+              Text(playerService.episode.title,
                   style: Theme.of(context).textTheme.episodeTitle),
               SizedBox(height: 5),
-              Text(playerService.episodePublisher,
+              Text(playerService.episode.publisher,
                   style: Theme.of(context).textTheme.episodePublisher),
             ],
           ),

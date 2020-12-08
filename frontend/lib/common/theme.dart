@@ -7,12 +7,12 @@ var themeData = new ThemeData(
     backgroundColor: Color(0xff221E48),
     textTheme: TextTheme(
         headline6: TextStyle(
-            // Main view titles
+          // Main view titles
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontSize: 36.0),
         headline5: TextStyle(
-            // Secondary view titles
+          // Secondary view titles
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontSize: 30.0),
@@ -33,46 +33,51 @@ var themeData = new ThemeData(
         )));
 
 extension CustomStyles on TextTheme {
+  TextStyle get description =>
+      TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+      );
   TextStyle get genreTitle => TextStyle(
-        fontSize: 18.0,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 18.0,
+    color: Colors.white,
+    fontWeight: FontWeight.w600,
+  );
   TextStyle get episodeTitle => TextStyle(
-        fontSize: 14.0,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 14.0,
+    color: Colors.white,
+    fontWeight: FontWeight.w600,
+  );
   TextStyle get episodePublisher => TextStyle(
-        fontSize: 14.0,
-        color: Colors.white.withOpacity(0.5),
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 14.0,
+    color: Colors.white.withOpacity(0.5),
+    fontWeight: FontWeight.w600,
+  );
   TextStyle get timeDuration => TextStyle(
-        fontSize: 12.0,
-        color: Colors.white.withOpacity(0.5),
-        fontWeight: FontWeight.w400,
-      );
+    fontSize: 12.0,
+    color: Colors.white.withOpacity(0.5),
+    fontWeight: FontWeight.w400,
+  );
   TextStyle get episodeDuration => TextStyle(
-        fontSize: 12.0,
-        color: Color(0xBAFFFFFF),
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 12.0,
+    color: Color(0xBAFFFFFF),
+    fontWeight: FontWeight.w600,
+  );
   TextStyle get podcastTitle => TextStyle(
-        fontSize: 16.0,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 16.0,
+    color: Colors.white,
+    fontWeight: FontWeight.w600,
+  );
   TextStyle get podcastProducer => TextStyle(
-        fontSize: 16.0,
-        color: Color(0xBAFFFFFF),
-        fontWeight: FontWeight.w600,
-      );
+    fontSize: 16.0,
+    color: Color(0xBAFFFFFF),
+    fontWeight: FontWeight.w600,
+  );
   TextStyle get buttonText => TextStyle(
-        fontSize: 12.0,
-        color: themeData.primaryColor,
-        fontWeight: FontWeight.w700,
-      );
+    fontSize: 12.0,
+    color: themeData.primaryColor,
+    fontWeight: FontWeight.w700,
+  );
   TextStyle get actionText => TextStyle(
     fontSize: 15.0,
     color: Colors.white,

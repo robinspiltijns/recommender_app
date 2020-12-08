@@ -1,9 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/object-model/episode.dart';
-import 'package:swagger/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swagger/api.dart';
 
 class PlayerService extends ChangeNotifier {
   // TODO: Permission to play audio a long time. (https://pub.dev/documentation/audioplayers/latest/)
@@ -11,12 +10,10 @@ class PlayerService extends ChangeNotifier {
   final _api = DefaultApi();
 
   Episode _episode;
-
-  String _episodeAudio;
-
   AudioPlayerState _audioPlayerState;
 
   PlayerService() {
+    _initializeState();
     // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
       _episode.position = position;
@@ -40,67 +37,21 @@ class PlayerService extends ChangeNotifier {
     if (episodeId != "") {
       Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
       futureEpisodeFull.then((episodeFull) {
-        _loadEpisodeData(episodeFull, resumePoint);
+        _loadEpisodeData(Episode.fromEpisodeFull(episodeFull), resumePoint);
         notifyListeners();
       });
     }
   }
 
+  void _initializeState() {
+    // TODO: Named parameters
+    _episode = Episode.initialEpisode();
+    _audioPlayerState = AudioPlayerState.STOPPED;
+    notifyListeners();
+  }
+
   Episode get episode {
     return _episode;
-  }
-
-  String get episodeTitle {
-    if (_episode == null) {
-      return "No currently playing episode.";
-    }
-    return _episode.title;
-  }
-
-  String get episodeId {
-    if (_episode == null) {
-      return "";
-    }
-    return _episode.id;
-  }
-
-  Duration get episodeDuration {
-    if (_episode == null) {
-      return Duration(seconds: 0);
-    }
-    return _episode.duration;
-  }
-
-  Duration get episodePosition {
-    if (_episode == null) {
-      return Duration(seconds: 0);
-    }
-    return _episode.position;
-  }
-
-  Image get episodeImage {
-    if (_episode == null) {
-      return Image.asset('assets/no-podcast.png');
-    }
-    return Image(
-      image: CachedNetworkImageProvider(_episode.imageUrl)
-    );
-  }
-
-  Image get episodeThumbnail {
-    if (_episode == null) {
-      return Image.asset('assets/no-podcast.png');
-    }
-    return Image(
-        image: CachedNetworkImageProvider(_episode.imageUrl)
-    );
-  }
-
-  String get episodePublisher {
-    if (_episode == null) {
-      return "Unavailable";
-    }
-    return _episode.publisher;
   }
 
   bool get isPlaying {
@@ -116,9 +67,9 @@ class PlayerService extends ChangeNotifier {
   void resume() {
     switch (_audioPlayerState) {
       case AudioPlayerState.STOPPED:
-        _audioPlayer.play(_episodeAudio).then((result) {
+        _audioPlayer.play(_episode.audio).then((result) {
           if (result == 1) {
-            _audioPlayer.seek(_episode.position);
+            _audioPlayer.seek(episode.position);
           }
         });
         break;
@@ -139,11 +90,11 @@ class PlayerService extends ChangeNotifier {
   }
 
   void forward(int seconds) {
-    seek(_episode.position + Duration(seconds: seconds));
+    seek(episode.position + Duration(seconds: seconds));
   }
 
   void replay(int seconds) {
-    seek(_episode.position - Duration(seconds: seconds));
+    seek(episode.position - Duration(seconds: seconds));
   }
 
   Future<void> _persistPlayingEpisode(String episodeId) async {
@@ -156,36 +107,21 @@ class PlayerService extends ChangeNotifier {
     prefs.setInt("resumePoint", resumePoint);
   }
 
-  void _loadEpisodeData(EpisodeFull episodeFull, int resumePoint) {
-    _episodeAudio = episodeFull.audio;
-
-    _episode = Episode(
-        episodeFull.title,
-        episodeFull.id,
-        episodeFull.image,
-        Duration(seconds: episodeFull.audioLengthSec),
-        Duration(seconds: resumePoint),
-        episodeFull.podcast.publisher,
-        episodeFull.podcast.id,
-        episodeFull.description,
-        DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs)
-    );
-
-
+  void _loadEpisodeData(Episode episode, int resumePoint) {
+    // Fuckt deze modification iets?
+    episode.position = Duration(seconds: resumePoint);
+    _episode = episode;
   }
 
-  void play(String episodeId) {
-    Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
-    futureEpisodeFull.then((episodeFull) {
-      _loadEpisodeData(episodeFull, 0);
-      notifyListeners();
-      _audioPlayer.play(episodeFull.audio).then((result) async {
-        if (result == 1) {
-          notifyListeners();
-          await _persistPlayingEpisode(episodeId);
-          await _persistResumePoint(0);
-        }
-      });
+  void play(Episode episode) {
+    _loadEpisodeData(episode, 0);
+    notifyListeners();
+    _audioPlayer.play(episode.audio).then((result) async {
+      if (result == 1) {
+        notifyListeners();
+        await _persistPlayingEpisode(episode.id);
+        await _persistResumePoint(0);
+      }
     });
   }
 }

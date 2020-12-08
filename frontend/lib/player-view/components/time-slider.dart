@@ -16,7 +16,7 @@ class _TimeSliderWidgetState extends State<TimeSliderWidget> {
   double _getSliderPosition(PlayerService playerService) {
     return _isSeeking
         ? _seekingPosition
-        : playerService.episodePosition.inSeconds.toDouble();
+        : playerService.episode.position.inSeconds.toDouble();
   }
 
   void _onStartSeeking(double value) {
@@ -64,7 +64,7 @@ class _TimeSliderWidgetState extends State<TimeSliderWidget> {
             activeColor: Colors.white,
             inactiveColor: Colors.white.withOpacity(0.1),
             min: 0,
-            max: playerService.episodeDuration.inSeconds.toDouble(),
+            max: playerService.episode.duration.inSeconds.toDouble(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,17 +72,17 @@ class _TimeSliderWidgetState extends State<TimeSliderWidget> {
               Text(
                   _formatDuration(_isSeeking
                       ? Duration(seconds: _seekingPosition.round())
-                      : playerService.episodePosition),
+                      : playerService.episode.position),
                   style: Theme.of(context).textTheme.timeDuration),
               Text(
                   _formatTimeLeft(
                       _isSeeking
                           ? Duration(
                           seconds: _seekingPosition.round())
-                          : playerService.episodePosition,
-                      playerService.episodeDuration),
+                          : playerService.episode.position,
+                      playerService.episode.duration),
                   style: Theme.of(context).textTheme.timeDuration),
-              Text(_formatDuration(playerService.episodeDuration),
+              Text(_formatDuration(playerService.episode.duration),
                   style: Theme.of(context).textTheme.timeDuration),
             ],
           )
