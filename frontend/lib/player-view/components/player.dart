@@ -70,7 +70,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   builder: (context, likedEpisodesService, child) {
                 return FutureBuilder(
                     future:
-                        likedEpisodesService.isLiked(playerService.episodeId),
+                      likedEpisodesService.isLiked(playerService.episode.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data) {
@@ -79,7 +79,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                               icon: Icon(Icons.favorite),
                               onPressed: () {
                                 likedEpisodesService.deleteLikedEpisode(
-                                    playerService.episodeId);
+                                    playerService.episode.id);
                               },
                               color: Colors.white);
                         } else {
