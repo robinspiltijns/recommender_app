@@ -29,12 +29,10 @@ class PlayedEpisodesService extends ChangeNotifier {
   }
 
   void insertPlayedEpisode(Episode episode) {
-    print("-----------------------het insert de episode!-----------------------------------");
     var entry = episode.toMap();
     entry.addAll(
         {DatabaseHelper.playedDateColumn: DateTime.now().toIso8601String()}
     );
-    print("entry: " + entry.toString());
     database
         .insert(DatabaseHelper.playedEpisodesTable, entry)
         .then((_) => notifyListeners());
