@@ -8,6 +8,7 @@ class QueueWidget extends StatefulWidget {
 }
 
 class _QueueWidgetState extends State<QueueWidget> {
+
   // Mock
   List<Episode> episodes = [
     new Episode(
@@ -61,6 +62,8 @@ class _QueueWidgetState extends State<QueueWidget> {
         "description",
         DateTime.fromMillisecondsSinceEpoch(1234567890)),
   ];
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/components/time-slider.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/common/theme.dart';
+import 'package:frontend/object-model/episode.dart';
 
 class PlayerWidget extends StatefulWidget {
   _PlayerWidgetState createState() => _PlayerWidgetState();
@@ -31,6 +32,16 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         : playerService.episodePosition.inSeconds.toDouble();
   }
 
+  String getEpisodes(PlayerService playerService) {
+    Future<List<Episode>> futEps = playerService.playedEpisodesService.getPlayedEpisodes();
+    String eps;
+    futEps.then((epsList) => eps =  epsList.toString());
+    if (eps != null) {
+      return eps;
+    }
+    return "nog niks";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerService>(builder: (context, playerService, child) {
@@ -53,6 +64,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               SizedBox(height: 5),
               Text(playerService.episodePublisher,
                   style: Theme.of(context).textTheme.episodePublisher),
+              Text(getEpisodes(playerService))
             ],
           ),
           SizedBox(height: 30),

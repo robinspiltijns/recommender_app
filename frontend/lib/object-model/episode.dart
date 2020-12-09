@@ -15,6 +15,7 @@ class Episode {
   final DateTime publishDate;
 
   Episode(this.title, this.id, this.imageUrl, this.duration, this.position, this.publisher, this.podcastId, this.description, this.publishDate);
+
   static Episode fromEpisodeFull(EpisodeFull episodeFull, {Duration position}) {
     var duration = Duration(seconds: episodeFull.audioLengthSec);
     if (position == null) {

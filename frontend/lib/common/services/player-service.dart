@@ -2,12 +2,15 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:swagger/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/common/services/played-episodes-service.dart';
+import 'package:frontend/object-model/episode.dart';
 
 class PlayerService extends ChangeNotifier {
   // TODO: Permission to play audio a long time. (https://pub.dev/documentation/audioplayers/latest/)
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
+  PlayedEpisodesService playedEpisodesService;
   String _episodeTitle;
   String _episodeId;
   Image _episodeImage;
@@ -18,7 +21,7 @@ class PlayerService extends ChangeNotifier {
   Duration _episodePosition;
   AudioPlayerState _audioPlayerState;
 
-  PlayerService() {
+  PlayerService(this.playedEpisodesService) {
     _initializeState();
     // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
@@ -154,6 +157,9 @@ class PlayerService extends ChangeNotifier {
   }
 
   void play(String episodeId) {
+    Episode playedEpisode = new Episode(_episodeTitle, _episodeId, "imageurltodo", _episodeDuration, _episodePosition, _episodePublisher, "idtodo", "descriptiontodo", DateTime.now());
+    playedEpisodesService.insertPlayedEpisode(playedEpisode);
+
     Future<EpisodeFull> futureEpisodeFull = _api.getEpisode(episodeId);
     futureEpisodeFull.then((episodeFull) {
       _loadEpisodeData(episodeFull, 0);

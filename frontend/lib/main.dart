@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
+import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/liked-view/liked-view.dart';
@@ -15,11 +16,15 @@ import 'feed-view/feed-page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Database database = await DatabaseHelper().database;
+  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
   runApp(
       MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => PlayerService(),
+            create: (context) => PlayerService(playedEpisodesService),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => playedEpisodesService,
           ),
           ChangeNotifierProvider(
             create: (context) => LikedEpisodesService(database),
