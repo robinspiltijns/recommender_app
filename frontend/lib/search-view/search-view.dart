@@ -13,14 +13,6 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-  // mock data
-  List<Genre> genres = [
-    new Genre(140),
-    new Genre(115),
-    new Genre(146),
-    new Genre(151),
-  ];
-
   List<String> results = [];
   final api = swagger.DefaultApi();
 
@@ -55,7 +47,20 @@ class _SearchWidgetState extends State<SearchWidget> {
                 children: [
                   RecentSearchesWidget(),
                   SizedBox(height: 20),
-                  GenresWidget("Browse genres", genres),
+                  FutureBuilder<swagger.GetGenresResponse> (
+                    future: swagger.DefaultApi().getTopLevelGenres(),
+                    builder: (context,
+                        AsyncSnapshot<swagger.GetGenresResponse> snapshot) {
+                      if (snapshot.hasData) {
+                        return GenresWidget("Browse genres",
+                            snapshot.data.genres.map(
+                                    (swagger.Genre genre) => Genre(genre.id))
+                                .toList()
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    }
+                  )
                 ],
               ),
             )
