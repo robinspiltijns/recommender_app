@@ -13,10 +13,16 @@ import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'feed-view/feed-page.dart';
+import 'object-model/genre.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Database database = await DatabaseHelper().database;
+  Database database;
+
+  // Execute multiple asynchronous methods simultaneously
+  await Future.wait([DatabaseHelper().database, Genre.getGenreNames()])
+      .then((List result) => database = result[0]);
+
   PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
   runApp(
       MultiProvider(
@@ -25,7 +31,7 @@ void main() async {
             create: (context) => PlayerService(playedEpisodesService),
           ),
           ChangeNotifierProvider(
-            create: (context) => playedEpisodesService,
+            create: (context) => PlayedEpisodesService(database),
           ),
           ChangeNotifierProvider(
             create: (context) => LikedEpisodesService(database),

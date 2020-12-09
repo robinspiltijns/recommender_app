@@ -5,7 +5,6 @@ import 'package:frontend/search-view/components/recent-searches.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
-import 'package:frontend/object-model/episode.dart';
 
 
 class SearchWidget extends StatefulWidget {
@@ -16,10 +15,10 @@ class SearchWidget extends StatefulWidget {
 class _SearchWidgetState extends State<SearchWidget> {
   // mock data
   List<Genre> genres = [
-    new Genre(67, "Finance"),
-    new Genre(12, "Health"),
-    new Genre(33, "Technology"),
-    new Genre(56, "News"),
+    new Genre(140),
+    new Genre(115),
+    new Genre(146),
+    new Genre(151),
   ];
 
   List<String> results = [];
