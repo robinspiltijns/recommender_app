@@ -10,6 +10,7 @@ class QueueWidget extends StatefulWidget {
 }
 
 class _QueueWidgetState extends State<QueueWidget> {
+
   // Mock
   List<Episode> episodes = [
    Episode.initialEpisode(),
@@ -18,6 +19,8 @@ class _QueueWidgetState extends State<QueueWidget> {
     Episode.initialEpisode(),
     Episode.initialEpisode(),
   ];
+
+
 
   @override
   Widget build(BuildContext context) {

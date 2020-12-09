@@ -20,7 +20,11 @@ class DatabaseHelper {
   static final String podcastIdColumn = "podcast_id";
   static final String descriptionColumn = "description";
   static final String publishDateColumn = "publish_date";
+
   static final String likedDateColumn = "liked_date";
+  static final String playedDateColumn = "played_date";
+
+  static final playedEpisodesTable = "played_episodes";
   static final String orderNumberColumn = "order_number";
 
   factory DatabaseHelper() {
@@ -44,7 +48,7 @@ class DatabaseHelper {
     String path = directory.path + "episodes.db";
 
     // Uncomment this line to reset database when changes are done in _createDb().
-    //await deleteDatabase(path);
+    await deleteDatabase(path);
 
     //OPEN/CREATE THE DB AT A GIVEN PATH
     var database = await openDatabase(path, version: 1, onCreate: _createDb);
@@ -52,6 +56,25 @@ class DatabaseHelper {
   }
 
   void _createDb(Database db, int newVersion) async {
+    await db.execute(
+        """
+          CREATE TABLE IF NOT EXISTS $playedEpisodesTable(
+            $idColumn TEXT, 
+            $titleColumn TEXT, 
+            $imageColumn TEXT,
+            $durationColumn INTEGER,
+            $positionColumn INTEGER,
+            $publisherColumn TEXT,
+            $podcastIdColumn TEXT,
+            $descriptionColumn TEXT,
+            $playedDateColumn TEXT,
+            $publishDateColumn TEXT
+          )
+        """
+    );
+    await db.execute(
+        """
+         CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
     await db.execute("""
           CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
              $idColumn TEXT PRIMARY KEY,

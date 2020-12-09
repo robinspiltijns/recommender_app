@@ -6,6 +6,7 @@ import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/components/time-slider.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/common/theme.dart';
+import 'package:frontend/object-model/episode.dart';
 
 class PlayerWidget extends StatefulWidget {
   _PlayerWidgetState createState() => _PlayerWidgetState();
@@ -32,6 +33,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         ? _seekingPosition
         : playerService.episode.position.inSeconds.toDouble();
   }
+
+
 
   @override
   Widget build(BuildContext context) {

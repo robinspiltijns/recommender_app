@@ -2,6 +2,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/common/services/played-episodes-service.dart';
+import 'package:frontend/object-model/episode.dart';
 import 'package:swagger/api.dart';
 
 class PlayerService extends ChangeNotifier {
@@ -9,10 +11,11 @@ class PlayerService extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
+  PlayedEpisodesService playedEpisodesService;
   Episode _episode;
   AudioPlayerState _audioPlayerState;
 
-  PlayerService() {
+  PlayerService(this.playedEpisodesService) {
     _initializeState();
     // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
@@ -114,6 +117,7 @@ class PlayerService extends ChangeNotifier {
   }
 
   void play(Episode episode) {
+  playedEpisodesService.insertPlayedEpisode(_episode);
     _loadEpisodeData(episode, 0);
     notifyListeners();
     _audioPlayer.play(episode.audio).then((result) async {
