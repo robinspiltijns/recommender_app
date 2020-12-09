@@ -34,6 +34,7 @@ class PlayedEpisodesService extends ChangeNotifier {
     entry.addAll(
         {DatabaseHelper.playedDateColumn: DateTime.now().toIso8601String()}
     );
+    print("entry: " + entry.toString());
     database
         .insert(DatabaseHelper.playedEpisodesTable, entry)
         .then((_) => notifyListeners());

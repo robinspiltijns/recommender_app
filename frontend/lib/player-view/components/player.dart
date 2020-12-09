@@ -19,6 +19,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   }
 
   _onPlayButtonPress(PlayerService playerService) {
+    setEpisodes(playerService);
     if (playerService.isPlaying) {
       playerService.pause();
     } else {
@@ -32,14 +33,28 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         : playerService.episodePosition.inSeconds.toDouble();
   }
 
-  String getEpisodes(PlayerService playerService) {
+  String test;
+
+  setEpisodes(PlayerService playerService) async {
     Future<List<Episode>> futEps = playerService.playedEpisodesService.getPlayedEpisodes();
     String eps;
-    futEps.then((epsList) => eps =  epsList.toString());
+    await futEps.then((epsList) => eps =  epsList.map((e) => e.title).toList().toString());
     if (eps != null) {
-      return eps;
+      setState(() {
+        test = eps;
+      });
+    } else {
+      setState(() {
+        test = "nog niks";
+      });
     }
-    return "nog niks";
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    test = "start";
   }
 
   @override
@@ -64,7 +79,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               SizedBox(height: 5),
               Text(playerService.episodePublisher,
                   style: Theme.of(context).textTheme.episodePublisher),
-              Text(getEpisodes(playerService))
+              Text(test)
             ],
           ),
           SizedBox(height: 30),
