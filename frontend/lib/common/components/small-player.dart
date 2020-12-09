@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
@@ -77,7 +78,7 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                       flex: 12,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: playerService.episodeThumbnail),
+                          child: CachedNetworkImage(imageUrl: playerService.episode.imageUrl)),
                     ),
                     SizedBox(width: 15),
                     Expanded(
@@ -85,8 +86,8 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
                         child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(playerService.episodeTitle, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
-                            Text(playerService.episodePublisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
+                            Text(playerService.episode.title, style: Theme.of(context).textTheme.episodeTitle, overflow: TextOverflow.ellipsis),
+                            Text(playerService.episode.publisher , style: Theme.of(context).textTheme.episodePublisher, overflow: TextOverflow.ellipsis),
                           ],
                         )),
                     SizedBox(width: 5),

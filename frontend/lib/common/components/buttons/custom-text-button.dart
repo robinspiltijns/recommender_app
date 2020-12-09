@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/common/theme.dart';
 
 class CustomTextButton extends StatelessWidget {
+  static const double HEIGHT = 30;
+
   final String text;
   final void Function() callBack;
   final Color color;
@@ -26,7 +28,7 @@ class CustomTextButton extends StatelessWidget {
     return InkWell(
           onTap: callBack,
           child: Container(
-              height: 35,
+              height: HEIGHT,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Theme.of(context).buttonColor,

@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/components/time-slider.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +31,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   double getSliderPosition(PlayerService playerService) {
     return _isSeeking
         ? _seekingPosition
-        : playerService.episodePosition.inSeconds.toDouble();
+        : playerService.episode.position.inSeconds.toDouble();
   }
 
 
@@ -43,7 +45,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           Container(
             margin: EdgeInsets.only(left: 70, right: 70, top: 10),
             child: ClipRRect(
-              child: playerService.episodeImage,
+              child: CachedNetworkImage(imageUrl: playerService.episode.imageUrl),
               borderRadius: BorderRadius.circular(15),
             ),
           ),
@@ -51,10 +53,10 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(playerService.episodeTitle,
+              Text(playerService.episode.title,
                   style: Theme.of(context).textTheme.episodeTitle),
               SizedBox(height: 5),
-              Text(playerService.episodePublisher,
+              Text(playerService.episode.publisher,
                   style: Theme.of(context).textTheme.episodePublisher),
             ],
           ),
@@ -67,10 +69,41 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                   onPressed: () {},
                   color: Colors.white),
               SizedBox(width: 40),
-              IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  onPressed: () {},
-                  color: Colors.white),
+              Consumer<LikedEpisodesService>(
+                  builder: (context, likedEpisodesService, child) {
+                return FutureBuilder(
+                    future:
+                      likedEpisodesService.isLiked(playerService.episode.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data) {
+                          // episode is liked
+                          return IconButton(
+                              icon: Icon(Icons.favorite),
+                              onPressed: () {
+                                likedEpisodesService.deleteLikedEpisode(
+                                    playerService.episode.id);
+                              },
+                              color: Colors.white);
+                        } else {
+                          // episode is not liked
+                          return IconButton(
+                              icon: Icon(Icons.favorite_border),
+                              onPressed: () {
+                                likedEpisodesService
+                                    .insertLikedEpisode(playerService.episode);
+                              },
+                              color: Colors.white);
+                        }
+                      } else {
+                        // data is not loaded
+                        return IconButton(
+                            icon: Icon(Icons.favorite_border),
+                            onPressed: () {},
+                            color: Theme.of(context).buttonColor);
+                      }
+                    });
+              }),
             ],
           ),
           TimeSliderWidget(),

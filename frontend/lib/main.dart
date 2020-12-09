@@ -3,6 +3,7 @@ import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
+import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-page.dart';
@@ -28,6 +29,9 @@ void main() async {
           ),
           ChangeNotifierProvider(
             create: (context) => LikedEpisodesService(database),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => QueueService(database),
           )
         ],
         child: MyApp(),

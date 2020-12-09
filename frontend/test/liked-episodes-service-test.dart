@@ -15,6 +15,7 @@ void main() async {
       "test1",
       "test1",
       "test1",
+      "test1",
       Duration(seconds: 4),
       Duration(seconds: 4),
       "test1",
@@ -23,6 +24,7 @@ void main() async {
       DateTime.now());
 
   var episode2 = Episode(
+      "test2",
       "test2",
       "test2",
       "test2",

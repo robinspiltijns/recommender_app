@@ -8,10 +8,10 @@ class DatabaseHelper {
   static DatabaseHelper _databaseHelper; //SINGLETON DBHELPER
   DatabaseHelper._createInstance(); //NAMED CONST TO CREATE INSTANCE OF THE DBHELPER
 
-
   static final String likedEpisodesTable = "liked_episodes";
-
+  static final String queueTable = "queue";
   static final String idColumn = "id";
+  static final String audioColumn = "audio";
   static final String titleColumn = "title";
   static final String imageColumn = "image_url";
   static final String durationColumn = "duration";
@@ -25,6 +25,7 @@ class DatabaseHelper {
   static final String playedDateColumn = "played_date";
 
   static final playedEpisodesTable = "played_episodes";
+  static final String orderNumberColumn = "order_number";
 
   factory DatabaseHelper() {
     if (_databaseHelper == null) {
@@ -74,8 +75,27 @@ class DatabaseHelper {
     await db.execute(
         """
          CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
+    await db.execute("""
+          CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
+             $idColumn TEXT PRIMARY KEY,
+             $titleColumn TEXT,
+             $audioColumn TEXT,
+             $imageColumn TEXT,
+             $durationColumn INTEGER,
+             $positionColumn INTEGER,
+             $publisherColumn TEXT,
+             $podcastIdColumn TEXT,
+             $descriptionColumn TEXT,
+             $publishDateColumn TEXT,
+             $likedDateColumn TEXT
+        );
+      """);
+    await db.execute("""
+      
+       CREATE TABLE IF NOT EXISTS $queueTable(
             $idColumn TEXT PRIMARY KEY, 
             $titleColumn TEXT, 
+            $audioColumn TEXT,
             $imageColumn TEXT,
             $durationColumn INTEGER,
             $positionColumn INTEGER,
@@ -83,10 +103,9 @@ class DatabaseHelper {
             $podcastIdColumn TEXT,
             $descriptionColumn TEXT,
             $publishDateColumn TEXT,
-            $likedDateColumn TEXT
+            $orderNumberColumn INTEGER
        )
-       """
-    );
-
+       """);
+    print("table created");
   }
 }
