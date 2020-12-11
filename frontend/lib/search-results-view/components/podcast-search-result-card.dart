@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/common/theme.dart';
-import 'package:frontend/common/components/buttons/custom-icon-button.dart';
-import 'package:frontend/common/components/buttons/custom-text-button.dart';
-import 'package:swagger/api.dart';
+import 'package:frontend/object-model/podcast.dart';
 
 
-class PodcastSearchResultCard extends StatelessWidget {
+class PodcastListItem extends StatelessWidget {
 
   static const double HEIGHT = CARD_HEIGHT + TOP_MARGIN + DESCRIPTION_TOP_MARGIN ;
 
@@ -23,11 +19,9 @@ class PodcastSearchResultCard extends StatelessWidget {
   static const double DESCRIPTION_TOP_MARGIN = 10;
 
 
-  PodcastSearchResult podcast;
+ final  Podcast podcast;
 
-  PodcastSearchResultCard(PodcastSearchResult pc) {
-    this.podcast = pc;
-  }
+  PodcastListItem(this.podcast);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +37,7 @@ class PodcastSearchResultCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     child: Image(
-                      image: NetworkImage(this.podcast.image),
+                      image: NetworkImage(this.podcast.imageUrl),
                       width: ARTWORK_DIM,
                       height: ARTWORK_DIM,
                       fit: BoxFit.fitHeight,
@@ -53,7 +47,7 @@ class PodcastSearchResultCard extends StatelessWidget {
                   Flexible(
                     child: Container(
                       child: Text(
-                        this.podcast.titleOriginal,
+                        this.podcast.title,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -71,7 +65,7 @@ class PodcastSearchResultCard extends StatelessWidget {
                 height: CARD_HEIGHT*DESCRIPTION_HEIGHT_RATIO,
                 alignment: Alignment.center,
                 child: Text(
-                  this.podcast.descriptionOriginal,
+                  this.podcast.description,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,

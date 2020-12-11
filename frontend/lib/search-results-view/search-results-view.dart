@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
+import 'package:frontend/object-model/podcast.dart';
 import 'package:frontend/search-results-view/components/episode-search-result-card.dart';
 import 'package:frontend/search-results-view/components/podcast-search-result-card.dart';
 import 'package:frontend/search-results-view/components/more-button.dart';
@@ -119,7 +120,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
             (context, index) {
-          return PodcastSearchResultCard(showingPodcasts[index],);
+          return PodcastListItem(Podcast.fromSearchResult(showingPodcasts[index],));
         },
         childCount: this.showingPodcasts.length,
       ),
@@ -157,7 +158,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
                         presentPodcasts, presentPodcasts + perPage));
               }
               presentPodcasts = presentPodcasts + perPage;
-              this.height = height + perPage * PodcastSearchResultCard.HEIGHT;
+              this.height = height + perPage * PodcastListItem.HEIGHT;
             });
           },),
       );
