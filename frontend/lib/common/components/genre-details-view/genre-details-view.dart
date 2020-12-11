@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:swagger/api.dart';
+import 'package:frontend/object-model/genre.dart';
+import 'package:swagger/api.dart' as swagger;
 
 class GenreDetails extends StatelessWidget {
 
   static const String routeName = "/genre";
 
   final Genre genre;
-  Future<BestPodcastsResponse> bestPodcastsOfGenre;
 
+  Future<swagger.BestPodcastsResponse> bestPodcastsOfGenre;
 
   GenreDetails(this.genre) {
-    bestPodcastsOfGenre = DefaultApi().getBestOfGenre(genre.id.toString());
+    bestPodcastsOfGenre = swagger.DefaultApi().getBestOfGenre(genre.id.toString());
   }
 
   @override
@@ -24,11 +25,11 @@ class GenreDetails extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
-        child: FutureBuilder<BestPodcastsResponse>(
+        child: FutureBuilder<swagger.BestPodcastsResponse>(
           future: bestPodcastsOfGenre,
-          builder: (context, AsyncSnapshot<BestPodcastsResponse> snapshot) {
+          builder: (context, AsyncSnapshot<swagger.BestPodcastsResponse> snapshot) {
             if (snapshot.hasData) {
-              return GenreDetailsBody(snapshot.data.podcasts);
+              return GenreDetailsBody(snapshot.data);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
@@ -45,9 +46,9 @@ class GenreDetails extends StatelessWidget {
 
 class GenreDetailsBody extends StatelessWidget {
 
-  List<PodcastSimple> podcasts;
+  final swagger.BestPodcastsResponse response;
 
-  GenreDetailsBody(this.podcasts);
+  GenreDetailsBody(this.response);
 
   @override
   Widget build(BuildContext context) {
