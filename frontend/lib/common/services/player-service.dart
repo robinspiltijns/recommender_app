@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/common/services/played-episodes-service.dart';
@@ -8,6 +9,8 @@ import 'package:swagger/api.dart';
 
 class PlayerService extends ChangeNotifier {
   // TODO: Permission to play audio a long time. (https://pub.dev/documentation/audioplayers/latest/)
+
+  final QueueService queueService;
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
@@ -15,7 +18,7 @@ class PlayerService extends ChangeNotifier {
   Episode _episode;
   AudioPlayerState _audioPlayerState;
 
-  PlayerService(this.playedEpisodesService) {
+  PlayerService(this.queueService, this.playedEpisodesService) {
     _initializeState();
     // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
@@ -27,10 +30,18 @@ class PlayerService extends ChangeNotifier {
       notifyListeners();
     });
     _audioPlayer.onPlayerStateChanged.listen((event) {
+      if(event == AudioPlayerState.COMPLETED) {
+        _playNextQueuedEpisode();
+      }
       _audioPlayerState = event;
       notifyListeners();
     });
     _loadPersistedEpisode();
+  }
+
+  Future<void> _playNextQueuedEpisode() async {
+    Episode episode = await queueService.pop(0);
+    play(episode);
   }
 
   Future<void> _loadPersistedEpisode() async {
