@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/feed-view-section.dart';
 import 'package:swagger/api.dart';
+import 'package:frontend/feed-view/components/podcast-card.dart';
 
 class FeedWidget extends StatefulWidget {
   
@@ -16,7 +17,8 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   List<Map<String, dynamic>> sections = [
     {"basis" : RecommendationBasis.PODCAST, "id" : "4d3fe717742d4963a85562e9f84d8c79", "sectionTitleDescription" : "Star Wars"},
-    {"basis" : RecommendationBasis.EPISODE, "id" : "02f0123246c944e289ee2bb90804e41b", "sectionTitleDescription" : "1,775: Happy 75th Birthday, George Lucas!"}
+    {"basis" : RecommendationBasis.EPISODE, "id" : "02f0123246c944e289ee2bb90804e41b", "sectionTitleDescription" : "1,775: Happy 75th Birthday, George Lucas!"},
+    {"basis" : RecommendationBasis.GENRE, "id": "144", "sectionTitleDescription" : "Personal Finance"}
   ];
 
   @override
@@ -30,31 +32,42 @@ class _FeedWidgetState extends State<FeedWidget> {
    makeFutures() async {
     List<Map<String, dynamic>> result;
     for (var index = 0; index <sections.length; index++) {
-      if (sections[index]["basis"] == RecommendationBasis.PODCAST) {
-        await AddPodcastSection(index);
-      } else if (sections[index]["basis"] == RecommendationBasis.EPISODE) {
+      if (sections[index]["basis"] == RecommendationBasis.EPISODE) {
         await AddEpisodeSection(index);
+      } else {
+        await AddPodcastSection(index, sections[index]["basis"]);
       }
     };
   }
 
-  AddPodcastSection(int entryIndex) async {
-     sections[entryIndex]["recommendations"] = api.getPodcastRecommendationsBasedOnPodcast(sections[entryIndex]["id"]);
-  }
+  AddPodcastSection(int entryIndex, RecommendationBasis basis) async {
+     if (basis == RecommendationBasis.PODCAST) {
+       sections[entryIndex]["recommendations"] = api.getPodcastRecommendationsBasedOnPodcast(sections[entryIndex]["id"]);
+     } else if (basis == RecommendationBasis.GENRE) {
+       sections[entryIndex]["recommendations"] = api.getBestOfGenre(sections[entryIndex]["id"]);
+     }
+     }
+
 
   AddEpisodeSection(int entryIndex) async {
      sections[entryIndex]["recommendations"] = api.getEpisodeRecommendationsBasedOnEpisode(sections[entryIndex]["id"]);
   }
 
-  List<Widget> generateSections() {
-     List<Widget> result = [];
-     for (var section in sections) {
-       result.add(FutureBuilder<dynamic>(
+  Widget generateSections(int index) {
+     //List<Widget> result = [];
+     //for (var section in sections) {
+       //result.add(FutureBuilder<dynamic>(
+    Map section = sections[index];
+    return FutureBuilder<dynamic> (
            future: section["recommendations"],
            builder: (context, snapshot) {
              if (snapshot.hasData) {
                  var res = snapshot.data;
+                 if (section["basis"] == RecommendationBasis.GENRE) {
+                 return FeedViewSection(b: section["basis"], recDescription: section["sectionTitleDescription"], resList: res.podcasts,);
+                 } else {
                  return FeedViewSection(b: section["basis"], recDescription: section["sectionTitleDescription"], resList: res.recommendations,);
+                 }
              } else if (snapshot.hasError) {
                return Text("${snapshot.error}");
              }
@@ -62,9 +75,9 @@ class _FeedWidgetState extends State<FeedWidget> {
              // By default, show a loading spinner.
              return Text("loading...");
            }
-       ));
-     }
-     return result;
+       );
+     //}
+     //return result;
   }
 
   @override
@@ -78,13 +91,17 @@ class _FeedWidgetState extends State<FeedWidget> {
          shadowColor: Colors.transparent,
          centerTitle: false,
        ),
-       body:  ListView(
-         scrollDirection: Axis.vertical,
-         children: [Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: generateSections(),
-         ),]
-     )
-    );
+       body:  SizedBox(
+         height: sections.length * PodcastCardWidget.CARD_HEIGHT,
+         child: ListView.builder(
+               itemCount: sections.length,
+               shrinkWrap: true,
+               itemBuilder: (BuildContext context, int index) {
+                 if (index < sections.length) {
+                  return generateSections(index);
+                 }
+               },
+     ),
+       ));
   }
 }
