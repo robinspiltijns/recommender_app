@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/object-model/episode.dart';
-import 'package:swagger/api.dart';
 
 import 'episode-details-card.dart';
 
