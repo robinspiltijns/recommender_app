@@ -24,8 +24,13 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
     super.dispose();
   }
 
-  _onPressed() {
-    //todo
+
+  onPressed(BuildContext context) {
+    //todo: persist name
+    Navigator.pushNamed(
+        context,
+        "/screen-2"
+    );
   }
 
   @override
@@ -81,7 +86,10 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
                   width: 70,
                   height: 40,
                   margin: EdgeInsets.only(top: 10, right: 40),
-                  child: CustomTextButton("Next", callBack: _onPressed(), color: Colors.white,)
+                  child: InkWell(
+                      onTap: () {onPressed(context);},
+                      child: CustomTextButton("Next", color: Colors.white,)
+                  )
               ),
             ],
           ),
