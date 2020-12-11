@@ -44,14 +44,14 @@ class _FeedWidgetState extends State<FeedWidget> {
    makeFutures() async {
     for (var index = 0; index <sections.length; index++) {
       if (sections[index]["basis"] == RecommendationBasis.EPISODE) {
-        await AddEpisodeSection(index);
+        await addEpisodeSection(index);
       } else {
-        await AddPodcastSection(index, sections[index]["basis"]);
+        await addPodcastSection(index, sections[index]["basis"]);
       }
     }
   }
 
-  AddPodcastSection(int entryIndex, RecommendationBasis basis) async {
+  addPodcastSection(int entryIndex, RecommendationBasis basis) async {
      if (basis == RecommendationBasis.PODCAST) {
        sections[entryIndex]["recommendations"] = api.getPodcastRecommendationsBasedOnPodcast(sections[entryIndex]["id"]);
      } else if (basis == RecommendationBasis.GENRE) {
