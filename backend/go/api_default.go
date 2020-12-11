@@ -61,6 +61,12 @@ func GetTheBestPodcasts(w http.ResponseWriter, r *http.Request) {
 	GetTheBestPodcastsImpl(w, r)
 }
 
+func GetTopLevelGenres(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	GetTopLevelGenresImpl(w, r)
+}
+
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)

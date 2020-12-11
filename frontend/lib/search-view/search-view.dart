@@ -5,7 +5,6 @@ import 'package:frontend/search-view/components/recent-searches.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
-import 'package:frontend/object-model/episode.dart';
 
 
 class SearchWidget extends StatefulWidget {
@@ -14,14 +13,6 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-  // mock data
-  List<Genre> genres = [
-    new Genre(67, "Finance"),
-    new Genre(12, "Health"),
-    new Genre(33, "Technology"),
-    new Genre(56, "News"),
-  ];
-
   List<String> results = [];
   final api = swagger.DefaultApi();
 
@@ -56,7 +47,20 @@ class _SearchWidgetState extends State<SearchWidget> {
                 children: [
                   RecentSearchesWidget(),
                   SizedBox(height: 20),
-                  GenresWidget("Browse genres", genres),
+                  FutureBuilder<swagger.GetGenresResponse> (
+                    future: swagger.DefaultApi().getTopLevelGenres(),
+                    builder: (context,
+                        AsyncSnapshot<swagger.GetGenresResponse> snapshot) {
+                      if (snapshot.hasData) {
+                        return GenresWidget("Browse genres",
+                            snapshot.data.genres.map(
+                                    (swagger.Genre genre) => Genre(genre.id))
+                                .toList()
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    }
+                  )
                 ],
               ),
             )

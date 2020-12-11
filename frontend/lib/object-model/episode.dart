@@ -1,18 +1,23 @@
+import 'dart:convert';
+
 import 'package:frontend/db-helper.dart';
-import 'package:swagger/api.dart';
+import 'package:swagger/api.dart' as swagger;
+
+import 'genre.dart';
 
 class Episode {
-  final String title;
-  final String id;
-  final String audio;
-  final String imageUrl;
-  final Duration duration;
+  String title;
+  String id;
+  String audio;
+  String imageUrl;
+  Duration duration;
   // TODO: Denk eens na of dit ook final moet/kan.
   Duration position;
-  final String publisher;
-  final String podcastId;
-  final String description;
-  final DateTime publishDate;
+  String publisher;
+  String podcastId;
+  String description;
+  DateTime publishDate;
+  List<Genre> genres;
 
 
   Episode(
@@ -25,9 +30,10 @@ class Episode {
       this.publisher,
       this.podcastId,
       this.description,
-      this.publishDate);
+      this.publishDate,
+      this.genres);
 
-  static Episode fromEpisodeFull(EpisodeFull episodeFull, {Duration position}) {
+  static Episode fromEpisodeFull(swagger.EpisodeFull episodeFull, {Duration position}) {
     var duration = Duration(seconds: episodeFull.audioLengthSec);
     if (position == null) {
       position = Duration(seconds: 0);
@@ -43,12 +49,17 @@ class Episode {
         episodeFull.podcast.publisher,
         episodeFull.podcast.id,
         episodeFull.description,
-        pubDate);
+        pubDate,
+        episodeFull.podcast.genreIds.map((id) => Genre(id)).toList(),
+    );
   }
 
   //WARNING: EpisodeMinimum does not contain the podcast it is form, so the publisher and the podcastId of this Episode object are set to null.
   static Episode fromEpisodeMinimum(
-      EpisodeMinimum episodeMinimum, String podcastPublisher, String podcastId,
+      swagger.EpisodeMinimum episodeMinimum,
+      String podcastPublisher,
+      String podcastId,
+      List<int> genreIds,
       {Duration position}) {
     var duration = Duration(seconds: episodeMinimum.audioLengthSec);
     if (position == null) {
@@ -66,11 +77,13 @@ class Episode {
         podcastPublisher,
         podcastId,
         episodeMinimum.description,
-        pubDate);
+        pubDate,
+        genreIds.map((id) => Genre(id)).toList()
+    );
   }
 
   static Episode fromEpisodeSearchResult(
-      EpisodeSearchResult episodeSearchResult,
+      swagger.EpisodeSearchResult episodeSearchResult,
       {Duration position}) {
     var duration = Duration(seconds: episodeSearchResult.audioLengthSec);
     if (position == null) {
@@ -89,31 +102,14 @@ class Episode {
         episodeSearchResult.podcast.publisherOriginal,
         episodeSearchResult.podcast.id,
         episodeSearchResult.descriptionOriginal,
-        pubDate);
-  }
-
-  static Episode fromEpisodeSimple(EpisodeSimple episodeSimple,
-      {Duration position}) {
-    var duration = Duration(seconds: episodeSimple.audioLengthSec);
-    if (position == null) {
-      position = Duration(seconds: 0);
-    }
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
-
-    return new Episode(
-        episodeSimple.title,
-        episodeSimple.id,
-        episodeSimple.audio,
-        episodeSimple.image,
-        duration,
-        position,
-        episodeSimple.podcast.publisher,
-        episodeSimple.podcast.id,
-        episodeSimple.description,
-        pubDate);
+        pubDate,
+        episodeSearchResult.podcast.genreIds.map((id) => Genre(id)).toList()
+    );
   }
 
   static Episode fromDatabaseMap(Map<String, dynamic> map) {
+    Iterable l = json.decode(map[DatabaseHelper.genreIdsColumn]);
+    List<Genre> genres = List<int>.from(l).map((id) => Genre(id)).toList();
     return Episode(
       map[DatabaseHelper.titleColumn],
       map[DatabaseHelper.idColumn],
@@ -125,6 +121,7 @@ class Episode {
       map[DatabaseHelper.podcastIdColumn],
       map[DatabaseHelper.descriptionColumn],
       DateTime.parse(map[DatabaseHelper.publishDateColumn]),
+      genres,
     );
   }
 
@@ -140,6 +137,7 @@ class Episode {
       DatabaseHelper.podcastIdColumn: podcastId,
       DatabaseHelper.descriptionColumn: description,
       DatabaseHelper.publishDateColumn: publishDate.toIso8601String(),
+      DatabaseHelper.genreIdsColumn: jsonEncode(genres.map((genre) => genre.id).toList()),
     };
   }
 
@@ -154,6 +152,8 @@ class Episode {
         "Publisher",
         "podcastId",
         "description",
-        DateTime.now());
+        DateTime.now(),
+        [Genre(151)],
+    );
   }
 }

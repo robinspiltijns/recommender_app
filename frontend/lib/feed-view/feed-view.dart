@@ -16,9 +16,21 @@ class _FeedWidgetState extends State<FeedWidget> {
   Future<dynamic> futureResp;
 
   List<Map<String, dynamic>> sections = [
-    {"basis" : RecommendationBasis.PODCAST, "id" : "4d3fe717742d4963a85562e9f84d8c79", "sectionTitleDescription" : "Star Wars"},
-    {"basis" : RecommendationBasis.EPISODE, "id" : "02f0123246c944e289ee2bb90804e41b", "sectionTitleDescription" : "1,775: Happy 75th Birthday, George Lucas!"},
-    {"basis" : RecommendationBasis.GENRE, "id": "144", "sectionTitleDescription" : "Personal Finance"}
+    {
+      "basis": RecommendationBasis.PODCAST,
+      "id": "4d3fe717742d4963a85562e9f84d8c79",
+      "sectionTitleDescription": "Star Wars"
+    },
+    {
+      "basis": RecommendationBasis.EPISODE,
+      "id": "02f0123246c944e289ee2bb90804e41b",
+      "sectionTitleDescription": "1,775: Happy 75th Birthday, George Lucas!"
+    },
+    {
+      "basis" : RecommendationBasis.GENRE,
+      "id": "144",
+      "sectionTitleDescription" : "Personal Finance"
+    }
   ];
 
   @override
@@ -30,17 +42,16 @@ class _FeedWidgetState extends State<FeedWidget> {
   List<Future<Map<String, dynamic>>> futures;
 
    makeFutures() async {
-    List<Map<String, dynamic>> result;
     for (var index = 0; index <sections.length; index++) {
       if (sections[index]["basis"] == RecommendationBasis.EPISODE) {
-        await AddEpisodeSection(index);
+        await addEpisodeSection(index);
       } else {
-        await AddPodcastSection(index, sections[index]["basis"]);
+        await addPodcastSection(index, sections[index]["basis"]);
       }
-    };
+    }
   }
 
-  AddPodcastSection(int entryIndex, RecommendationBasis basis) async {
+  addPodcastSection(int entryIndex, RecommendationBasis basis) async {
      if (basis == RecommendationBasis.PODCAST) {
        sections[entryIndex]["recommendations"] = api.getPodcastRecommendationsBasedOnPodcast(sections[entryIndex]["id"]);
      } else if (basis == RecommendationBasis.GENRE) {
@@ -49,14 +60,12 @@ class _FeedWidgetState extends State<FeedWidget> {
      }
 
 
-  AddEpisodeSection(int entryIndex) async {
-     sections[entryIndex]["recommendations"] = api.getEpisodeRecommendationsBasedOnEpisode(sections[entryIndex]["id"]);
+  addEpisodeSection(int entryIndex) async {
+    sections[entryIndex]["recommendations"] =
+        api.getEpisodeRecommendationsBasedOnEpisode(sections[entryIndex]["id"]);
   }
 
   Widget generateSections(int index) {
-     //List<Widget> result = [];
-     //for (var section in sections) {
-       //result.add(FutureBuilder<dynamic>(
     Map section = sections[index];
     return FutureBuilder<dynamic> (
            future: section["recommendations"],
@@ -76,9 +85,7 @@ class _FeedWidgetState extends State<FeedWidget> {
              return Text("loading...");
            }
        );
-     //}
-     //return result;
-  }
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +101,13 @@ class _FeedWidgetState extends State<FeedWidget> {
        body:  SizedBox(
          height: sections.length * PodcastCardWidget.CARD_HEIGHT,
          child: ListView.builder(
-               itemCount: sections.length,
-               shrinkWrap: true,
-               itemBuilder: (BuildContext context, int index) {
-                 if (index < sections.length) {
-                  return generateSections(index);
-                 }
-               },
-     ),
-       ));
+           itemCount: sections.length,
+           shrinkWrap: true,
+           itemBuilder: (BuildContext context, int index) {
+              return generateSections(index);
+           },
+         ),
+       )
+     );
   }
 }

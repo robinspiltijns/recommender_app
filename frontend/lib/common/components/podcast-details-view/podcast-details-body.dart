@@ -67,7 +67,11 @@ class PodcastDetailsBody extends StatelessWidget {
       Container(
         child: EpisodesOverview(podcast.episodes
             .map((episodeMinimum) => Episode.fromEpisodeMinimum(
-                episodeMinimum, podcast.publisher, podcast.id))
+                episodeMinimum,
+                podcast.publisher,
+                podcast.id,
+                podcast.genreIds)
+              )
             .toList()),
       )
     ]);

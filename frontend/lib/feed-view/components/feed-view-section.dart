@@ -41,7 +41,7 @@ class FeedViewSection extends StatelessWidget {
 
     if (basis == RecommendationBasis.EPISODE) {
       for (int i = 0; i < nbCards; i++) {
-        result.add(EpisodeCardWidget(episode: Episode.fromEpisodeSimple(resultList[i])));
+        result.add(EpisodeCardWidget(resultList[i]));
       }
     } else {
       for (int i = 0; i < nbCards; i++) {

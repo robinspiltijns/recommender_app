@@ -277,6 +277,26 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 
 func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 	client := &http.Client{}
+	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/genres?top_level_only=0", nil)
+
+	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
+
+	resp, err := client.Do(request)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+
+	var result GetGenresResponse
+	json.Unmarshal(bodyBytes, &result)
+
+	fmt.Fprintf(w, string(bodyBytes))
+}
+
+func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
+	client := &http.Client{}
 	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/genres?top_level_only=1", nil)
 
 	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
