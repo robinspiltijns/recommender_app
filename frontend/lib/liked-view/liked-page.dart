@@ -4,7 +4,7 @@ import 'package:frontend/object-model/genre.dart';
 import 'liked-view.dart';
 
 
-class FeedPage extends StatelessWidget {
+class LikedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class FeedPage extends StatelessWidget {
                   case "/":
                     return LikesWidget();
                   case GenreDetails.routeName:
-                    final Genre genre = settings.arguments;
+                    Genre genre = settings.arguments;
                     return GenreDetails(genre);
                 }
                 return Container();
