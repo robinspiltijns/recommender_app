@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
 import 'package:frontend/feed-view/components/episode-card.dart';
-import 'package:frontend/object-model/episode.dart';
 
 enum RecommendationBasis { PODCAST, EPISODE, GENRE }
 
@@ -45,7 +44,7 @@ class FeedViewSection extends StatelessWidget {
       }
     } else if (basis == RecommendationBasis.EPISODE) {
       for (int i = 0; i < nbCards; i++) {
-        result.add(EpisodeCardWidget(episode: Episode.fromEpisodeSimple(resultList[i])));
+        result.add(EpisodeCardWidget(resultList[i]));
       }
     }
     return result;

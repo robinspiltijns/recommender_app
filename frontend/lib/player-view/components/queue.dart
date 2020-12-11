@@ -11,17 +11,6 @@ class QueueWidget extends StatefulWidget {
 
 class _QueueWidgetState extends State<QueueWidget> {
 
-  // Mock
-  List<Episode> episodes = [
-   Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-  ];
-
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,6 +47,9 @@ class _QueueWidgetState extends State<QueueWidget> {
                     );
                   }
                 } else {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                  }
                   return CircularProgressIndicator();
                 }
               });
