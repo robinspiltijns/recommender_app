@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'package:swagger/api.dart' as swagger;
 
+import 'genre-details-body.dart';
+
 class GenreDetails extends StatelessWidget {
 
   static const String routeName = "/genre";
@@ -39,21 +41,6 @@ class GenreDetails extends StatelessWidget {
       )
     );
   }
-
-
-
 }
 
-class GenreDetailsBody extends StatelessWidget {
 
-  final swagger.BestPodcastsResponse response;
-
-  GenreDetailsBody(this.response);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
-}
