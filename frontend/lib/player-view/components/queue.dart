@@ -24,20 +24,16 @@ class _QueueWidgetState extends State<QueueWidget> {
         ),
         SizedBox(height: 10),
         Consumer<QueueService>(builder: (context, queueService, child) {
-          return FutureBuilder(
-              future: queueService.getQueuedEpisodes(),
-              builder: (context, AsyncSnapshot<List<Episode>> snapshot) {
-                if (snapshot.hasData) {
-                  var data = snapshot.data;
-                  if (data.length == 0) {
-                    return Text("no episodes added yet.");
-                  } else {
+                    List<Episode> queue = queueService.queue;
+                    if (queue.length == 0) {
+                      return Text("No episodes added yet");
+                    }
                     return ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: data.length,
+                      itemCount: queue.length,
                       itemBuilder: (context, index) {
-                        return QueuedEpisodeCardWidget(data[index]);
+                        return QueuedEpisodeCardWidget(queue[index]);
                       },
                       separatorBuilder: (context, index) {
                         return Divider(
@@ -45,15 +41,8 @@ class _QueueWidgetState extends State<QueueWidget> {
                         );
                       },
                     );
-                  }
-                } else {
-                  if (snapshot.hasError) {
-                    print(snapshot.error);
-                  }
-                  return CircularProgressIndicator();
-                }
-              });
-        }),
+                         }
+        ),
       ],
     );
   }

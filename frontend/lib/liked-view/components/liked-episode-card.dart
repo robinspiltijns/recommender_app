@@ -187,7 +187,7 @@ class LikedEpisodeCard extends StatelessWidget {
                 builder: (context, queueService, child) =>
                   InkWell(
                     onTap: () {
-                      queueService.insertQueuedEpisode(episode);
+                      queueService.addEpisode(episode);
                       Navigator.pop(context);
                     },
                     child: Container(
