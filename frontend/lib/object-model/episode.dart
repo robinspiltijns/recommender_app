@@ -89,6 +89,7 @@ class Episode {
     if (position == null) {
       position = Duration(seconds: 0);
     }
+    print(episodeSearchResult.pubDateMs);
     var pubDate =
         DateTime.fromMillisecondsSinceEpoch(episodeSearchResult.pubDateMs);
 

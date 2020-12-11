@@ -160,6 +160,6 @@ class EpisodeCardWidget extends StatelessWidget {
 
   queueEpisode(String id, QueueService queueService) async {
     EpisodeFull episode = await DefaultApi().getEpisode(id);
-    queueService.insertQueuedEpisode(Episode.fromEpisodeFull(episode));
+    queueService.addEpisode(Episode.fromEpisodeFull(episode));
   }
 }
