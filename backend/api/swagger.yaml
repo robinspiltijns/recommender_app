@@ -1354,6 +1354,7 @@ components:
         pub_date_ms:
           type: integer
           description: Published date for this episode. In millisecond.
+          format: int64
           example: 1474873200000
         title_original:
           type: string

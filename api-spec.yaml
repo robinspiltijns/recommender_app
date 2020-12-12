@@ -894,6 +894,7 @@ definitions:
             If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image.
         pub_date_ms:
           type: integer
+          format: int64
           example: 1474873200000
           description: Published date for this episode. In millisecond.
         title_original:

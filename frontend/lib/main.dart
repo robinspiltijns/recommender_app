@@ -22,21 +22,25 @@ void main() async {
   await Future.wait([DatabaseHelper().database, Genre.getGenreNames()])
       .then((List result) => database = result[0]);
 
+  QueueService queueService = QueueService(database);
   PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
+  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database);
+
   runApp(
       MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => PlayerService(playedEpisodesService),
+            create: (context) => playerService,
           ),
           ChangeNotifierProvider(
-            create: (context) => PlayedEpisodesService(database),
+            create: (context) => playedEpisodesService,
           ),
           ChangeNotifierProvider(
-            create: (context) => LikedEpisodesService(database),
+            create: (context) => likedEpisodesService,
           ),
           ChangeNotifierProvider(
-            create: (context) => QueueService(database),
+            create: (context) => queueService,
           )
         ],
         child: MyApp(),
