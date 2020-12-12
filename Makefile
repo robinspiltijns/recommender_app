@@ -18,6 +18,7 @@ deploy:
 	docker-compose -f backend/docker-compose.yaml up -d --force-recreate
 
 save-image:
+	docker-compose -f backend/docker-compose.yaml build
 	docker save -o ./docker-image.tar backend_podcast_recommender:latest
 
 copy-to-server:
