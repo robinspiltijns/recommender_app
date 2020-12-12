@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
+import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/podcast.dart';
-import 'package:frontend/search-results-view/components/episode-search-result-card.dart';
-import 'package:frontend/search-results-view/components/podcast-search-result-card.dart';
+import 'package:frontend/common//components/episode-list-item.dart';
+import 'package:frontend/common//components/podcast-list-item.dart';
 import 'package:frontend/search-results-view/components/more-button.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart';
@@ -50,13 +51,11 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
       presentEpisodes = presentEpisodes + perPage;
       showingPodcasts.addAll(this.widget.podcasts.getRange(presentPodcasts, presentPodcasts + perPage));
       presentPodcasts = presentPodcasts + perPage;
-      this.height = 1000;
     });
   }
 
   List<EpisodeSearchResult> showingEpisodes = [];
   List<PodcastSearchResult> showingPodcasts = [];
-  double height;
 
   int perPage  = 3;
   int presentEpisodes = 0;
@@ -71,7 +70,9 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
             (context, index) {
-          return EpisodeSearchResultCard(ep: showingEpisodes[index],);
+          return EpisodeListItem(
+              Episode.fromEpisodeSearchResult(showingEpisodes[index])
+          );
         },
         childCount: this.showingEpisodes.length,
       ),
@@ -109,7 +110,6 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
                         presentEpisodes, presentEpisodes + perPage));
               }
               presentEpisodes = presentEpisodes + perPage;
-              this.height = height + perPage * EpisodeSearchResultCard.HEIGHT;
             });
           },),
       );
@@ -158,7 +158,6 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
                         presentPodcasts, presentPodcasts + perPage));
               }
               presentPodcasts = presentPodcasts + perPage;
-              this.height = height + perPage * PodcastListItem.HEIGHT;
             });
           },),
       );
