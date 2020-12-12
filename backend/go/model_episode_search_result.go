@@ -27,7 +27,7 @@ type EpisodeSearchResult struct {
 	// Thumbnail image (300x300) url for this episode. If an episode doesn't have its own image, then this field would be the url of the podcast artwork thumbnail image. 
 	Thumbnail string `json:"thumbnail,omitempty"`
 	// Published date for this episode. In millisecond.
-	PubDateMs int32 `json:"pub_date_ms,omitempty"`
+	PubDateMs int64 `json:"pub_date_ms,omitempty"`
 	// Plain text of this episode' title
 	TitleOriginal string `json:"title_original,omitempty"`
 	// The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
