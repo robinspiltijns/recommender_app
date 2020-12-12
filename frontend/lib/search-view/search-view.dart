@@ -6,25 +6,8 @@ import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
 
 
-class SearchWidget extends StatefulWidget {
-  @override
-  _SearchWidgetState createState() => _SearchWidgetState();
-}
-
-class _SearchWidgetState extends State<SearchWidget> {
-  List<String> results = [];
+class SearchWidget extends StatelessWidget {
   final api = swagger.DefaultApi();
-
-  _onSubmit(String value) {
-    Future<swagger.SearchResult> futureResult = api.getSearchResults(value, "title");
-    futureResult.then((result) => {
-          Navigator.pushNamed(
-          context,
-          "/search-results",
-          arguments: [result, value])
-        });
-  }
-
 
   @override
   Widget build(BuildContext context) {
