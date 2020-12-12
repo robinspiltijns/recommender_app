@@ -75,7 +75,7 @@ class EpisodeListItem extends StatelessWidget {
                             return CustomIconButton(
                                 icon: Icons.queue,
                                 onTap: () =>
-                                {queueService.insertQueuedEpisode(episode)});
+                                {queueService.addEpisode(episode)});
                           },
                         ),
                       ],
