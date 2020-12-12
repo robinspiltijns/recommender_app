@@ -163,25 +163,14 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
       );
     }
   }
-
-  _onSubmit(String value) {
-    Future<swagger.SearchResult> futureResult = this.widget.api.getSearchResults(value, "title");
-    futureResult.then((result) => {
-      Navigator.pushNamed(
-          context,
-          "/search-results",
-          arguments: [result, value])
-    });
-  }
-
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Container(
-          child: SearchFieldWidget(onSubmit: _onSubmit, query: this.widget.queryString,),
+          child: SearchFieldWidget(),
         ),
         actions: [
           Container(

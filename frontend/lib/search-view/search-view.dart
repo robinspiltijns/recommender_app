@@ -22,7 +22,7 @@ class SearchWidget extends StatelessWidget {
         margin: EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Column(
           children: [
-            SearchFieldWidget(onSubmit: _onSubmit),
+            SearchFieldWidget(),
             SizedBox(height: 20),
             Expanded(
               child: ListView(
