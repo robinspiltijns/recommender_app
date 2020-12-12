@@ -4,7 +4,8 @@ var themeData = new ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     primaryColor: Color(0xFFEF476F),
     buttonColor: Color(0x26FFFFFF),
-    backgroundColor: Color(0xff221E48),
+    backgroundColor: Color(0xFF221E48),
+    cardColor: Color.fromRGBO(36, 39, 73, 1),
     textTheme: TextTheme(
         headline6: TextStyle(
           // Main view titles
@@ -69,7 +70,7 @@ extension CustomStyles on TextTheme {
     fontWeight: FontWeight.w600,
   );
   TextStyle get podcastProducer => TextStyle(
-    fontSize: 16.0,
+    fontSize: 14.0,
     color: Color(0xBAFFFFFF),
     fontWeight: FontWeight.w600,
   );

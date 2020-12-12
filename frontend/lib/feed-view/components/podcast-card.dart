@@ -35,7 +35,7 @@ class PodcastCardWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Color.fromRGBO(36, 39, 73, 100),
+          color: Theme.of(context).cardColor,
         ),
         width: CARD_WIDTH,
         height: CARD_HEIGHT,

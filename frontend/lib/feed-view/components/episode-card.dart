@@ -36,7 +36,7 @@ class EpisodeCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Color.fromRGBO(36, 39, 73, 100),
+              color: Theme.of(context).cardColor
             ),
             width: CARD_WIDTH,
             height: CARD_HEIGHT,
