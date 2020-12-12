@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/object-model/podcast.dart';
-import 'package:frontend/search-results-view/components/podcast-search-result-card.dart';
+import 'package:frontend/common/components/podcast-list-item.dart';
 import 'package:swagger/api.dart';
 
 class GenreDetailsBody extends StatelessWidget {
@@ -18,7 +18,7 @@ class GenreDetailsBody extends StatelessWidget {
         Text(response.name, style: Theme.of(context).textTheme.headline1),
         SizedBox(height: 20),
         Text("Best podcasts", style: Theme.of(context).textTheme.headline2),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         PodcastList(response.podcasts)
       ]
 
@@ -38,11 +38,8 @@ class PodcastList extends StatelessWidget {
     return Column(
       children: podcasts.map(
               (PodcastSimple podcast) =>
-                  PodcastListItem(Podcast.fromPodcastSipmle(podcast))
+                  PodcastListItem(Podcast.fromPodcastSimple(podcast))
       ).toList()
     );
   }
-
-
-
 }

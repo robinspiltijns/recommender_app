@@ -21,7 +21,8 @@ class GenreDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Genre overview", style: Theme.of(context).textTheme.headline5),
+        title: Text("Genre overview",
+            style: Theme.of(context).textTheme.headline2),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
       ),
@@ -32,8 +33,9 @@ class GenreDetails extends StatelessWidget {
           builder: (context, AsyncSnapshot<swagger.BestPodcastsResponse> snapshot) {
             if (snapshot.hasData) {
               return GenreDetailsBody(snapshot.data);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+            }
+            if (snapshot.hasError) {
+              print("${snapshot.error}");
             }
             return CircularProgressIndicator();
           },
