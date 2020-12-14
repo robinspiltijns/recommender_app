@@ -78,7 +78,7 @@ class DatabaseHelper {
     await db.execute(
         """
           CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
-             $idColumn TEXT PRIMARY KEY,
+             $idColumn TEXT,
              $titleColumn TEXT,
              $audioColumn TEXT,
              $imageColumn TEXT,
@@ -94,7 +94,7 @@ class DatabaseHelper {
       """);
     await db.execute("""
        CREATE TABLE IF NOT EXISTS $queueTable(
-            $idColumn TEXT PRIMARY KEY, 
+            $idColumn TEXT, 
             $titleColumn TEXT, 
             $audioColumn TEXT,
             $imageColumn TEXT,
