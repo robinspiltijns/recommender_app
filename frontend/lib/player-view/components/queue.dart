@@ -59,8 +59,25 @@ class _QueueWidgetState extends State<QueueWidget> {
                               onDismissed: (direction) {
                                 queueService.pop(i);
                               },
+                              secondaryBackground: Container(
+                                color: Color(0xFFEF476F),
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Icon(Icons.delete, color: Colors.white,),
+                                    SizedBox(width: 18),
+                                  ],
+                                ),
+                              ),
                               background: Container(
                                 color: Color(0xFFEF476F),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 18),
+                                    Icon(Icons.delete, color: Colors.white,),
+                                    Spacer(),
+                                  ],
+                                ),
                               ),
                             ));
                       })
