@@ -12,6 +12,10 @@ class QueueWidget extends StatefulWidget {
 }
 
 class _QueueWidgetState extends State<QueueWidget> {
+
+  // Let op: dit moet overeenstemmen met de hoogte van een card.
+  final double _cardHeight = 56;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,7 +34,7 @@ class _QueueWidgetState extends State<QueueWidget> {
             return Text("No episodes added yet");
           }
           return Container(
-              height: queue.length * 56.0,
+              height: queue.length * _cardHeight,
               child: MyReorderableListView(
                   children: queue
                       .asMap()
@@ -41,12 +45,15 @@ class _QueueWidgetState extends State<QueueWidget> {
                               key: UniqueKey(),
                               child: Consumer<PlayerService>(
                                   builder: (context, playerService, child) {
-                                return QueuedEpisodeCardWidget(
-                                  episode: episode,
-                                  onPlay: () {
-                                    queueService.pop(i).then((episode) =>
-                                        playerService.play(episode));
-                                  },
+                                return Container(
+                                  height: 56,
+                                  child: QueuedEpisodeCardWidget(
+                                    episode: episode,
+                                    onPlay: () {
+                                      queueService.pop(i).then((episode) =>
+                                          playerService.play(episode));
+                                    },
+                                  ),
                                 );
                               }),
                               onDismissed: (direction) {

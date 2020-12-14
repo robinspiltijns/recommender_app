@@ -12,69 +12,63 @@ class QueuedEpisodeCardWidget extends StatelessWidget {
   final Episode episode;
   final VoidCallback onPlay;
 
+  // Heel lelijk, moet nog worden gerefactord.
+  final double _imageSize = 44;
+  final double _totalMargin = 12;
 
   QueuedEpisodeCardWidget({this.episode, this.onPlay});
 
-  IconData _getPlayButtonIcon(bool isPlayingAudio, String episodeId) {
-    return isPlayingAudio && episode.id == episodeId
-        ? Icons.pause
-        : Icons.play_arrow;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      child: Column(
-        children: [
-          SizedBox(height: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(width: 18),
-              CachedNetworkImage(
-                imageUrl: episode.imageUrl,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    image: DecorationImage(image: imageProvider),
-                  ),
+    return Column(
+      children: [
+        SizedBox(height: _totalMargin / 2),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(width: 18),
+            CachedNetworkImage(
+              imageUrl: episode.imageUrl,
+              imageBuilder: (context, imageProvider) => Container(
+                width: _imageSize,
+                height: _imageSize,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  image: DecorationImage(image: imageProvider),
                 ),
-                placeholder: (context, url) =>
-                    Container(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              SizedBox(width: 10),
-              Expanded(
-                  child: Container(
-                height: 44,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      episode.title,
-                      style: Theme.of(context).textTheme.episodeTitle,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      episode.publisher,
-                      style: Theme.of(context).textTheme.episodeDuration,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              )),
-              SizedBox(width: 10),
-              CustomIconButton(icon: Icons.play_arrow, onTap: onPlay),
-              SizedBox(width: 18),
-            ],
-          ),
-          SizedBox(height: 6)
-        ],
-      ),
+              placeholder: (context, url) =>
+                  Container(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+                child: Container(
+              height: 44,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    episode.title,
+                    style: Theme.of(context).textTheme.episodeTitle,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    episode.publisher,
+                    style: Theme.of(context).textTheme.episodeDuration,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            )),
+            SizedBox(width: 10),
+            CustomIconButton(icon: Icons.play_arrow, onTap: onPlay),
+            SizedBox(width: 18),
+          ],
+        ),
+        SizedBox(height: _totalMargin / 2),
+      ],
     );
   }
 }
