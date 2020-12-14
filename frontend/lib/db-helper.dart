@@ -49,7 +49,7 @@ class DatabaseHelper {
     String path = directory.path + "episodes.db";
 
     // Uncomment this line to reset database when changes are done in _createDb().
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     //OPEN/CREATE THE DB AT A GIVEN PATH
     var database = await openDatabase(path, version: 1, onCreate: _createDb);

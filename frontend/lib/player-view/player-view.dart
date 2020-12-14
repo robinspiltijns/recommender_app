@@ -28,7 +28,6 @@ class PlayerViewWidget extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 18),
               child: QueueWidget(),
             )
           ],
