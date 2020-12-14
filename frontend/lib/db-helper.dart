@@ -49,7 +49,7 @@ class DatabaseHelper {
     String path = directory.path + "episodes.db";
 
     // Uncomment this line to reset database when changes are done in _createDb().
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
 
     //OPEN/CREATE THE DB AT A GIVEN PATH
     var database = await openDatabase(path, version: 1, onCreate: _createDb);
@@ -78,7 +78,7 @@ class DatabaseHelper {
     await db.execute(
         """
           CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
-             $idColumn TEXT PRIMARY KEY,
+             $idColumn TEXT,
              $titleColumn TEXT,
              $audioColumn TEXT,
              $imageColumn TEXT,
@@ -94,7 +94,7 @@ class DatabaseHelper {
       """);
     await db.execute("""
        CREATE TABLE IF NOT EXISTS $queueTable(
-            $idColumn TEXT PRIMARY KEY, 
+            $idColumn TEXT, 
             $titleColumn TEXT, 
             $audioColumn TEXT,
             $imageColumn TEXT,
