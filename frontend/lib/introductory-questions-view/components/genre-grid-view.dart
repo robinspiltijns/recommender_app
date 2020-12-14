@@ -7,7 +7,6 @@ import 'package:frontend/common/components/buttons/custom-text-button.dart';
 class GenreGridView extends StatefulWidget {
 
   static const MAX_NB_SELECTED_GENRES = 3;
-  _GenreGridViewState of(BuildContext context) => context.ancestorStateOfType(const TypeMatcher<_GenreGridViewState>());
 
   final List<Genre> genres;
 
@@ -42,8 +41,12 @@ class _GenreGridViewState extends State<GenreGridView> {
   }
 
   onPressed(BuildContext context){
-      if (selectedGenres.length > 1) {
-        //todo: ga naar het volgende
+      if (selectedGenres.length >= 1) {
+        //todo: persist selected genres
+        Navigator.pushNamed(
+            context,
+            "/introduction-done"
+        );
       } else {
         setState(() {
           nextMessage = Container(

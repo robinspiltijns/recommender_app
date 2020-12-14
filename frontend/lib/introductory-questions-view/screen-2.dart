@@ -25,15 +25,6 @@ class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
   GenreGridView genreGridView;
   Container nextMessage;
 
-  onPressed(BuildContext context){
-    if (genreGridView.of(context).selectedGenres != null) {
-      if (genreGridView.of(context).selectedGenres.length > 1) {
-        //todo: ga naar het volgende
-      } else {
-        nextMessage = Container(child: Text("Select at least one genre to get started.", style: TextStyle(color: Colors.white),),);
-      }
-    }
-  }
 
   @override
   void initState() {
@@ -49,8 +40,7 @@ class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
       children: [SizedBox(
         height: 50,
       ),
-        Expanded(child: genreGridView),
-
+        Expanded(child: genreGridView)
       ],
     );
   }
