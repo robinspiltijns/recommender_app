@@ -15,12 +15,13 @@ class Screen0neWidget extends StatefulWidget {
 
 class _Screen0neWidgetState extends State<Screen0neWidget> {
 
+  Widget hintMessage = Container(height: 40,);
+  final myController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
   }
-
-  final myController = TextEditingController();
 
   @override
   void dispose() {
@@ -29,15 +30,33 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
     super.dispose();
   }
 
+  bool checkInput(String input) {
+    if (input == null) {
+      setState(() {
+        hintMessage = Container(height: 30, alignment: Alignment.centerLeft, margin: EdgeInsets.only(left: 45), child: Text("Please fill in your name ", style: Theme.of(context).textTheme.bodyText2,),);
+      });
+      return false;
+    } else if (input.length == 0) {
+      setState(() {
+        hintMessage = Container(height: 30, alignment: Alignment.centerLeft, margin: EdgeInsets.only(left: 45), child: Text("Please fill in your name ", style: Theme.of(context).textTheme.bodyText2,),);
+      });
+      return false;
+    }
+    return true;
+  }
+
 
   onPressed(BuildContext context, UserNameService userNameService) {
-    //todo: make sure text is not empty
-    userNameService.addUserName(myController.text);
-    userNameService.getUserName().then((value) => print(value));
-    Navigator.pushNamed(
-        context,
-        "/screen-2"
-    );
+    var text = myController.text;
+    if (checkInput(text)) {
+      userNameService.addUserName(text);
+      userNameService.getUserName().then((value) => print(value));
+      Navigator.pushNamed(
+          context,
+          "/screen-2"
+      );
+    }
+
   }
 
   @override
@@ -110,6 +129,7 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
                   ],
                 );}
               ),
+              hintMessage
             ],
           ),
         ),
