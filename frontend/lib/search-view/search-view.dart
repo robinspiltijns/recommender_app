@@ -13,6 +13,14 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
+  // mock data
+  List<OwnGenre> genres = [
+    new OwnGenre(67, "Finance"),
+    new OwnGenre(12, "Health"),
+    new OwnGenre(33, "Technology"),
+    new OwnGenre(56, "News"),
+  ];
+
   List<String> results = [];
   final api = swagger.DefaultApi();
 

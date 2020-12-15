@@ -4,7 +4,7 @@ import 'package:frontend/object-model/genre.dart';
 
 class GenresList extends StatelessWidget {
   
- final List<Genre> genres;
+ final List<OwnGenre> genres;
  
  GenresList(this.genres);
   

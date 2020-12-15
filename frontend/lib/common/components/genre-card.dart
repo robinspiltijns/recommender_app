@@ -15,7 +15,7 @@ List<Color> GENRE_COLORS = [
 ];
 
 class GenreCard extends StatelessWidget {
-  final Genre genre;
+  final OwnGenre genre;
 
   GenreCard(this.genre);
 

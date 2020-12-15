@@ -4,15 +4,21 @@ import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
+import 'package:frontend/common/services/user-name-service.dart';
+import 'package:frontend/common/services/selected-genres-service.dart';
 import 'package:frontend/db-helper.dart';
+import 'package:frontend/introductory-questions-view/introductory-questions-page.dart';
+import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/liked-view/liked-page.dart';
 import 'package:frontend/search-view/search-page.dart';
 import 'package:frontend/common/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'feed-view/feed-page.dart';
 import 'object-model/genre.dart';
+
+int initScreen;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +30,14 @@ void main() async {
 
   QueueService queueService = QueueService(database);
   PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
-  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
   LikedEpisodesService likedEpisodesService = LikedEpisodesService(database);
+  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = await prefs.getInt("initScreen");
+  // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
+  await prefs.setInt("initScreen", 1);
+  print('initScreen ${initScreen}');
 
   runApp(
       MultiProvider(
@@ -41,6 +53,12 @@ void main() async {
           ),
           ChangeNotifierProvider(
             create: (context) => queueService,
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserNameService(database),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => SelectedGenresService(database),
           )
         ],
         child: MyApp(),
@@ -52,8 +70,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CastlyWidget(),
       theme: themeData,
+      initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+      routes: {
+        '/': (context) => CastlyWidget(),
+        "first": (context) => IntroductoryQuestionsPage(),
+      },
     );
   }
 }
