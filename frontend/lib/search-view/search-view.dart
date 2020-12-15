@@ -15,11 +15,11 @@ class SearchWidget extends StatefulWidget {
 
 class _SearchWidgetState extends State<SearchWidget> {
   // mock data
-  List<Genre> genres = [
-    new Genre(67, "Finance"),
-    new Genre(12, "Health"),
-    new Genre(33, "Technology"),
-    new Genre(56, "News"),
+  List<OwnGenre> genres = [
+    new OwnGenre(67, "Finance"),
+    new OwnGenre(12, "Health"),
+    new OwnGenre(33, "Technology"),
+    new OwnGenre(56, "News"),
   ];
 
   List<String> results = [];

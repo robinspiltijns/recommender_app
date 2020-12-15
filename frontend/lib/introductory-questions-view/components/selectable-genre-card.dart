@@ -5,7 +5,7 @@ import 'package:frontend/object-model/genre.dart';
 
 class SelectableGenreCard extends StatelessWidget {
 
-  final Genre genre;
+  final OwnGenre genre;
   final bool isSelected;
 
   SelectableGenreCard(this.genre, this.isSelected);

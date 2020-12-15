@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
 import 'package:frontend/common/components/genre-card.dart';
 import 'package:frontend/introductory-questions-view/components/genre-grid-view.dart';
+import 'package:swagger/api.dart';
 import 'package:frontend/object-model/genre.dart';
 
 class ScreenTwoWidget extends StatefulWidget {
@@ -15,22 +16,23 @@ class ScreenTwoWidget extends StatefulWidget {
 
 class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
 
-  List<Genre> genres = [
-    new Genre(67, "Finance"),
-    new Genre(12, "Health"),
-    new Genre(33, "Technology"),
-    new Genre(56, "News"),
-  ];
+  final api = DefaultApi();
 
-  GenreGridView genreGridView;
+
+  Future<GetGenresResponse> genres;
+
   Container nextMessage;
 
 
   @override
   void initState() {
     super.initState();
-    genreGridView = GenreGridView(genres);
     nextMessage = Container();
+    getGenres();
+  }
+
+  getGenres() {
+    genres = api.getGenres();
   }
 
   @override
@@ -47,7 +49,20 @@ class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
           children: [SizedBox(
             height: 50,
           ),
-            Expanded(child: genreGridView)
+            FutureBuilder <GetGenresResponse> (
+              future: genres,
+            builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<OwnGenre> genresList = OwnGenre.fromGetGenreResponse(snapshot.data);
+                  return Expanded(child: GenreGridView(genresList));
+                } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                }
+
+                // By default, show a loading spinner.
+                return Text("loading...");
+              }
+            )
           ],
         ),
       ),

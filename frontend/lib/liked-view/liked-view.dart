@@ -11,11 +11,11 @@ class LikesWidget extends StatefulWidget {
 
 class LikesWidgetState extends State<LikesWidget> {
   // mock data
-  List<Genre> likedGenres = [
-    new Genre(67, "Finance"),
-    new Genre(12, "Health"),
-    new Genre(33, "Technology"),
-    new Genre(56, "News"),
+  List<OwnGenre> likedGenres = [
+    new OwnGenre(67, "Finance"),
+    new OwnGenre(12, "Health"),
+    new OwnGenre(33, "Technology"),
+    new OwnGenre(56, "News"),
   ];
 
   @override
