@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
+import 'package:frontend/common/services/user-name-service.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/common/services/user-name-service.dart';
+
 
 
 class Screen0neWidget extends StatefulWidget {
@@ -26,8 +30,10 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
   }
 
 
-  onPressed(BuildContext context) {
-    //todo: persist name
+  onPressed(BuildContext context, UserNameService userNameService) {
+    //todo: make sure text is not empty
+    userNameService.addUserName(myController.text);
+    userNameService.getUserName().then((value) => print(value));
     Navigator.pushNamed(
         context,
         "/screen-2"
@@ -69,37 +75,40 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
                       .textTheme
                       .bodyText1,),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 40,right: 10, top: 10),
-                      height: 40,
-                      child: TextField(
-                        controller: myController,
-                        style: Theme.of(context).textTheme.bodyText1,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(
-                              left: 14.0, bottom: 8.0, top: 8.0),
-                            hintText: "e.g. John Johnsson",
-                            hintStyle: Theme.of(context).textTheme.bodyText2,
-                            filled: true,
-                            fillColor: Theme.of(context).buttonColor,
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+              Consumer<UserNameService>(
+                builder: (context, userNameService, child) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 40,right: 10, top: 10),
+                          height: 40,
+                          child: TextField(
+                            controller: myController,
+                            style: Theme.of(context).textTheme.bodyText1,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 8.0, top: 8.0),
+                                hintText: "e.g. John Johnsson",
+                                hintStyle: Theme.of(context).textTheme.bodyText2,
+                                filled: true,
+                                fillColor: Theme.of(context).buttonColor,
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                      width: 70,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 10, right: 40),
-                      child: InkWell(
-                          onTap: () {onPressed(context);},
-                          child: CustomTextButton("Next", color: Colors.white,)
-                      )
-                  ),
-                ],
+                      Container(
+                          width: 70,
+                          height: 40,
+                          margin: EdgeInsets.only(top: 10, right: 40),
+                          child: InkWell(
+                              onTap: () {onPressed(context, userNameService);},
+                              child: CustomTextButton("Next", color: Colors.white,)
+                          )
+                      ),
+                  ],
+                );}
               ),
             ],
           ),

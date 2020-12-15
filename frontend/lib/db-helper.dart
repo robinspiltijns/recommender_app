@@ -27,6 +27,10 @@ class DatabaseHelper {
   static final playedEpisodesTable = "played_episodes";
   static final String orderNumberColumn = "order_number";
 
+  static final userNameTable = "user_name";
+  static final String name = "name";
+  static final String creationDateColumn = "creation_date";
+
   factory DatabaseHelper() {
     if (_databaseHelper == null) {
       _databaseHelper =
@@ -103,6 +107,13 @@ class DatabaseHelper {
             $orderNumberColumn INTEGER
        )
        """);
+    await db.execute("""
+       CREATE TABLE IF NOT EXISTS $userNameTable(
+          $name TEXT, 
+          $creationDateColumn INTEGER
+       )
+       """);
+
     print("table created");
   }
 }

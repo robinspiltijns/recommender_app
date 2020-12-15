@@ -4,6 +4,7 @@ import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
+import 'package:frontend/common/services/user-name-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/introductory-questions-view/introductory-questions-page.dart';
 import 'package:frontend/liked-view/liked-view.dart';
@@ -24,7 +25,7 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
-  await prefs.setInt("initScreen", 1);
+  await prefs.setInt("initScreen", 0);
   print('initScreen ${initScreen}');
 
   runApp(
@@ -41,6 +42,9 @@ void main() async {
           ),
           ChangeNotifierProvider(
             create: (context) => QueueService(database),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserNameService(database),
           )
         ],
         child: MyApp(),
