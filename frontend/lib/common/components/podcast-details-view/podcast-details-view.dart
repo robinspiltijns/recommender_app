@@ -30,7 +30,6 @@ class _PodcastDetailsState extends State<PodcastDetails> {
   }
 
   Future<PodcastFull> getPodcast() {
-    print(widget.id);
     return api.getPodcast(widget.id);
   }
 

@@ -9,21 +9,30 @@ import 'package:frontend/common/services/selected-genres-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/introductory-questions-view/introductory-questions-page.dart';
 import 'package:frontend/liked-view/liked-view.dart';
+import 'package:frontend/liked-view/liked-page.dart';
 import 'package:frontend/search-view/search-page.dart';
 import 'package:frontend/common/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
 import 'feed-view/feed-page.dart';
+import 'object-model/genre.dart';
+
 int initScreen;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Database database = await DatabaseHelper().database;
-  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
+  Database database;
 
+  // Execute multiple asynchronous methods simultaneously
+  await Future.wait([DatabaseHelper().database, Genre.getGenreNames()])
+      .then((List result) => database = result[0]);
+
+  QueueService queueService = QueueService(database);
+  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
+  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database);
+  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
   // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
@@ -34,16 +43,16 @@ void main() async {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => PlayerService(playedEpisodesService),
+            create: (context) => playerService,
           ),
           ChangeNotifierProvider(
             create: (context) => playedEpisodesService,
           ),
           ChangeNotifierProvider(
-            create: (context) => LikedEpisodesService(database),
+            create: (context) => likedEpisodesService,
           ),
           ChangeNotifierProvider(
-            create: (context) => QueueService(database),
+            create: (context) => queueService,
           ),
           ChangeNotifierProvider(
             create: (context) => UserNameService(database),
@@ -80,7 +89,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
   int _selectedIndex = 1;
 
   static List<Widget> _destinationViews = <Widget>[
-    LikesWidget(),
+    LikedPage(),
     FeedPage(),
     SearchPage(),
   ];

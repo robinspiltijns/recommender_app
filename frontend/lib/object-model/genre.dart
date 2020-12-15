@@ -2,8 +2,14 @@ import 'package:swagger/api.dart';
 
 class OwnGenre {
 
-  final int id;
-  final String name;
+  static Map<int, String> genreNames = Map<int, String>();
+
+  static Future<void> getGenreNames() async {
+    var response = await DefaultApi().getGenres();
+    response.genres.forEach((genre) {
+      genreNames[genre.id] = genre.name;
+    });
+  }
 
   OwnGenre(this.id, this.name);
 
@@ -16,4 +22,11 @@ class OwnGenre {
     return result;
   }
 
+
+  final int id;
+  String name;
+
+  Genre(this.id) {
+    name = genreNames[id];
+  }
 }

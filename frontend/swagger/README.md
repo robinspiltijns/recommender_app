@@ -68,6 +68,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**getPodcastRecommendationsBasedOnPodcast**](docs//DefaultApi.md#getpodcastrecommendationsbasedonpodcast) | **GET** get-recommendations-based-on/podcast | Fetch recommendations for a podcast
 *DefaultApi* | [**getSearchResults**](docs//DefaultApi.md#getsearchresults) | **GET** search | Used to get the search results based on the given search parameters.
 *DefaultApi* | [**getTheBestPodcasts**](docs//DefaultApi.md#getthebestpodcasts) | **GET** get-best-podcasts | Fetch the best podcasts.
+*DefaultApi* | [**getTopLevelGenres**](docs//DefaultApi.md#gettoplevelgenres) | **GET** top-level-genres | Used to get a list of all top-level podcast genres
 *DefaultApi* | [**test**](docs//DefaultApi.md#test) | **GET** test | used to test whether the backend is running.
 
 ## Documentation For Models

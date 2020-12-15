@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/genre-details-view/genre-details-view.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'package:frontend/common/theme.dart';
 
@@ -20,23 +21,28 @@ class GenreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      child: Center(
-        child: Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: getGenreColor(genre.id),
-          ),
-          child: Container(
-            margin: EdgeInsets.all(10),
-            child: Text(
-              genre.name,
-              style: Theme.of(context).textTheme.genreTitle,
-            )
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, GenreDetails.routeName, arguments: genre);
+      },
+      child: Container(
+          margin: EdgeInsets.all(10),
+          child: Center(
+              child: Container(
+                  constraints: BoxConstraints.expand(),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: getGenreColor(genre.id),
+                  ),
+                  child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        genre.name,
+                        style: Theme.of(context).textTheme.genreTitle,
+                      )
+                  )
+              )
           )
-        )
       )
     );
 

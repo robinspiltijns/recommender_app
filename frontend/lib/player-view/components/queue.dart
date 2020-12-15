@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/player-view/components/queued-episode-card.dart';
+import 'package:frontend/player-view/components/reorder_list.dart';
 import 'package:provider/provider.dart';
 
 class QueueWidget extends StatefulWidget {
@@ -11,56 +13,77 @@ class QueueWidget extends StatefulWidget {
 
 class _QueueWidgetState extends State<QueueWidget> {
 
-  // Mock
-  List<Episode> episodes = [
-   Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-    Episode.initialEpisode(),
-  ];
-
-
+  // Let op: dit moet overeenstemmen met de hoogte van een card.
+  final double _cardHeight = 56;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
+        Row(children: [
+          SizedBox(width: 18),
+          Text(
             "Queue",
             style: Theme.of(context).textTheme.headline2,
           ),
-        ),
+        ]),
         SizedBox(height: 10),
         Consumer<QueueService>(builder: (context, queueService, child) {
-          return FutureBuilder(
-              future: queueService.getQueuedEpisodes(),
-              builder: (context, AsyncSnapshot<List<Episode>> snapshot) {
-                if (snapshot.hasData) {
-                  var data = snapshot.data;
-                  if (data.length == 0) {
-                    return Text("no episodes added yet.");
-                  } else {
-                    return ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return QueuedEpisodeCardWidget(data[index]);
-                      },
-                      separatorBuilder: (context, index) {
-                        return Divider(
-                          color: Color(0x26FFFFFF),
-                        );
-                      },
-                    );
-                  }
-                } else {
-                  return CircularProgressIndicator();
-                }
-              });
+          List<Episode> queue = queueService.queue;
+          if (queue.length == 0) {
+            return Text("No episodes added yet");
+          }
+          return Container(
+              height: queue.length * _cardHeight,
+              child: MyReorderableListView(
+                  children: queue
+                      .asMap()
+                      .map((i, episode) {
+                        return MapEntry(
+                            i,
+                            Dismissible(
+                              key: UniqueKey(),
+                              child: Consumer<PlayerService>(
+                                  builder: (context, playerService, child) {
+                                return Container(
+                                  height: 56,
+                                  child: QueuedEpisodeCardWidget(
+                                    episode: episode,
+                                    onPlay: () {
+                                      queueService.pop(i).then((episode) =>
+                                          playerService.play(episode));
+                                    },
+                                  ),
+                                );
+                              }),
+                              onDismissed: (direction) {
+                                queueService.pop(i);
+                              },
+                              secondaryBackground: Container(
+                                color: Color(0xFFEF476F),
+                                child: Row(
+                                  children: [
+                                    Spacer(),
+                                    Icon(Icons.delete, color: Colors.white,),
+                                    SizedBox(width: 18),
+                                  ],
+                                ),
+                              ),
+                              background: Container(
+                                color: Color(0xFFEF476F),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 18),
+                                    Icon(Icons.delete, color: Colors.white,),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
+                            ));
+                      })
+                      .values
+                      .toList(),
+                  onReorder: queueService.reorder));
         }),
       ],
     );

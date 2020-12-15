@@ -112,6 +112,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetTopLevelGenres",
+		strings.ToUpper("Get"),
+		"/top-level-genres",
+		GetTopLevelGenres,
+	},
+
+	Route{
 		"Test",
 		strings.ToUpper("Get"),
 		"/test",

@@ -6,6 +6,7 @@ import 'package:frontend/common/utils.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/common/theme.dart';
+import 'package:swagger/api.dart';
 
 class EpisodeCardWidget extends StatelessWidget {
   static const double CARD_WIDTH = 325;
@@ -18,15 +19,15 @@ class EpisodeCardWidget extends StatelessWidget {
   static const double BUTTON_PART_WIDTH = 55;
   static const double VERT_SPACE_BETWEEN_BUTTONS = 20;
 
-  EpisodeCardWidget({this.episode});
+  EpisodeCardWidget(this.episodeSimple);
 
-  Episode episode;
+  EpisodeSimple episodeSimple;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, "/details", arguments: episode.id);
+        Navigator.pushNamed(context, "/details", arguments: episodeSimple.id);
       },
       child: Container(
         margin: EdgeInsets.only(
@@ -35,7 +36,7 @@ class EpisodeCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           child: Container(
             decoration: BoxDecoration(
-              color: Color.fromRGBO(36, 39, 73, 100),
+              color: Theme.of(context).cardColor
             ),
             width: CARD_WIDTH,
             height: CARD_HEIGHT,
@@ -57,7 +58,7 @@ class EpisodeCardWidget extends StatelessWidget {
                           children: [
                             ClipRRect(
                               child: Image(
-                                image: NetworkImage(episode.imageUrl),
+                                image: NetworkImage(episodeSimple.image),
                                 width: ARTWORK_DIM,
                                 height: ARTWORK_DIM,
                                 fit: BoxFit.fitHeight,
@@ -71,7 +72,7 @@ class EpisodeCardWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      removeAllHtmlTags(episode.title),
+                                      removeAllHtmlTags(episodeSimple.title),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 14,
@@ -83,7 +84,7 @@ class EpisodeCardWidget extends StatelessWidget {
                                     ),
                                     Text(
                                       durationString(
-                                          episode.duration.inSeconds),
+                                          episodeSimple.audioLengthSec),
                                       style: Theme.of(context)
                                           .textTheme
                                           .episodeDuration,
@@ -105,7 +106,7 @@ class EpisodeCardWidget extends StatelessWidget {
                             CARD_CONTENT_PADDING,
                             CARD_CONTENT_PADDING),
                         child: Text(
-                          removeAllHtmlTags(episode.description),
+                          removeAllHtmlTags(episodeSimple.description),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -127,9 +128,11 @@ class EpisodeCardWidget extends StatelessWidget {
                       Consumer<QueueService>(
                           builder: (context, queueService, child) {
                         return CustomIconButton(
-                            icon: Icons.library_add_rounded,
-                            onTap: () =>
-                                queueService.insertQueuedEpisode(episode));
+                          icon: Icons.library_add_rounded,
+                          onTap: () {
+                            queueEpisode(episodeSimple.id, queueService);
+                          },
+                        );
                       }),
                       SizedBox(height: VERT_SPACE_BETWEEN_BUTTONS),
                       CustomIconButton(
@@ -153,5 +156,10 @@ class EpisodeCardWidget extends StatelessWidget {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
     return htmlText.replaceAll(exp, '');
+  }
+
+  queueEpisode(String id, QueueService queueService) async {
+    EpisodeFull episode = await DefaultApi().getEpisode(id);
+    queueService.addEpisode(Episode.fromEpisodeFull(episode));
   }
 }

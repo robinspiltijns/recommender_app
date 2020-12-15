@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**getPodcastRecommendationsBasedOnPodcast**](DefaultApi.md#getPodcastRecommendationsBasedOnPodcast) | **GET** get-recommendations-based-on/podcast | Fetch recommendations for a podcast
 [**getSearchResults**](DefaultApi.md#getSearchResults) | **GET** search | Used to get the search results based on the given search parameters.
 [**getTheBestPodcasts**](DefaultApi.md#getTheBestPodcasts) | **GET** get-best-podcasts | Fetch the best podcasts.
+[**getTopLevelGenres**](DefaultApi.md#getTopLevelGenres) | **GET** top-level-genres | Used to get a list of all top-level podcast genres
 [**test**](DefaultApi.md#test) | **GET** test | used to test whether the backend is running.
 
 # **getBestOfGenre**
@@ -345,6 +346,45 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**BestPodcastsResponse**](BestPodcastsResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getTopLevelGenres**
+> GetGenresResponse getTopLevelGenres()
+
+Used to get a list of all top-level podcast genres
+
+Returns a list of all top-level podcast genres (this contains their name and id)
+
+### Example
+```dart
+import 'package:swagger/api.dart';
+
+var api_instance = new DefaultApi();
+
+try {
+    var result = api_instance.getTopLevelGenres();
+    print(result);
+} catch (e) {
+    print("Exception when calling DefaultApi->getTopLevelGenres: $e\n");
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**GetGenresResponse**](GetGenresResponse.md)
 
 ### Authorization
 

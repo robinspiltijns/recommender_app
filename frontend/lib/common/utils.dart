@@ -1,4 +1,6 @@
 
+import 'package:intl/intl.dart';
+
 class Utils {
   static String durationString(Duration duration) {
     String result = "";
@@ -17,5 +19,17 @@ class Utils {
       }
     }
     return result;
+  }
+
+  static String releaseDateDurationString(DateTime dateTime, int audioLengthSec) {
+    return DateFormat.yMMMMd('en_US').format(dateTime) +
+        " - " +
+        Utils.durationString(Duration(seconds: audioLengthSec));
+  }
+
+  static String removeAllHtmlTags(String htmlText) {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
+    return htmlText.replaceAll(exp, '');
   }
 }

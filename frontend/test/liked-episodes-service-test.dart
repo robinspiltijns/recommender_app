@@ -2,6 +2,7 @@ import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/test-utils.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/object-model/episode.dart';
+import 'package:frontend/object-model/genre.dart';
 
 void main() async {
 
@@ -21,7 +22,9 @@ void main() async {
       "test1",
       "test1",
       "test1",
-      DateTime.now());
+      DateTime.now(),
+      [Genre(151)]
+  );
 
   var episode2 = Episode(
       "test2",
@@ -33,7 +36,9 @@ void main() async {
       "test2",
       "test2",
       "test2",
-      DateTime.now());
+      DateTime.now(),
+      [Genre(151)]
+  );
 
   service.insertLikedEpisode(episode1);
 

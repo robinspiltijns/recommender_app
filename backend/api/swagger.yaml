@@ -186,6 +186,19 @@ paths:
         "500":
           description: internal server error
           content: {}
+  top-level-genres:
+    get:
+      summary: Used to get a list of all top-level podcast genres
+      description: Returns a list of all top-level podcast genres (this contains their
+        name and id)
+      operationId: GetTopLevelGenres
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGenresResponse'
   genres:
     get:
       summary: Used to get a list of all podcast genres
@@ -194,7 +207,7 @@ paths:
       operationId: GetGenres
       responses:
         "200":
-          description: succesful operation
+          description: successful operation
           content:
             application/json:
               schema:
@@ -1341,6 +1354,7 @@ components:
         pub_date_ms:
           type: integer
           description: Published date for this episode. In millisecond.
+          format: int64
           example: 1474873200000
         title_original:
           type: string

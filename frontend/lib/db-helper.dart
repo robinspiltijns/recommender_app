@@ -20,6 +20,7 @@ class DatabaseHelper {
   static final String podcastIdColumn = "podcast_id";
   static final String descriptionColumn = "description";
   static final String publishDateColumn = "publish_date";
+  static final String genreIdsColumn = "genre_ids";
 
   static final String likedDateColumn = "liked_date";
   static final String playedDateColumn = "played_date";
@@ -67,6 +68,7 @@ class DatabaseHelper {
           CREATE TABLE IF NOT EXISTS $playedEpisodesTable(
             $idColumn TEXT, 
             $titleColumn TEXT, 
+            $audioColumn TEXT,
             $imageColumn TEXT,
             $durationColumn INTEGER,
             $positionColumn INTEGER,
@@ -74,14 +76,15 @@ class DatabaseHelper {
             $podcastIdColumn TEXT,
             $descriptionColumn TEXT,
             $playedDateColumn TEXT,
-            $publishDateColumn TEXT
+            $publishDateColumn TEXT,
+            $genreIdsColumn TEXT
           )
         """
     );
     await db.execute(
         """
           CREATE TABLE IF NOT EXISTS $likedEpisodesTable(
-             $idColumn TEXT PRIMARY KEY,
+             $idColumn TEXT,
              $titleColumn TEXT,
              $audioColumn TEXT,
              $imageColumn TEXT,
@@ -91,12 +94,13 @@ class DatabaseHelper {
              $podcastIdColumn TEXT,
              $descriptionColumn TEXT,
              $publishDateColumn TEXT,
-             $likedDateColumn TEXT
+             $likedDateColumn TEXT,
+             $genreIdsColumn TEXT
         );
       """);
     await db.execute("""
        CREATE TABLE IF NOT EXISTS $queueTable(
-            $idColumn TEXT PRIMARY KEY, 
+            $idColumn TEXT, 
             $titleColumn TEXT, 
             $audioColumn TEXT,
             $imageColumn TEXT,
@@ -106,7 +110,8 @@ class DatabaseHelper {
             $podcastIdColumn TEXT,
             $descriptionColumn TEXT,
             $publishDateColumn TEXT,
-            $orderNumberColumn INTEGER
+            $orderNumberColumn INTEGER,
+            $genreIdsColumn TEXT
        )
        """);
     await db.execute("""
