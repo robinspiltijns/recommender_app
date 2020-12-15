@@ -35,13 +35,22 @@ class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [SizedBox(
-        height: 50,
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Color(0xff221E48), Color(0xff0F0C26)])),
+      child: Scaffold(
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [SizedBox(
+            height: 50,
+          ),
+            Expanded(child: genreGridView)
+          ],
+        ),
       ),
-        Expanded(child: genreGridView)
-      ],
     );
   }
 }

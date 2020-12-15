@@ -8,17 +8,25 @@ import 'package:frontend/db-helper.dart';
 import 'package:frontend/introductory-questions-view/introductory-questions-page.dart';
 import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/search-view/search-page.dart';
-import 'package:frontend/search-view/search-view.dart';
 import 'package:frontend/common/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'feed-view/feed-page.dart';
+int initScreen;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Database database = await DatabaseHelper().database;
   PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = await prefs.getInt("initScreen");
+  await prefs.setInt("initScreen", 1);
+  print('initScreen ${initScreen}');
+
   runApp(
       MultiProvider(
         providers: [
@@ -44,8 +52,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CastlyWidget(),
       theme: themeData,
+      initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+      routes: {
+        '/': (context) => CastlyWidget(),
+        "first": (context) => IntroductoryQuestionsPage(),
+      },
     );
   }
 }
@@ -60,7 +72,7 @@ class _CastlyWidgetState extends State<CastlyWidget> {
 
   static List<Widget> _destinationViews = <Widget>[
     LikesWidget(),
-    IntroductoryQuestionsPage(),
+    FeedPage(),
     SearchPage(),
   ];
 
