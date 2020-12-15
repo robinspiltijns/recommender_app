@@ -20,12 +20,12 @@ class UserNameService extends ChangeNotifier {
   }
 
   String fromDatabaseMap(Map<String, dynamic> map) {
-    return map[DatabaseHelper.name];
+    return map[DatabaseHelper.nameColumn];
   }
 
   Map<String, dynamic> toMap(String name, String creationDate) {
     return <String, dynamic>{
-      DatabaseHelper.name: name,
+      DatabaseHelper.nameColumn: name,
       DatabaseHelper.creationDateColumn: creationDate
     };
   }
@@ -34,7 +34,7 @@ class UserNameService extends ChangeNotifier {
     return database
         .query(DatabaseHelper.userNameTable,
         columns: ["COUNT (*)"],
-        where: "${DatabaseHelper.name} = ?")
+        where: "${DatabaseHelper.nameColumn} = ?")
         .then((result) => result.isNotEmpty);
   }
 

@@ -49,6 +49,15 @@ class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
           children: [SizedBox(
             height: 50,
           ),
+            Container(
+              height: 100,
+              margin: EdgeInsets.only(left: 40, right: 40),
+              alignment: Alignment.center,
+              child: Text(
+                  "Select " + GenreGridView.MIN_NB_SELECTED_GENRES.toString() + " genres that interest you the most.",
+                style: Theme.of(context).textTheme.headline2,
+              ),
+            ),
             FutureBuilder <GetGenresResponse> (
               future: genres,
             builder: (context, snapshot) {

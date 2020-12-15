@@ -5,6 +5,7 @@ import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/services/user-name-service.dart';
+import 'package:frontend/common/services/selected-genres-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/introductory-questions-view/introductory-questions-page.dart';
 import 'package:frontend/liked-view/liked-view.dart';
@@ -25,7 +26,8 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
-  await prefs.setInt("initScreen", 0);
+  // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
+  await prefs.setInt("initScreen", 1);
   print('initScreen ${initScreen}');
 
   runApp(
@@ -45,6 +47,9 @@ void main() async {
           ),
           ChangeNotifierProvider(
             create: (context) => UserNameService(database),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => SelectedGenresService(database),
           )
         ],
         child: MyApp(),

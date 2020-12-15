@@ -28,8 +28,10 @@ class DatabaseHelper {
   static final String orderNumberColumn = "order_number";
 
   static final userNameTable = "user_name";
-  static final String name = "name";
+  static final String nameColumn = "name";
   static final String creationDateColumn = "creation_date";
+
+  static final selectedGenresTable = "selected_genres";
 
   factory DatabaseHelper() {
     if (_databaseHelper == null) {
@@ -109,8 +111,14 @@ class DatabaseHelper {
        """);
     await db.execute("""
        CREATE TABLE IF NOT EXISTS $userNameTable(
-          $name TEXT, 
+          $nameColumn TEXT, 
           $creationDateColumn INTEGER
+       )
+       """);
+    await db.execute("""
+       CREATE TABLE IF NOT EXISTS $selectedGenresTable(
+          $nameColumn TEXT, 
+          $idColumn INTEGER
        )
        """);
 
