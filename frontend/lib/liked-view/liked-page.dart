@@ -18,7 +18,7 @@ class LikedPage extends StatelessWidget {
                   case "/":
                     return LikesWidget();
                   case GenreDetails.routeName:
-                    Genre genre = settings.arguments;
+                    OwnGenre genre = settings.arguments;
                     return GenreDetails(genre);
                   case PodcastDetails.routeName:
                     String id = settings.arguments;

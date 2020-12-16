@@ -17,7 +17,7 @@ class Episode {
   String podcastId;
   String description;
   DateTime publishDate;
-  List<Genre> genres;
+  List<OwnGenre> genres;
 
 
   Episode(
@@ -50,7 +50,7 @@ class Episode {
         episodeFull.podcast.id,
         episodeFull.description,
         pubDate,
-        episodeFull.podcast.genreIds.map((id) => Genre(id)).toList(),
+        episodeFull.podcast.genreIds.map((id) => OwnGenre.fromId(id)).toList(),
     );
   }
 
@@ -78,7 +78,7 @@ class Episode {
         podcastId,
         episodeMinimum.description,
         pubDate,
-        genreIds.map((id) => Genre(id)).toList()
+        genreIds.map((id) => OwnGenre.fromId(id)).toList()
     );
   }
 
@@ -104,13 +104,13 @@ class Episode {
         episodeSearchResult.podcast.id,
         episodeSearchResult.descriptionOriginal,
         pubDate,
-        episodeSearchResult.podcast.genreIds.map((id) => Genre(id)).toList()
+        episodeSearchResult.podcast.genreIds.map((id) => OwnGenre.fromId(id)).toList()
     );
   }
 
   static Episode fromDatabaseMap(Map<String, dynamic> map) {
     Iterable l = json.decode(map[DatabaseHelper.genreIdsColumn]);
-    List<Genre> genres = List<int>.from(l).map((id) => Genre(id)).toList();
+    List<OwnGenre> genres = List<int>.from(l).map((id) => OwnGenre.fromId(id)).toList();
     return Episode(
       map[DatabaseHelper.titleColumn],
       map[DatabaseHelper.idColumn],
@@ -154,7 +154,7 @@ class Episode {
         "podcastId",
         "description",
         DateTime.now(),
-        [Genre(151)],
+        [OwnGenre.fromId(151)],
     );
   }
 }

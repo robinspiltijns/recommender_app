@@ -62,7 +62,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       if (snapshot.hasData) {
                         return GenresWidget("Browse genres",
                             snapshot.data.genres.map(
-                                    (swagger.Genre genre) => Genre(genre.id))
+                                    (swagger.Genre genre) => OwnGenre.fromId(genre.id))
                                 .toList()
                         );
                       }

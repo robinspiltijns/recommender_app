@@ -26,7 +26,9 @@ class OwnGenre {
   final int id;
   String name;
 
-  Genre(this.id) {
-    name = genreNames[id];
+  static OwnGenre fromId(id) {
+    String name = genreNames[id];
+    return OwnGenre(id, name);
   }
+
 }

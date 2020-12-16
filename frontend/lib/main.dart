@@ -25,7 +25,7 @@ void main() async {
   Database database;
 
   // Execute multiple asynchronous methods simultaneously
-  await Future.wait([DatabaseHelper().database, Genre.getGenreNames()])
+  await Future.wait([DatabaseHelper().database, OwnGenre.getGenreNames()])
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);
@@ -36,7 +36,7 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = await prefs.getInt("initScreen");
   // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
-  await prefs.setInt("initScreen", 1);
+  await prefs.setInt("initScreen", 0);
   print('initScreen ${initScreen}');
 
   runApp(
