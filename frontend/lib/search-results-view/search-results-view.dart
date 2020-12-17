@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:frontend/common/components/buttons/custom-text-button.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/podcast.dart';
 import 'package:frontend/common//components/episode-list-item.dart';
@@ -20,22 +20,12 @@ class SearchResultsViewWidget extends StatefulWidget {
   static const String routeName = '/search-results';
   final api = swagger.DefaultApi();
 
-
-  SearchResult searchResult;
   String queryString;
 
   static const double TITLE_PART_HEIGHT = 50;
   static const double MORE_PART_HEIGHT = 60;
 
-  SearchResultsViewWidget({@required List<dynamic> arguments}) {
-    this.searchResult = arguments[0];
-    this.queryString = arguments[1];
-    this.episodes = searchResult.episoderesults;
-    this.podcasts = searchResult.podcastresults;
-  }
-
-  List<EpisodeSearchResult> episodes;
-  List<PodcastSearchResult> podcasts;
+  SearchResultsViewWidget(this.queryString);
 
   @override
   _SearchResultsViewWidgetState createState() => _SearchResultsViewWidgetState();
@@ -47,40 +37,60 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
   void initState() {
     super.initState();
     setState(() {
-      showingEpisodes.addAll(this.widget.episodes.getRange(presentEpisodes, presentEpisodes + perPage));
-      presentEpisodes = presentEpisodes + perPage;
-      showingPodcasts.addAll(this.widget.podcasts.getRange(presentPodcasts, presentPodcasts + perPage));
-      presentPodcasts = presentPodcasts + perPage;
-    });
+        searchResult = widget.api.getSearchResults(widget.queryString, "title");
+      }
+    );
   }
 
-  List<EpisodeSearchResult> showingEpisodes = [];
-  List<PodcastSearchResult> showingPodcasts = [];
+
+  Future<swagger.SearchResult> searchResult;
 
   int perPage  = 3;
-  int presentEpisodes = 0;
-  int presentPodcasts = 0;
+  int presentEpisodes = 3;
+  int presentPodcasts = 3;
+
+
 
   Map<ResultType, String> titles = {
     ResultType.EPISODES : "Episodes",
     ResultType.PODCASTS : "Podcasts"
   };
 
-  Widget episodeResults() {
+  Widget episodeResults(List<EpisodeSearchResult> episodeResults) {
+    if (episodeResults.length == 0) {
+      return SliverToBoxAdapter(
+        child: Container(
+          margin: EdgeInsets.only(top: 20, bottom: 10),
+          alignment: Alignment.center,
+          child: Text(
+            "No episode search results found.",
+            style: Theme
+                .of(context)
+                .textTheme
+                .bodyText1,
+          ),
+        ),
+      );
+    }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
             (context, index) {
           return EpisodeListItem(
-              Episode.fromEpisodeSearchResult(showingEpisodes[index])
+              Episode.fromEpisodeSearchResult(episodeResults[index])
           );
         },
-        childCount: this.showingEpisodes.length,
+        childCount: this.presentEpisodes,
       ),
     );
   }
 
-  Widget moreButtonEpisodes() {
-    if (showingEpisodes.length >= 9) {
+  Widget moreButtonEpisodes(List<EpisodeSearchResult> episodeResults) {
+    if (episodeResults.length == 0) {
+      return SliverToBoxAdapter(
+          child: Container()
+      );
+    }
+    if (presentEpisodes >= 9 || presentEpisodes >= episodeResults.length) {
       return SliverToBoxAdapter(
         child: Container(
           margin: EdgeInsets.only(top: 20, bottom: 10),
@@ -100,35 +110,46 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
           child: MoreButton(),
           onPressed: () {
             setState(() {
-              if ((presentEpisodes + perPage) > this.widget.episodes.length) {
-                showingEpisodes.addAll(
-                    this.widget.episodes.getRange(
-                        presentEpisodes, this.widget.episodes.length));
-              } else {
-                showingEpisodes.addAll(
-                    this.widget.episodes.getRange(
-                        presentEpisodes, presentEpisodes + perPage));
-              }
-              presentEpisodes = presentEpisodes + perPage;
+                presentEpisodes = min(presentEpisodes + perPage, episodeResults.length);
             });
           },),
       );
     }
   }
 
-  Widget podcastResults() {
+  Widget podcastResults(List<PodcastSearchResult> podcastResults) {
+      if (podcastResults.length == 0) {
+        return SliverToBoxAdapter(
+          child: Container(
+            margin: EdgeInsets.only(top: 20, bottom: 10),
+            alignment: Alignment.center,
+            child: Text(
+              "No podcast search results found.",
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyText1,
+            ),
+          ),
+        );
+      }
     return SliverList(
       delegate: SliverChildBuilderDelegate(
             (context, index) {
-          return PodcastListItem(Podcast.fromSearchResult(showingPodcasts[index],));
+          return PodcastListItem(Podcast.fromSearchResult(podcastResults[index],));
         },
-        childCount: this.showingPodcasts.length,
+        childCount: min(this.presentPodcasts, podcastResults.length),
       ),
     );
   }
 
-  Widget moreButtonPodcasts() {
-    if (showingPodcasts.length >= 9) {
+  Widget moreButtonPodcasts(List<PodcastSearchResult> podcastResults) {
+    if (podcastResults.length == 0) {
+      return SliverToBoxAdapter(
+          child: Container()
+      );
+    }
+    if (presentPodcasts >= 9 || presentPodcasts >= podcastResults.length) {
       return SliverToBoxAdapter(
         child: Container(
           margin: EdgeInsets.only(top: 20, bottom: 10),
@@ -148,16 +169,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
           child: MoreButton(),
           onPressed: () {
             setState(() {
-              if ((presentPodcasts + perPage) > this.widget.podcasts.length) {
-                showingPodcasts.addAll(
-                    this.widget.podcasts.getRange(
-                        presentPodcasts, this.widget.podcasts.length));
-              } else {
-                showingPodcasts.addAll(
-                    this.widget.podcasts.getRange(
-                        presentPodcasts, presentPodcasts + perPage));
-              }
-              presentPodcasts = presentPodcasts + perPage;
+              presentPodcasts = min(presentPodcasts + perPage, podcastResults.length);
             });
           },),
       );
@@ -172,45 +184,47 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
         title: Container(
           child: SearchFieldWidget(),
         ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(top: 5, bottom: 5, right: 10),
-              child: CustomTextButton("Cancel", color: Colors.white,)
-          )
-        ],
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         centerTitle: false,
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(10, 20, 0, 20),
-              child: Text(
-                titles[ResultType.EPISODES],
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
-          ),
-          episodeResults(),
-          moreButtonEpisodes(),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 20,),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
-              child: Text(
-                titles[ResultType.PODCASTS],
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
-          ),
-          podcastResults(),
-          moreButtonPodcasts(),
-        ],
-      ),
+      body: FutureBuilder(
+        future: searchResult,
+        builder: (context, AsyncSnapshot<swagger.SearchResult> snapshot) {
+          if (snapshot.hasData) {
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(10, 20, 0, 20),
+                    child: Text(
+                      titles[ResultType.EPISODES],
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ),
+                ),
+                episodeResults(snapshot.data.episoderesults),
+                moreButtonEpisodes(snapshot.data.episoderesults),
+                SliverToBoxAdapter(
+                  child: SizedBox(height: 20,),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
+                    child: Text(
+                      titles[ResultType.PODCASTS],
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ),
+                ),
+                podcastResults(snapshot.data.podcastresults),
+                moreButtonPodcasts(snapshot.data.podcastresults),
+              ],
+            );
+          }
+          return CircularProgressIndicator();
+        }
+      )
     );
   }
 }

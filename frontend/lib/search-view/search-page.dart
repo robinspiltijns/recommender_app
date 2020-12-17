@@ -22,8 +22,8 @@ class SearchPage extends StatelessWidget {
                   case "/":
                     return SearchWidget();
                   case SearchResultsViewWidget.routeName:
-                    List<dynamic> searchResult = settings.arguments;
-                    return SearchResultsViewWidget(arguments: searchResult,);
+                    String query = settings.arguments;
+                    return SearchResultsViewWidget(query);
                   case GenreDetails.routeName:
                     Genre genre = settings.arguments;
                     return GenreDetails(genre);
