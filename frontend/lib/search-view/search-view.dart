@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/liked-view/components/liked-genres.dart';
+import 'package:frontend/search-results-view/search-results-view.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
@@ -22,7 +23,14 @@ class SearchWidget extends StatelessWidget {
         margin: EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Column(
           children: [
-            SearchFieldWidget(),
+            SearchFieldWidget(
+              onSubmitted: (value) {
+                Navigator.pushNamed(context, SearchResultsViewWidget.routeName, arguments: value);
+              },
+              onClear: () {
+
+              },
+            ),
             SizedBox(height: 20),
             Expanded(
               child: ListView(

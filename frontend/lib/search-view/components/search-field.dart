@@ -5,13 +5,18 @@ class SearchFieldWidget extends StatelessWidget {
 
   var _controller = TextEditingController();
 
+  final void Function(String) onSubmitted;
+  final VoidCallback onClear;
+
+  SearchFieldWidget({this.onSubmitted, this.onClear});
+
   @override
   Widget build(BuildContext context) {
     return  TextField(
       controller: _controller,
       onSubmitted: (value) {
-        Navigator.pushNamed(context, "/search-results", arguments: value);
         _controller.clear();
+        onSubmitted(value);
       },
       style: TextStyle(color: Colors.white),
       cursorColor: Colors.white,
@@ -20,7 +25,10 @@ class SearchFieldWidget extends StatelessWidget {
         suffixIcon: IconButton(
           splashRadius: 25,
           color: Colors.white.withOpacity(0.5),
-          onPressed: () => _controller.clear(),
+          onPressed: () {
+            _controller.clear();
+            onClear();
+          },
           icon: Icon(Icons.clear),
         ),
         hintText: "Title, description, genre, ...",

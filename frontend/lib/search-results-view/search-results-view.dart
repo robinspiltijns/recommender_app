@@ -182,7 +182,16 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Container(
-          child: SearchFieldWidget(),
+          child: SearchFieldWidget(
+            onSubmitted: (value) {
+              setState(() {
+                this.searchResult = widget.api.getSearchResults(value, "title");
+              });
+            },
+            onClear: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
