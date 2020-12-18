@@ -15,7 +15,7 @@ List<Color> GENRE_COLORS = [
 ];
 
 class GenreCard extends StatelessWidget {
-  final OwnGenre genre;
+  final Genre genre;
 
   GenreCard(this.genre);
 
@@ -48,7 +48,7 @@ class GenreCard extends StatelessWidget {
 
   }
 
-  Color getGenreColor(int id) {
+  static Color getGenreColor(int id) {
     return GENRE_COLORS[id % GENRE_COLORS.length];
   }
 }

@@ -3,38 +3,36 @@ import 'package:flutter/material.dart';
 
 class SearchFieldWidget extends StatelessWidget {
 
-  final ValueChanged<String> onSubmit;
-  final String query;
+  final TextEditingController _controller = TextEditingController();
 
-  const SearchFieldWidget({this.onSubmit, this.query});
+  final void Function(String) onSubmitted;
 
-  String generateHintText() {
-    if (query == null) {
-      return 'Title, description, genre, ...';
-    } else {
-      return query;
-    }
-  }
-
-  TextStyle generateHintStyle() {
-    if (query == null) {
-      return TextStyle(color: Colors.white.withOpacity(0.5));
-    } else {
-      return TextStyle(color: Colors.white.withOpacity(1));
-    }
+  SearchFieldWidget({this.onSubmitted, String value}) {
+    this._controller.text = value;
   }
 
   @override
   Widget build(BuildContext context) {
     return  TextField(
-      onSubmitted: onSubmit,
+      controller: _controller,
+      onSubmitted: (value) {
+        onSubmitted(value);
+      },
       style: TextStyle(color: Colors.white),
       cursorColor: Colors.white,
       decoration: InputDecoration(
-        prefixIcon:
-        Icon(Icons.search, color: Colors.white.withOpacity(0.5)),
-        hintText: generateHintText(),
-        hintStyle: generateHintStyle(),
+        prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.5)),
+        suffixIcon: IconButton(
+          splashRadius: 25,
+          color: Colors.white.withOpacity(0.5),
+          onPressed: () {
+            _controller.clear();
+            onSubmitted("");
+          },
+          icon: Icon(Icons.clear),
+        ),
+        hintText: "Title, description, genre, ...",
+        hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
         filled: true,
         fillColor: Colors.white.withOpacity(0.1),
         border: OutlineInputBorder(
@@ -48,5 +46,4 @@ class SearchFieldWidget extends StatelessWidget {
       ),
     );
   }
-
 }

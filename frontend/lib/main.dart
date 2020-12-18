@@ -8,7 +8,6 @@ import 'package:frontend/common/services/user-name-service.dart';
 import 'package:frontend/common/services/selected-genres-service.dart';
 import 'package:frontend/db-helper.dart';
 import 'package:frontend/introductory-questions-view/introductory-questions-page.dart';
-import 'package:frontend/liked-view/liked-view.dart';
 import 'package:frontend/liked-view/liked-page.dart';
 import 'package:frontend/search-view/search-page.dart';
 import 'package:frontend/common/theme.dart';
@@ -25,7 +24,7 @@ void main() async {
   Database database;
 
   // Execute multiple asynchronous methods simultaneously
-  await Future.wait([DatabaseHelper().database, OwnGenre.getGenreNames()])
+  await Future.wait([DatabaseHelper().database, Genre.getGenreNames()])
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);

@@ -1,39 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/liked-view/components/liked-genres.dart';
-import 'package:frontend/search-view/components/recent-searches.dart';
+import 'package:frontend/search-view/components/search-results.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart' as swagger;
-import 'package:frontend/object-model/genre.dart';
+
+import 'components/genres-overview.dart';
 
 
 class SearchWidget extends StatefulWidget {
   @override
-  _SearchWidgetState createState() => _SearchWidgetState();
+  State<StatefulWidget> createState() => SearchWidgetState();
+
 }
 
-class _SearchWidgetState extends State<SearchWidget> {
-  // mock data
-  List<OwnGenre> genres = [
-    new OwnGenre(67, "Finance"),
-    new OwnGenre(12, "Health"),
-    new OwnGenre(33, "Technology"),
-    new OwnGenre(56, "News"),
-  ];
+class SearchWidgetState extends State<SearchWidget> {
 
-  List<String> results = [];
-  final api = swagger.DefaultApi();
 
-  _onSubmit(String value) {
-    Future<swagger.SearchResult> futureResult = api.getSearchResults(value, "title");
-    futureResult.then((result) => {
-          Navigator.pushNamed(
-          context,
-          "/search-results",
-          arguments: [result, value])
-        });
+
+  String query;
+
+  @override
+  void initState() {
+    super.initState();
+    this.query = "";
   }
 
+  final api = swagger.DefaultApi();
 
   @override
   Widget build(BuildContext context) {
@@ -48,30 +39,16 @@ class _SearchWidgetState extends State<SearchWidget> {
         margin: EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Column(
           children: [
-            SearchFieldWidget(onSubmit: _onSubmit),
+            SearchFieldWidget(
+              value: this.query,
+              onSubmitted: (value) {
+               setState(() {
+                 this.query = value;
+               });
+              },
+            ),
             SizedBox(height: 20),
-            Expanded(
-              child: ListView(
-                children: [
-                  RecentSearchesWidget(),
-                  SizedBox(height: 20),
-                  FutureBuilder<swagger.GetGenresResponse> (
-                    future: swagger.DefaultApi().getTopLevelGenres(),
-                    builder: (context,
-                        AsyncSnapshot<swagger.GetGenresResponse> snapshot) {
-                      if (snapshot.hasData) {
-                        return GenresWidget("Browse genres",
-                            snapshot.data.genres.map(
-                                    (swagger.Genre genre) => OwnGenre.fromId(genre.id))
-                                .toList()
-                        );
-                      }
-                      return CircularProgressIndicator();
-                    }
-                  )
-                ],
-              ),
-            )
+            this.query == "" ? GenresOverview() : SearchResults(this.query)
           ],
         ),
       )

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/db-helper.dart';
-import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -9,7 +8,7 @@ class SelectedGenresService extends ChangeNotifier {
 
   SelectedGenresService(this.database);
 
-  Future<List<OwnGenre>> getSelectedGenres() {
+  Future<List<Genre>> getSelectedGenres() {
     return database
         .query(DatabaseHelper.selectedGenresTable,
         orderBy: DatabaseHelper.idColumn)
@@ -20,11 +19,11 @@ class SelectedGenresService extends ChangeNotifier {
     );
   }
 
-  OwnGenre fromDatabaseMap(Map<String, dynamic> map) {
-    return OwnGenre(map[DatabaseHelper.idColumn], map[DatabaseHelper.nameColumn]);
+  Genre fromDatabaseMap(Map<String, dynamic> map) {
+    return Genre(map[DatabaseHelper.idColumn], map[DatabaseHelper.nameColumn]);
   }
 
-  Map<String, dynamic> toMap(OwnGenre genre) {
+  Map<String, dynamic> toMap(Genre genre) {
     return <String, dynamic>{
       DatabaseHelper.nameColumn: genre.name,
       DatabaseHelper.idColumn: genre.id
@@ -42,7 +41,7 @@ class SelectedGenresService extends ChangeNotifier {
     });
   }
 
-  void insertSelectedGenre(OwnGenre genre) {
+  void insertSelectedGenre(Genre genre) {
     var entry = toMap(genre);
     database
         .insert(DatabaseHelper.selectedGenresTable, entry)

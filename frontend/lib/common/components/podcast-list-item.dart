@@ -62,11 +62,12 @@ class PodcastListItem extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10),
-              Text(
-                Utils.removeAllHtmlTags(podcast.description),
-                style: Theme.of(context).textTheme.description,
-                maxLines: 3,
-              ),
+              podcast.description != null
+                  ? Text(Utils.removeAllHtmlTags(podcast.description),
+                      style: Theme.of(context).textTheme.description,
+                      maxLines: 3,
+                    )
+                  : Container()
             ],
           ),
         ),

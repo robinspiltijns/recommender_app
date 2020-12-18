@@ -11,7 +11,7 @@ class GenreGridView extends StatefulWidget {
   static const MAX_NB_SELECTED_GENRES = 4;
   static const MIN_NB_SELECTED_GENRES = 4;
 
-  final List<OwnGenre> genres;
+  final List<Genre> genres;
 
   GenreGridView(this.genres);
 
@@ -21,7 +21,7 @@ class GenreGridView extends StatefulWidget {
 
 class _GenreGridViewState extends State<GenreGridView> {
 
-  List<OwnGenre> selectedGenres;
+  List<Genre> selectedGenres;
   Container nextMessage;
 
   @override
@@ -31,7 +31,7 @@ class _GenreGridViewState extends State<GenreGridView> {
     nextMessage = Container();
   }
 
-  selectLogic(OwnGenre genre) {
+  selectLogic(Genre genre) {
     if (selectedGenres.length < GenreGridView.MAX_NB_SELECTED_GENRES) {
       selectedGenres.contains(genre) ? selectedGenres.remove(genre) : selectedGenres.add(genre);
     } else {
@@ -65,7 +65,6 @@ class _GenreGridViewState extends State<GenreGridView> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      //mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
           child: GridView.count(

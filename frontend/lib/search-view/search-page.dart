@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/common/components/genre-details-view/genre-details-view.dart';
 import 'package:frontend/common/components/podcast-details-view/podcast-details-view.dart';
 import 'package:frontend/object-model/genre.dart';
-import 'package:frontend/search-results-view/search-results-view.dart';
 import 'search-view.dart';
 
 
@@ -21,11 +20,8 @@ class SearchPage extends StatelessWidget {
                 switch (settings.name) {
                   case "/":
                     return SearchWidget();
-                  case SearchResultsViewWidget.routeName:
-                    List<dynamic> searchResult = settings.arguments;
-                    return SearchResultsViewWidget(arguments: searchResult,);
                   case GenreDetails.routeName:
-                    OwnGenre genre = settings.arguments;
+                    Genre genre = settings.arguments;
                     return GenreDetails(genre);
                   case PodcastDetails.routeName:
                     String id = settings.arguments;
