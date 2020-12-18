@@ -114,7 +114,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                  );
                }
               else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                return Text("Hi ");
               }
 
               // By default, show a loading spinner.
