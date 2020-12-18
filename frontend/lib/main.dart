@@ -28,8 +28,9 @@ void main() async {
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);
+  SelectedGenresService selectedGenresService = SelectedGenresService(database);
   PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
-  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database);
+  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database, selectedGenresService);
   PlayerService playerService = PlayerService(queueService, playedEpisodesService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -56,7 +57,7 @@ void main() async {
             create: (context) => UserNameService(database),
           ),
           ChangeNotifierProvider(
-            create: (context) => SelectedGenresService(database),
+            create: (context) => selectedGenresService,
           )
         ],
         child: MyApp(),
