@@ -1,13 +1,29 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/liked-view/components/liked-genres.dart';
-import 'package:frontend/search-results-view/search-results-view.dart';
+import 'package:frontend/search-view/components/search-results.dart';
 import 'package:frontend/search-view/components/search-field.dart';
 import 'package:swagger/api.dart' as swagger;
-import 'package:frontend/object-model/genre.dart';
+
+import 'components/genres-overview.dart';
 
 
-class SearchWidget extends StatelessWidget {
+class SearchWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => SearchWidgetState();
+
+}
+
+class SearchWidgetState extends State<SearchWidget> {
+
+
+
+  String query;
+
+  @override
+  void initState() {
+    super.initState();
+    this.query = "";
+  }
+
   final api = swagger.DefaultApi();
 
   @override
@@ -24,36 +40,15 @@ class SearchWidget extends StatelessWidget {
         child: Column(
           children: [
             SearchFieldWidget(
+              value: this.query,
               onSubmitted: (value) {
-                Navigator.pushNamed(context, SearchResultsViewWidget.routeName, arguments: value);
-              },
-              onClear: () {
-
+               setState(() {
+                 this.query = value;
+               });
               },
             ),
             SizedBox(height: 20),
-            Expanded(
-              child: ListView(
-                children: [
-                  //RecentSearchesWidget(),
-                  SizedBox(height: 20),
-                  FutureBuilder<swagger.GetGenresResponse> (
-                    future: swagger.DefaultApi().getTopLevelGenres(),
-                    builder: (context,
-                        AsyncSnapshot<swagger.GetGenresResponse> snapshot) {
-                      if (snapshot.hasData) {
-                        return GenresWidget("Browse genres",
-                            snapshot.data.genres.map(
-                                    (swagger.Genre genre) => Genre(genre.id))
-                                .toList()
-                        );
-                      }
-                      return CircularProgressIndicator();
-                    }
-                  )
-                ],
-              ),
-            )
+            this.query == "" ? GenresOverview() : SearchResults(this.query)
           ],
         ),
       )

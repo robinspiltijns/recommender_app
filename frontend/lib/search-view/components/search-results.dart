@@ -5,9 +5,7 @@ import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/podcast.dart';
 import 'package:frontend/common//components/episode-list-item.dart';
 import 'package:frontend/common//components/podcast-list-item.dart';
-import 'package:frontend/search-results-view/components/more-button.dart';
-import 'package:frontend/search-view/components/search-field.dart';
-import 'package:swagger/api.dart';
+import 'package:frontend/search-view/components/more-button.dart';
 import 'package:swagger/api.dart' as swagger;
 
 enum ResultType {
@@ -15,29 +13,24 @@ enum ResultType {
   PODCASTS
 }
 
-class SearchResultsViewWidget extends StatefulWidget {
+class SearchResults extends StatefulWidget {
+  final String queryString;
 
-  static const String routeName = '/search-results';
-  final api = swagger.DefaultApi();
-
-  String queryString;
-
-  static const double TITLE_PART_HEIGHT = 50;
-  static const double MORE_PART_HEIGHT = 60;
-
-  SearchResultsViewWidget(this.queryString);
+  SearchResults(this.queryString);
 
   @override
-  _SearchResultsViewWidgetState createState() => _SearchResultsViewWidgetState();
+  _SearchResultsState createState() => _SearchResultsState();
 }
 
-class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
+class _SearchResultsState extends State<SearchResults> {
+
+  final api = swagger.DefaultApi();
 
   @override
   void initState() {
     super.initState();
     setState(() {
-        searchResult = widget.api.getSearchResults(widget.queryString, "title");
+        searchResult = api.getSearchResults(widget.queryString, "title");
       }
     );
   }
@@ -56,7 +49,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     ResultType.PODCASTS : "Podcasts"
   };
 
-  Widget episodeResults(List<EpisodeSearchResult> episodeResults) {
+  Widget episodeResults(List<swagger.EpisodeSearchResult> episodeResults) {
     if (episodeResults.length == 0) {
       return SliverToBoxAdapter(
         child: Container(
@@ -84,7 +77,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     );
   }
 
-  Widget moreButtonEpisodes(List<EpisodeSearchResult> episodeResults) {
+  Widget moreButtonEpisodes(List<swagger.EpisodeSearchResult> episodeResults) {
     if (episodeResults.length == 0) {
       return SliverToBoxAdapter(
           child: Container()
@@ -117,7 +110,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     }
   }
 
-  Widget podcastResults(List<PodcastSearchResult> podcastResults) {
+  Widget podcastResults(List<swagger.PodcastSearchResult> podcastResults) {
       if (podcastResults.length == 0) {
         return SliverToBoxAdapter(
           child: Container(
@@ -143,7 +136,7 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
     );
   }
 
-  Widget moreButtonPodcasts(List<PodcastSearchResult> podcastResults) {
+  Widget moreButtonPodcasts(List<swagger.PodcastSearchResult> podcastResults) {
     if (podcastResults.length == 0) {
       return SliverToBoxAdapter(
           child: Container()
@@ -178,30 +171,13 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Container(
-          child: SearchFieldWidget(
-            onSubmitted: (value) {
-              setState(() {
-                this.searchResult = widget.api.getSearchResults(value, "title");
-              });
-            },
-            onClear: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        centerTitle: false,
-      ),
-      body: FutureBuilder(
-        future: searchResult,
-        builder: (context, AsyncSnapshot<swagger.SearchResult> snapshot) {
-          if (snapshot.hasData) {
-            return CustomScrollView(
+    return FutureBuilder(
+      future: searchResult,
+      builder: (context, AsyncSnapshot<swagger.SearchResult> snapshot) {
+        if (snapshot.hasData) {
+          return Expanded(
+            child: CustomScrollView(
+              shrinkWrap: true,
               slivers: <Widget>[
                 SliverToBoxAdapter(
                   child: Container(
@@ -229,11 +205,11 @@ class _SearchResultsViewWidgetState extends State<SearchResultsViewWidget> {
                 podcastResults(snapshot.data.podcastresults),
                 moreButtonPodcasts(snapshot.data.podcastresults),
               ],
-            );
-          }
-          return CircularProgressIndicator();
+            ),
+          );
         }
-      )
+        return CircularProgressIndicator();
+      }
     );
   }
 }

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 
 class SearchFieldWidget extends StatelessWidget {
 
-  var _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   final void Function(String) onSubmitted;
-  final VoidCallback onClear;
 
-  SearchFieldWidget({this.onSubmitted, this.onClear});
+  SearchFieldWidget({this.onSubmitted, String value}) {
+    this._controller.text = value;
+  }
 
   @override
   Widget build(BuildContext context) {
     return  TextField(
       controller: _controller,
       onSubmitted: (value) {
-        _controller.clear();
         onSubmitted(value);
       },
       style: TextStyle(color: Colors.white),
@@ -27,7 +27,7 @@ class SearchFieldWidget extends StatelessWidget {
           color: Colors.white.withOpacity(0.5),
           onPressed: () {
             _controller.clear();
-            onClear();
+            onSubmitted("");
           },
           icon: Icon(Icons.clear),
         ),
@@ -46,5 +46,4 @@ class SearchFieldWidget extends StatelessWidget {
       ),
     );
   }
-
 }
