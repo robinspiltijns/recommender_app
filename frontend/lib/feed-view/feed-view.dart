@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/user-name-service.dart';
 import 'package:frontend/feed-view/components/feed-view-section.dart';
 import 'package:frontend/feed-view/reccomendation-section-data.dart';
@@ -37,13 +38,7 @@ class _FeedWidgetState extends State<FeedWidget> {
   @override
   void initState() {
     super.initState();
-    _loadRecommendations();
     makeFutures();
-    _loadRecommendations();
-  }
-
-  _loadRecommendations() {
-
   }
 
   setTitle(UserNameService userNameService) {
@@ -134,7 +129,7 @@ class _FeedWidgetState extends State<FeedWidget> {
           shadowColor: Colors.transparent,
           centerTitle: false,
         ),
-        body: _loaded
+        body: !_loaded
             ? SizedBox(
                 height: recommendationSectionsData.length *
                     PodcastCardWidget.CARD_HEIGHT,

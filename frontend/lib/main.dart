@@ -19,7 +19,7 @@ import 'object-model/genre.dart';
 
 // boolean to indicate whether or not to reset
 // the database when launching the app.
-bool resetDatabase = true;
+bool resetDatabase = false;
 
 int initScreen;
 
@@ -33,9 +33,8 @@ void main() async {
 
   QueueService queueService = QueueService(database);
   SelectedGenresService selectedGenresService = SelectedGenresService(database);
-  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
   LikedEpisodesService likedEpisodesService = LikedEpisodesService(database, selectedGenresService);
-  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  PlayerService playerService = PlayerService(queueService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
