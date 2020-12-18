@@ -28,15 +28,15 @@ void main() async {
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);
+  SelectedGenresService selectedGenresService = SelectedGenresService(database);
   PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
-  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database);
+  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database, selectedGenresService);
   PlayerService playerService = PlayerService(queueService, playedEpisodesService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = await prefs.getInt("initScreen");
-  // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
-  await prefs.setInt("initScreen", 1);
-  print('initScreen ${initScreen}');
+  // If you want to test the introductory questions, uncomment following line.
+  //await prefs.setInt("initScreen", 0);
+  initScreen = prefs.getInt("initScreen");
 
   runApp(
       MultiProvider(
@@ -57,7 +57,7 @@ void main() async {
             create: (context) => UserNameService(database),
           ),
           ChangeNotifierProvider(
-            create: (context) => SelectedGenresService(database),
+            create: (context) => selectedGenresService,
           )
         ],
         child: MyApp(),
