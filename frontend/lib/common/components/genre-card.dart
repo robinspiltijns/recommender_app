@@ -48,7 +48,7 @@ class GenreCard extends StatelessWidget {
 
   }
 
-  Color getGenreColor(int id) {
+  static Color getGenreColor(int id) {
     return GENRE_COLORS[id % GENRE_COLORS.length];
   }
 }

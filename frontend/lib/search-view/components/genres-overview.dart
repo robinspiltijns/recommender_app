@@ -18,7 +18,7 @@ class GenresOverview extends StatelessWidget {
                       SizedBox(height: 20),
                       GenresWidget("Browse genres",
                           snapshot.data.genres.map(
-                                  (swagger.Genre genre) => Genre(genre.id))
+                                  (swagger.Genre genre) => Genre.fromId(genre.id))
                               .toList()
                       ),
                     ]

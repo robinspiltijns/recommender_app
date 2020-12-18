@@ -22,6 +22,9 @@ class QueueService extends ChangeNotifier {
   }
 
   Future<void> setQueue(List<Episode> queue) async {
+    // Ik maak hier een uitzondering door vroeger te notifyen maar het was nodig. We kunnen later mss reverten als de commit faalt.
+    _queue = queue;
+    notifyListeners();
     await database.delete(DatabaseHelper.queueTable);
     Batch batch = database.batch();
     queue.asMap().forEach((index, episode) {
@@ -29,10 +32,7 @@ class QueueService extends ChangeNotifier {
       entry.addAll({DatabaseHelper.orderNumberColumn: index});
       batch.insert(DatabaseHelper.queueTable, entry);
     });
-    await batch.commit(noResult: true).then((value) {
-      _queue = queue;
-      notifyListeners();
-    });
+    await batch.commit(noResult: true);
   }
 
   Future<Episode> pop(int index) async {

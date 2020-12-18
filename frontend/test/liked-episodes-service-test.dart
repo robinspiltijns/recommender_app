@@ -23,7 +23,7 @@ void main() async {
       "test1",
       "test1",
       DateTime.now(),
-      [Genre(151)]
+      [Genre.fromId(151)]
   );
 
   var episode2 = Episode(
@@ -37,7 +37,7 @@ void main() async {
       "test2",
       "test2",
       DateTime.now(),
-      [Genre(151)]
+      [Genre.fromId(151)]
   );
 
   service.insertLikedEpisode(episode1);

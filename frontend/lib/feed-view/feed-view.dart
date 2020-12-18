@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/services/user-name-service.dart';
 import 'package:frontend/feed-view/components/feed-view-section.dart';
+import 'package:provider/provider.dart';
 import 'package:swagger/api.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
 
@@ -14,6 +16,7 @@ class _FeedWidgetState extends State<FeedWidget> {
   final api = DefaultApi();
 
   Future<dynamic> futureResp;
+  Future<String> name;
 
   List<Map<String, dynamic>> sections = [
     {
@@ -38,6 +41,11 @@ class _FeedWidgetState extends State<FeedWidget> {
     super.initState();
     makeFutures();
   }
+
+   setTitle(UserNameService userNameService) {
+    name = userNameService.getUserName();
+  }
+
 
   List<Future<Map<String, dynamic>>> futures;
 
@@ -91,8 +99,28 @@ class _FeedWidgetState extends State<FeedWidget> {
   Widget build(BuildContext context) {
      return Scaffold(
        appBar: AppBar(
-         title: Text("Feed",
-           style: Theme.of(context).textTheme.headline6
+         title: Consumer<UserNameService>(
+         builder: (context, userNameService, child) {
+           setTitle(userNameService);
+           return FutureBuilder<String>(
+             future: name,
+             builder: (context, snapshot) {
+               if (snapshot.hasData) {
+                 return Text("Hi " + snapshot.data,
+                     style: Theme
+                         .of(context)
+                         .textTheme
+                         .headline6
+                 );
+               }
+              else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return Text("loading...");
+              }
+           );},
          ),
          backgroundColor: Colors.transparent,
          shadowColor: Colors.transparent,
