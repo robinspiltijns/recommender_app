@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/common/components/genre-card.dart';
 import 'package:frontend/object-model/genre.dart';
+import 'package:frontend/introductory-questions-view/components/genre-card-for-grid-view.dart';
 
 
 class SelectableGenreCard extends StatelessWidget {
@@ -17,7 +17,7 @@ class SelectableGenreCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(5),
         color: isSelected ?  Theme.of(context).buttonColor : Color.fromRGBO(2, 2, 2, 0),
-        child: GenreCard(genre),
+        child: GenreCardForGridView(genre),
       ),
     );
   }
