@@ -5,7 +5,7 @@ import 'package:frontend/introductory-questions-view/components/genre-card-for-g
 
 class SelectableGenreCard extends StatelessWidget {
 
-  final OwnGenre genre;
+  final Genre genre;
   final bool isSelected;
 
   SelectableGenreCard(this.genre, this.isSelected);

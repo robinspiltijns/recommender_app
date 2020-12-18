@@ -15,7 +15,7 @@ List<Color> GENRE_COLORS = [
 ];
 
 class GenreCardForGridView extends StatelessWidget {
-  final OwnGenre genre;
+  final Genre genre;
 
   GenreCardForGridView(this.genre);
 
