@@ -114,7 +114,12 @@ class _FeedWidgetState extends State<FeedWidget> {
                  );
                }
               else if (snapshot.hasError) {
-                return Text("Hi ");
+                return Text("Hi ",
+                    style: Theme
+                    .of(context)
+                    .textTheme
+                    .headline6
+                );
               }
 
               // By default, show a loading spinner.
