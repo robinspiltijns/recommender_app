@@ -33,10 +33,9 @@ void main() async {
   PlayerService playerService = PlayerService(queueService, playedEpisodesService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = await prefs.getInt("initScreen");
-  // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
-  await prefs.setInt("initScreen", 0);
-  print('initScreen ${initScreen}');
+  // If you want to test the introductory questions, uncomment following line.
+  //await prefs.setInt("initScreen", 0);
+  initScreen = prefs.getInt("initScreen");
 
   runApp(
       MultiProvider(
