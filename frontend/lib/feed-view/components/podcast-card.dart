@@ -31,7 +31,7 @@ class PodcastCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN),
+          left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN - 10),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),

@@ -99,7 +99,7 @@ class EpisodeCardWidget extends StatelessWidget {
                       ),
                       Container(
                         height: CARD_HEIGHT * DESCRIPTION_HEIGHT_RATIO -
-                            CARD_MARGIN,
+                            CARD_MARGIN + 5,
                         margin: EdgeInsets.fromLTRB(
                             CARD_CONTENT_PADDING,
                             CARD_CONTENT_PADDING / 2,
