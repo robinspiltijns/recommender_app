@@ -27,7 +27,7 @@ class FeedViewSection extends StatelessWidget {
     this.recommendationDescription = recDescription;
     if (b == RecommendationBasis.EPISODE) {
       this.SECTION_HEIGHT =
-          EpisodeCardWidget.CARD_HEIGHT + 2 * EpisodeCardWidget.CARD_MARGIN + 40;
+          EpisodeCardWidget.CARD_HEIGHT + 2 * EpisodeCardWidget.CARD_MARGIN + 10;
     } else {
         this.SECTION_HEIGHT =
             PodcastCardWidget.CARD_HEIGHT + 2 * PodcastCardWidget.CARD_MARGIN;
