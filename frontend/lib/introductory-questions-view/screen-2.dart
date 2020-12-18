@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/common/components/buttons/custom-text-button.dart';
-import 'package:frontend/common/components/genre-card.dart';
 import 'package:frontend/introductory-questions-view/components/genre-grid-view.dart';
-import 'package:swagger/api.dart';
+import 'package:swagger/api.dart' as swagger;
 import 'package:frontend/object-model/genre.dart';
 
 class ScreenTwoWidget extends StatefulWidget {
@@ -16,10 +14,10 @@ class ScreenTwoWidget extends StatefulWidget {
 
 class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
 
-  final api = DefaultApi();
+  final api = swagger.DefaultApi();
 
 
-  Future<GetGenresResponse> genres;
+  Future<swagger.GetGenresResponse> genres;
 
   Container nextMessage;
 
@@ -58,11 +56,11 @@ class _ScreenTwoWidgetState extends State<ScreenTwoWidget> {
                 style: Theme.of(context).textTheme.headline2,
               ),
             ),
-            FutureBuilder <GetGenresResponse> (
+            FutureBuilder <swagger.GetGenresResponse> (
               future: genres,
             builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<OwnGenre> genresList = OwnGenre.fromGetGenreResponse(snapshot.data);
+                  List<Genre> genresList = Genre.fromGetGenreResponse(snapshot.data);
                   return Expanded(child: GenreGridView(genresList));
                 } else if (snapshot.hasError) {
                     return Text("${snapshot.error}");

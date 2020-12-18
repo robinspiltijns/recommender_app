@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/common/theme.dart';
 
 class MoreButton extends StatelessWidget {
 
@@ -15,8 +14,6 @@ class MoreButton extends StatelessWidget {
   final Icon icon = Icon(Icons.expand_more_rounded,
     color: Colors.white,
   );
-
-  MoreButton();
 
   @override
   Widget build(BuildContext context) {

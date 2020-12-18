@@ -9,7 +9,7 @@ class GenreDetails extends StatelessWidget {
 
   static const String routeName = "/genre";
 
-  final OwnGenre genre;
+  final Genre genre;
 
   Future<swagger.BestPodcastsResponse> bestPodcastsOfGenre;
 
