@@ -52,7 +52,6 @@ class LikedEpisodesService extends ChangeNotifier {
   }
 
   Future<List<Genre>> getMostLikedGenres() async {
-    print("here");
     List<Episode> episodes = await this.getLikedEpisodes();
     Map<int, int> genreCount = Map<int, int>();
 
@@ -80,7 +79,6 @@ class LikedEpisodesService extends ChangeNotifier {
       result.addAll(selectedGenres.sublist(0, 4 - result.length));
     }
 
-    print(result);
     return result;
 
   }
