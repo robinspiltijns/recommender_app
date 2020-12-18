@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/feed-view/components/podcast-card.dart';
@@ -9,7 +11,7 @@ enum RecommendationBasis { PODCAST, EPISODE, GENRE }
 class FeedViewSection extends StatelessWidget {
   double SECTION_HEIGHT;
   static const double SECTION_MARGIN_TOP = 10;
-  static const int NB_CARDS_PER_SECTION = 3;
+  static const int NB_CARDS_PER_SECTION = 8;
 
   Map<RecommendationBasis, String> sectionTitles = {
     RecommendationBasis.PODCAST: "Because you listened to ",
@@ -39,12 +41,14 @@ class FeedViewSection extends StatelessWidget {
   List<Widget> generateCards(int nbCards) {
     List<Widget> result = [];
 
+    int max = min(resultList.length, nbCards);
+
     if (basis == RecommendationBasis.EPISODE) {
-      for (int i = 0; i < nbCards; i++) {
+      for (int i = 0; i < max; i++) {
         result.add(EpisodeCardWidget(resultList[i]));
       }
     } else {
-      for (int i = 0; i < nbCards; i++) {
+      for (int i = 0; i < max; i++) {
         result.add(PodcastCardWidget(podcast: resultList[i]));
       }
     }
@@ -78,45 +82,11 @@ class FeedViewSection extends StatelessWidget {
               height: SECTION_HEIGHT,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: generateCards(NB_CARDS_PER_SECTION) +
-                    [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: PodcastCardWidget.CARD_MARGIN,
-                            right: PodcastCardWidget.CARD_MARGIN),
-                        alignment: Alignment.center,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Container(
-                            width: 70,
-                            height: 70,
-                            color: Color.fromRGBO(36, 39, 73, 100),
-                            alignment: Alignment.center,
-                            child: FlatButton(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    "More",
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
+                children: generateCards(NB_CARDS_PER_SECTION),
                               ),
                             ),
-                          ),
+                          ]),
                         ),
-                      )
-                    ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                      );
   }
 }
