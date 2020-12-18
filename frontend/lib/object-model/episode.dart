@@ -6,6 +6,9 @@ import 'package:swagger/api.dart' as swagger;
 import 'genre.dart';
 
 class Episode {
+
+  static final api = swagger.DefaultApi();
+
   String title;
   String id;
   String audio;
@@ -105,6 +108,36 @@ class Episode {
         episodeSearchResult.descriptionOriginal,
         pubDate,
         episodeSearchResult.podcast.genreIds.map((id) => Genre.fromId(id)).toList()
+    );
+  }
+
+  static Episode fromEpisodeSimple(swagger.EpisodeSimple episodeSimple, {Duration position}) {
+
+    var duration = Duration(seconds: episodeSimple.audioLengthSec);
+    if (position == null) {
+      position = Duration(seconds: 0);
+    }
+    print(episodeSimple.pubDateMs);
+    var pubDate =
+    DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
+
+    List<int> genreIds;
+    api.getPodcast(episodeSimple.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList());
+    List<Genre> genres = genreIds.map((id) => Genre.fromId(id)).toList();
+
+
+    return new Episode(
+        episodeSimple.title,
+        episodeSimple.id,
+        episodeSimple.audio,
+        episodeSimple.image,
+        duration,
+        position,
+        episodeSimple.podcast.publisher,
+        episodeSimple.podcast.id,
+        episodeSimple.description,
+        pubDate,
+        genres
     );
   }
 
