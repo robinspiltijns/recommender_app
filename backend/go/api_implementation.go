@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 )
 
@@ -313,4 +314,16 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
+}
+
+func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
+
+	const charset = "ABCDEFGHIJKLMNOPQRSTUVabcdefghijklmonopgrstuvwxyz0123456789"
+	b := make([]byte, 30)
+
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+
+	fmt.Fprintf(w, string(b))
 }
