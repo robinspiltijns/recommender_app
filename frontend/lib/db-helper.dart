@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:frontend/main.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
@@ -54,8 +55,9 @@ class DatabaseHelper {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + "episodes.db";
 
-    // Uncomment this line to reset database when changes are done in _createDb().
-    await deleteDatabase(path);
+    if (resetDatabase) {
+      await deleteDatabase(path);
+    }
 
     //OPEN/CREATE THE DB AT A GIVEN PATH
     var database = await openDatabase(path, version: 1, onCreate: _createDb);

@@ -17,6 +17,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'feed-view/feed-page.dart';
 import 'object-model/genre.dart';
 
+// boolean to indicate whether or not to reset
+// the database when launching the app.
+bool resetDatabase = true;
+
 int initScreen;
 
 void main() async {
@@ -34,8 +38,11 @@ void main() async {
   PlayerService playerService = PlayerService(queueService, playedEpisodesService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  // If you want to test the introductory questions, uncomment following line.
-  //await prefs.setInt("initScreen", 0);
+
+  if (resetDatabase) {
+    await prefs.setInt("initScreen", 0);
+  }
+
   initScreen = prefs.getInt("initScreen");
 
   runApp(
