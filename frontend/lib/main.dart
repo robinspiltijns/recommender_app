@@ -52,9 +52,6 @@ void main() async {
             create: (context) => playerService,
           ),
           ChangeNotifierProvider(
-            create: (context) => playedEpisodesService,
-          ),
-          ChangeNotifierProvider(
             create: (context) => likedEpisodesService,
           ),
           ChangeNotifierProvider(

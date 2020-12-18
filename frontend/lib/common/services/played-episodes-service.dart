@@ -3,7 +3,7 @@ import 'package:frontend/db-helper.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:sqflite/sqflite.dart';
 
-class PlayedEpisodesService extends ChangeNotifier {
+class PlayedEpisodesService {
   final Database database;
 
   PlayedEpisodesService(this.database);
@@ -34,8 +34,7 @@ class PlayedEpisodesService extends ChangeNotifier {
         {DatabaseHelper.playedDateColumn: DateTime.now().toIso8601String()}
     );
     database
-        .insert(DatabaseHelper.playedEpisodesTable, entry)
-        .then((_) => notifyListeners());
+        .insert(DatabaseHelper.playedEpisodesTable, entry);
   }
 
 }

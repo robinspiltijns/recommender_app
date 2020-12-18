@@ -13,6 +13,9 @@ class FeedWidget extends StatefulWidget {
 }
 
 class _FeedWidgetState extends State<FeedWidget> {
+
+  bool _loaded = false;
+
   final api = DefaultApi();
 
   Future<dynamic> futureResp;
@@ -34,7 +37,13 @@ class _FeedWidgetState extends State<FeedWidget> {
   @override
   void initState() {
     super.initState();
+    _loadRecommendations();
     makeFutures();
+    _loadRecommendations();
+  }
+
+  _loadRecommendations() {
+
   }
 
   setTitle(UserNameService userNameService) {
@@ -55,8 +64,9 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   addPodcastSection(int entryIndex, ContentType basis) async {
     if (basis == ContentType.PODCAST) {
-      recommendationSectionsData[entryIndex].recommendations = api
-          .getPodcastRecommendationsBasedOnPodcast(recommendationSectionsData[entryIndex].id);
+      recommendationSectionsData[entryIndex].recommendations =
+          api.getPodcastRecommendationsBasedOnPodcast(
+              recommendationSectionsData[entryIndex].id);
     } else if (basis == ContentType.GENRE) {
       recommendationSectionsData[entryIndex].recommendations =
           api.getBestOfGenre(recommendationSectionsData[entryIndex].id);
@@ -65,7 +75,8 @@ class _FeedWidgetState extends State<FeedWidget> {
 
   addEpisodeSection(int entryIndex) async {
     recommendationSectionsData[entryIndex].recommendations =
-        api.getEpisodeRecommendationsBasedOnEpisode(recommendationSectionsData[entryIndex].id);
+        api.getEpisodeRecommendationsBasedOnEpisode(
+            recommendationSectionsData[entryIndex].id);
   }
 
   Widget generateSection(RecommendationSectionData sectionData) {
@@ -123,15 +134,18 @@ class _FeedWidgetState extends State<FeedWidget> {
           shadowColor: Colors.transparent,
           centerTitle: false,
         ),
-        body: SizedBox(
-          height: recommendationSectionsData.length * PodcastCardWidget.CARD_HEIGHT,
-          child: ListView.builder(
-            itemCount: recommendationSectionsData.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return generateSection(recommendationSectionsData[index]);
-            },
-          ),
-        ));
+        body: _loaded
+            ? SizedBox(
+                height: recommendationSectionsData.length *
+                    PodcastCardWidget.CARD_HEIGHT,
+                child: ListView.builder(
+                  itemCount: recommendationSectionsData.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return generateSection(recommendationSectionsData[index]);
+                  },
+                ),
+              )
+            : Text("loading..."));
   }
 }
