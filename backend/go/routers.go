@@ -119,6 +119,27 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetUniqueId",
+		strings.ToUpper("Get"),
+		"/get-unique-id",
+		GetUniqueId,
+	},
+
+	Route{
+		"StartTimePost",
+		strings.ToUpper("Post"),
+		"/start-time",
+		StartTimePost,
+	},
+
+	Route{
+		"StopTimePost",
+		strings.ToUpper("Post"),
+		"/stop-time",
+		StopTimePost,
+	},
+
+	Route{
 		"Test",
 		strings.ToUpper("Get"),
 		"/test",

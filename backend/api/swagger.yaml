@@ -212,6 +212,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetGenresResponse'
+  get-unique-id:
+    get:
+      summary: Used to get a string to identify a user
+      description: Returns a string that unosuely identifies a user. This string is
+        required for logging.
+      operationId: GetUniqueId
+      responses:
+        "200":
+          description: succesful operation
+          content: {}
+  start-time:
+    post:
+      summary: start logging time for a user
+      requestBody:
+        description: The identifier of the user for which to start timing.
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: EEADSISCHIQI
+        required: false
+      responses:
+        "201":
+          description: Started timing
+          content: {}
+        "500":
+          description: Unknown user
+          content: {}
+      x-codegen-request-body-name: userId
+  stop-time:
+    post:
+      summary: start logging time for a user
+      requestBody:
+        description: The identifier of the user for which to stop timing.
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: EEADSISCHIQI
+        required: false
+      responses:
+        "201":
+          description: Stopped timing
+          content: {}
+        "500":
+          description: Unknown user of not timing for this user
+          content: {}
+      x-codegen-request-body-name: userId
 components:
   schemas:
     PodcastFull:

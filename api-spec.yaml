@@ -179,6 +179,54 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/GetGenresResponse"
+  get-unique-id:
+    get:
+      summary:  "Used to get a string to identify a user"
+      description: "Returns a string that unosuely identifies a user. This string is required for logging."
+      operationId: "GetUniqueId"
+      produces:
+        - "text/plain"
+      responses: 
+        "200":
+          description: "succesful operation"
+          example: "EEADSISCHIQI"
+  start-time:
+    post:
+      summary: "start logging time for a user"
+      consumes: 
+        - "text/plain"
+      parameters:
+        - in: body
+          name: userId
+          description: The identifier of the user for which to start timing.
+          schema:
+            type: string
+            example: "EEADSISCHIQI"
+      responses:
+        "201": 
+          description: Started timing
+        "500": 
+          description: Unknown user
+  
+  stop-time:
+    post:
+      summary: "start logging time for a user"
+      consumes: 
+        - "text/plain"
+      parameters:
+        - in: body
+          name: userId
+          description: The identifier of the user for which to stop timing.
+          schema:
+            type: string
+            example: "EEADSISCHIQI"
+      responses:
+        "201": 
+          description: Stopped timing
+        "500": 
+          description: Unknown user of not timing for this user
+  
+
               
 definitions:
   PodcastFull:
