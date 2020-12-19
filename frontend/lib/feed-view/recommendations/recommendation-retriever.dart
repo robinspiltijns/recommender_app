@@ -1,5 +1,7 @@
+import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/selected-genres-service.dart';
+import 'package:frontend/db-helper.dart';
 import 'package:frontend/feed-view/recommendations/recommendation-section-data.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/genre.dart';
@@ -10,7 +12,14 @@ final api = Swagger.DefaultApi();
 final _random = new Random();
 
 Future<List<RecommendationSectionData>> getRecommendations() async {
+  // Could be waited but database load time is ignoreable.
   List<Episode> listenedEpisodes = await getPlayedEpisodes();
+  // Kinda dangerous, but the selected genre service isn't required for this query. It should be removed from the liked service.
+  List<Episode> likedEpisodes =
+      await LikedEpisodesService(DatabaseHelper().initializedDatabase, null)
+          .getLikedEpisodes();
+
+  print("got liked episodes");
 
   if (listenedEpisodes.length < 3) {
     List<Genre> selectedGenres =
@@ -34,14 +43,22 @@ Future<List<RecommendationSectionData>> getRecommendations() async {
     futureResult.add(_getRecommendationsBasedOnPopularity());
     // Add recommendations based on recently played episodes
     futureResult.add(_getRecommendationsBasedOnEpisode(
-        listenedEpisodes[_random.nextInt(3)]));
+        listenedEpisodes[_random.nextInt(3)],
+        RecommendationSectionBasisType.LASTPLAYEDEPISODES));
     // Add recommendations based on recently played podcasts
     String podcastId = listenedEpisodes[_random.nextInt(3)].podcastId;
     Swagger.PodcastFull podcast = await api.getPodcast(podcastId);
     futureResult.add(_getRecommendationsBasedOnPodcast(
         listenedEpisodes[_random.nextInt(3)].podcastId));
+    // Add recommendations based on recently liked podcasts
+    if (likedEpisodes.length > 0) {
+      futureResult.add(_getRecommendationsBasedOnEpisode(
+          listenedEpisodes[_random.nextInt(min(likedEpisodes.length, 3))],
+          RecommendationSectionBasisType.LIKED));
+    }
     // Shuffle and return the result.
     futureResult.shuffle();
+    print("awaiting recommendations...");
     return await Future.wait(futureResult);
   }
 }
@@ -72,12 +89,12 @@ Future<RecommendationSectionData> _getRecommendationsBasedOnPopularity() async {
 }
 
 Future<RecommendationSectionData> _getRecommendationsBasedOnEpisode(
-    Episode episode) async {
+    Episode episode, RecommendationSectionBasisType basis) async {
   Swagger.GetEpisodeRecommendationsResponse response =
       await api.getEpisodeRecommendationsBasedOnEpisode(episode.id);
   return RecommendationSectionData(
       contentType: RecommendationSectionContentType.EPISODES,
-      basisType: RecommendationSectionBasisType.LASTPLAYEDEPISODES,
+      basisType: basis,
       basisTitle: episode.title,
       episodeRecommendations: response.recommendations,
       podcastRecommendations: []);
