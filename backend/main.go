@@ -10,10 +10,8 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
-	"os"
 
 	// WARNING!
 	// Change this to a fully-qualified import path
@@ -22,51 +20,17 @@ import (
 	//
 	//    sw "github.com/myname/myrepo/go"
 	//
-	_ "github.com/mattn/go-sqlite3"
 	sw "github.com/robinspiltijns/recommender_app/backend/go"
+	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
 )
-
-const dbFileName = "logging-database.db"
 
 func main() {
 
-	os.Remove(dbFileName)
-
-	log.Println("Creating" + dbFileName + "...")
-	file, err := os.Create(dbFileName) // Create SQLite file
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	file.Close()
-	log.Println("database file created")
-
-	db, err := sql.Open("sqlite3", "./"+dbFileName)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer db.Close()
-
-	createTable(db)
+	db.ConnectDB()
 
 	log.Printf("Server started")
 
 	router := sw.NewRouter()
 
 	log.Fatal(http.ListenAndServe(":8080", router))
-}
-
-func createTable(db *sql.DB) {
-	createTableQuery := `CREATE TABLE timing (
-		user_id TEXT PRIMARY KEY NOT NULL,
-		app_version TEXT,		
-		start_time TEXT,
-		stop_time TEXT
-	  )`
-
-	log.Println("Create timing table...")
-	if _, err := db.Exec(createTableQuery); err != nil {
-		log.Fatal(err.Error())
-	}
-
-	log.Println("timing table created")
 }
