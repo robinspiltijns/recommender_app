@@ -9,38 +9,59 @@ import 'package:swagger/api.dart';
 import 'package:frontend/common/theme.dart';
 import '../episode-list-item.dart';
 
-class MoreLikeThisBody extends StatelessWidget {
-
-  final api = DefaultApi();
+class MoreLikeThisBody extends StatefulWidget {
 
   static final MAX_NB_RESULTS = 200;
 
   Episode episode;
-  Future<List<dynamic>> resultItems;
-  Future<BestPodcastsResponse> genreRecommendations;
-  Future<GetEpisodeRecommendationsResponse> episodeRecommendations;
-
 
   MoreLikeThisBody(episode) {
     initializeEpisode(episode);
   }
 
+
   initializeEpisode(ep) async {
     await epi(ep);
-    setResultItems();
   }
 
   epi(ep) {
     episode = Episode.fromEpisodeFull(ep);
   }
 
+
+  @override
+  _MoreLikeThisBodyState createState() => _MoreLikeThisBodyState();
+}
+
+class _MoreLikeThisBodyState extends State<MoreLikeThisBody> {
+  final api = DefaultApi();
+
+  @override
+  initState() {
+    super.initState();
+    setResultItems();
+  }
+
+
+  Future<List<dynamic>> resultItems;
+
+  Future<BestPodcastsResponse> genreRecommendations;
+
+  Future<GetEpisodeRecommendationsResponse> episodeRecommendations;
+
+
+
   setResultItems() async {
     print("komt hier-----------------------------");
     //Future<GetEpisodeRecommendationsResponse> episodeRecommendations = api.getEpisodeRecommendationsBasedOnEpisode(episode.id);
-    episodeRecommendations = api.getEpisodeRecommendationsBasedOnEpisode(episode.id);
+    setState(() {
+      episodeRecommendations = api.getEpisodeRecommendationsBasedOnEpisode(this.widget.episode.id);
+    });
     print("doet episode recommendations -------------------");
     //Future<BestPodcastsResponse> genreRecommendations = api.getBestOfGenre(episode.genres[0].id.toString());
-    genreRecommendations = api.getBestOfGenre(episode.genres[0].id.toString());
+    setState(() {
+      genreRecommendations = api.getBestOfGenre(this.widget.episode.genres[0].id.toString());
+    });
     print("doet genre recommendations -----------------------");
     //resultItems = Future.wait([episodeRecommendations, genreRecommendations]);
     print("futures zijn gemaakt -----------------------------");
@@ -48,16 +69,15 @@ class MoreLikeThisBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder <List<Object>>(
-        future: Future.wait([episodeRecommendations, genreRecommendations]),
+    return FutureBuilder <List<dynamic>>(
+      future: Future.wait([genreRecommendations, episodeRecommendations]),
         builder: (context, snapshot) {
-          print("zit in builder ----------------------------");
           if (snapshot.hasData) {
-            print("ZIT IN HASDATA ------------------------");
-            BestPodcastsResponse podcastResults = snapshot.data[1] as BestPodcastsResponse;
-            List<Podcast> podcasts = podcastResults.podcasts.map((podcast) => Podcast.fromPodcastSimple(podcast)).toList();
-            GetEpisodeRecommendationsResponse episodeResults = snapshot.data[0] as GetEpisodeRecommendationsResponse;
-            List<Episode> episodes = episodeResults.recommendations.map((e) => Episode.fromEpisodeSimple(e)).toList();
+            BestPodcastsResponse podcastsTemp = snapshot.data[0] as BestPodcastsResponse;
+            List<Podcast> podcasts = podcastsTemp.podcasts.map((pcs) => Podcast.fromPodcastSimple(pcs)).toList();
+
+            GetEpisodeRecommendationsResponse episodesTemp = snapshot.data[1] as GetEpisodeRecommendationsResponse;
+            List<Episode> episodes = episodesTemp.recommendations.map((et) => Episode.fromEpisodeSimple(et)).toList();
             return EpisodePodcastExpandableLists(podcasts, episodes);
           }
           else if (snapshot.hasError) {
@@ -66,7 +86,7 @@ class MoreLikeThisBody extends StatelessWidget {
 
           // By default, show a loading spinner.
           return Text("loading...");
-        }
-      );
+      }
+    );
   }
 }

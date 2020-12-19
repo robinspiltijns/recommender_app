@@ -41,14 +41,12 @@ class PodcastSearchResult {
   String publisherHighlighted = null;
 /* Highlighted segment of podcast description */
   String descriptionHighlighted = null;
-/* The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score  */
-  String listenScoreGlobalRank = null;
 
   PodcastSearchResult();
 
   @override
   String toString() {
-    return 'PodcastSearchResult[id=$id, rss=$rss, email=$email, image=$image, website=$website, genreIds=$genreIds, itunesId=$itunesId, thumbnail=$thumbnail, listenScore=$listenScore, titleOriginal=$titleOriginal, totalEpisodes=$totalEpisodes, listennotesUrl=$listennotesUrl, explicitContent=$explicitContent, titleHighlighted=$titleHighlighted, latestPubDateMs=$latestPubDateMs, publisherOriginal=$publisherOriginal, descriptionOriginal=$descriptionOriginal, earliestPubDateMs=$earliestPubDateMs, publisherHighlighted=$publisherHighlighted, descriptionHighlighted=$descriptionHighlighted, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
+    return 'PodcastSearchResult[id=$id, rss=$rss, email=$email, image=$image, website=$website, genreIds=$genreIds, itunesId=$itunesId, thumbnail=$thumbnail, listenScore=$listenScore, titleOriginal=$titleOriginal, totalEpisodes=$totalEpisodes, listennotesUrl=$listennotesUrl, explicitContent=$explicitContent, titleHighlighted=$titleHighlighted, latestPubDateMs=$latestPubDateMs, publisherOriginal=$publisherOriginal, descriptionOriginal=$descriptionOriginal, earliestPubDateMs=$earliestPubDateMs, publisherHighlighted=$publisherHighlighted, descriptionHighlighted=$descriptionHighlighted, ]';
   }
 
   PodcastSearchResult.fromJson(Map<String, dynamic> json) {
@@ -73,7 +71,6 @@ class PodcastSearchResult {
     earliestPubDateMs = json['earliest_pub_date_ms'];
     publisherHighlighted = json['publisher_highlighted'];
     descriptionHighlighted = json['description_highlighted'];
-    listenScoreGlobalRank = json['listen_score_global_rank'];
   }
 
   Map<String, dynamic> toJson() {
@@ -97,8 +94,7 @@ class PodcastSearchResult {
       'description_original': descriptionOriginal,
       'earliest_pub_date_ms': earliestPubDateMs,
       'publisher_highlighted': publisherHighlighted,
-      'description_highlighted': descriptionHighlighted,
-      'listen_score_global_rank': listenScoreGlobalRank
+      'description_highlighted': descriptionHighlighted
      };
   }
 

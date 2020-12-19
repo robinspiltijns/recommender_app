@@ -28,7 +28,6 @@ Name | Type | Description | Notes
 **earliestPubDateMs** | **int** | The published date of the oldest episode of this podcast. In milliseconds | [optional] [default to null]
 **publisherHighlighted** | **String** | Highlighted segment of this podcast&#x27;s publisher name. | [optional] [default to null]
 **descriptionHighlighted** | **String** | Highlighted segment of podcast description | [optional] [default to null]
-**listenScoreGlobalRank** | **String** | The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it&#x27;ll be null. Learn more at listennotes.com/listen-score  | [optional] [default to null]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

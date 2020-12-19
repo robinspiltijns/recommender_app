@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 const LISTENAPI_KEY = "d43deaf82b4f450aa686ee4b07c87165"
@@ -64,7 +65,12 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 	var podcast PodcastFull
 	json.Unmarshal(bodyBytes, &podcast)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	podcastOut, e := json.Marshal(podcast)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(podcastOut))
 }
 
 func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
@@ -92,7 +98,17 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 	var episode EpisodeFull
 	json.Unmarshal(bodyBytes, &episode)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	s := strconv.Itoa(int(episode.PubDateMs))
+	print("pubdate: " + s)
+
+	episodeOut, e := json.Marshal(episode)
+	if e != nil {
+		panic(err)
+	}
+
+	print(string(episodeOut))
+
+	fmt.Fprintf(w, string(episodeOut))
 }
 
 func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
@@ -187,7 +203,12 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 	var recommendation GetPodcastRecommendationsResponse
 	json.Unmarshal(bodyBytes, &recommendation)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	recommendationOut, e := json.Marshal(recommendation)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(recommendationOut))
 
 }
 
@@ -218,7 +239,12 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 	var recommendation GetEpisodeRecommendationsResponse
 	json.Unmarshal(bodyBytes, &recommendation)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	recommendationOut, e := json.Marshal(recommendation)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(recommendationOut))
 
 }
 
@@ -251,7 +277,12 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 	var result BestPodcastsResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 }
 
 func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
@@ -272,7 +303,12 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 	var result BestPodcastsResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 }
 
 func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
@@ -292,7 +328,12 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 	var result GetGenresResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 }
 
 func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
@@ -312,5 +353,10 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 	var result GetGenresResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		panic(err)
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 }

@@ -32,6 +32,7 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
   }
   
   getPageTitle(String title) {
+    print(title);
     return "More like " + title;
   }
 

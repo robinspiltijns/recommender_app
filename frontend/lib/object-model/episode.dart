@@ -41,7 +41,14 @@ class Episode {
     if (position == null) {
       position = Duration(seconds: 0);
     }
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs);
+    var pubDate;
+    if (episodeFull.pubDateMs != null) {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs);
+    }
+    else {
+      pubDate = DateTime.fromMicrosecondsSinceEpoch(0);
+    }
+
     return new Episode(
         episodeFull.title,
         episodeFull.id,
@@ -118,12 +125,23 @@ class Episode {
       position = Duration(seconds: 0);
     }
     print(episodeSimple.pubDateMs);
-    var pubDate =
-    DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
+
+    var pubDate;
+    if (episodeSimple.pubDateMs != null) {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
+    }
+    else {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(0);
+    }
 
     List<int> genreIds;
     api.getPodcast(episodeSimple.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList());
-    List<Genre> genres = genreIds.map((id) => Genre.fromId(id)).toList();
+    List<Genre> genres;
+    if (genreIds != null) {
+      genres = genreIds.map((id) => Genre.fromId(id)).toList();
+    } else {
+      genres = [];
+    }
 
 
     return new Episode(
