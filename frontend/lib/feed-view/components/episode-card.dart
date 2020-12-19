@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/utils.dart';
 import 'package:frontend/object-model/episode.dart';
@@ -21,126 +22,143 @@ class EpisodeCardWidget extends StatelessWidget {
 
   EpisodeCardWidget(this.episodeSimple);
 
-  EpisodeSimple episodeSimple;
+  final EpisodeSimple episodeSimple;
+
+  final DefaultApi api = DefaultApi();
+
+  void _playEpisode(PlayerService playerService) {
+    api.getEpisode(episodeSimple.id).then((episodeFull) => playerService.play(
+        Episode.fromEpisodeFull(episodeFull, position: Duration(seconds: 0))));
+  }
+
+  IconData _getPlayButtonIcon(bool isPlayingAudio, String episodeId) {
+    return isPlayingAudio && episodeSimple.id == episodeId
+        ? Icons.pause
+        : Icons.play_arrow;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(
-            left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor
-            ),
-            width: CARD_WIDTH,
-            height: CARD_HEIGHT,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Container(
-                        // artwork + title
-                        height: CARD_HEIGHT * (1 - DESCRIPTION_HEIGHT_RATIO) -
-                            CARD_MARGIN,
-                        margin: EdgeInsets.fromLTRB(
-                            CARD_CONTENT_PADDING,
-                            CARD_CONTENT_PADDING,
-                            CARD_CONTENT_PADDING,
-                            CARD_CONTENT_PADDING / 2),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              child: Image(
-                                image: NetworkImage(episodeSimple.image),
-                                width: ARTWORK_DIM,
-                                height: ARTWORK_DIM,
-                                fit: BoxFit.fitHeight,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
+      margin: EdgeInsets.only(
+          left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Container(
+          decoration: BoxDecoration(color: Theme.of(context).cardColor),
+          width: CARD_WIDTH,
+          height: CARD_HEIGHT,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                      // artwork + title
+                      height: CARD_HEIGHT * (1 - DESCRIPTION_HEIGHT_RATIO) -
+                          CARD_MARGIN,
+                      margin: EdgeInsets.fromLTRB(
+                          CARD_CONTENT_PADDING,
+                          CARD_CONTENT_PADDING,
+                          CARD_CONTENT_PADDING,
+                          CARD_CONTENT_PADDING / 2),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            child: Image(
+                              image: NetworkImage(episodeSimple.image),
+                              width: ARTWORK_DIM,
+                              height: ARTWORK_DIM,
+                              fit: BoxFit.fitHeight,
                             ),
-                            Expanded(
-                              // title + duration
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      removeAllHtmlTags(episodeSimple.title),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      softWrap: true,
-                                    ),
-                                    Text(
-                                      durationString(
-                                          episodeSimple.audioLengthSec),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .episodeDuration,
-                                    )
-                                  ],
-                                ),
-                                margin: EdgeInsets.only(left: 10),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: CARD_HEIGHT * DESCRIPTION_HEIGHT_RATIO -
-                            CARD_MARGIN + 5,
-                        margin: EdgeInsets.fromLTRB(
-                            CARD_CONTENT_PADDING,
-                            CARD_CONTENT_PADDING / 2,
-                            CARD_CONTENT_PADDING,
-                            CARD_CONTENT_PADDING),
-                        child: Text(
-                          removeAllHtmlTags(episodeSimple.description),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          maxLines: 4,
+                          Expanded(
+                            // title + duration
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    removeAllHtmlTags(episodeSimple.title),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    softWrap: true,
+                                  ),
+                                  Text(
+                                    durationString(
+                                        episodeSimple.audioLengthSec),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .episodeDuration,
+                                  )
+                                ],
+                              ),
+                              margin: EdgeInsets.only(left: 10),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: CARD_HEIGHT * DESCRIPTION_HEIGHT_RATIO -
+                          CARD_MARGIN +
+                          5,
+                      margin: EdgeInsets.fromLTRB(
+                          CARD_CONTENT_PADDING,
+                          CARD_CONTENT_PADDING / 2,
+                          CARD_CONTENT_PADDING,
+                          CARD_CONTENT_PADDING),
+                      child: Text(
+                        removeAllHtmlTags(episodeSimple.description),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
                         ),
-                      )
-                    ],
-                  ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        maxLines: 4,
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  color: Color.fromRGBO(255, 255, 255, 0.05),
-                  width: BUTTON_PART_WIDTH,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Consumer<QueueService>(
-                          builder: (context, queueService, child) {
-                        return CustomIconButton(
-                          icon: Icons.library_add_rounded,
-                          onTap: () {
-                            queueEpisode(episodeSimple.id, queueService);
-                          },
-                        );
-                      }),
-                      SizedBox(height: VERT_SPACE_BETWEEN_BUTTONS),
-                      CustomIconButton(
-                          icon: Icons.play_arrow_rounded, onTap: null)
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              Container(
+                color: Color.fromRGBO(255, 255, 255, 0.05),
+                width: BUTTON_PART_WIDTH,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Consumer<QueueService>(
+                        builder: (context, queueService, child) {
+                      return CustomIconButton(
+                        icon: Icons.library_add_rounded,
+                        onTap: () {
+                          queueEpisode(episodeSimple.id, queueService);
+                        },
+                      );
+                    }),
+                    SizedBox(height: VERT_SPACE_BETWEEN_BUTTONS),
+                    Consumer<PlayerService>(
+                        builder: (context, playerService, child) =>
+                            CustomIconButton(
+                                icon: _getPlayButtonIcon(
+                                    playerService.isPlaying,
+                                    playerService.episode.id),
+                                onTap: () => _playEpisode(playerService)))
+                  ],
+                ),
+              )
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   String durationString(int audioLengthSec) {
