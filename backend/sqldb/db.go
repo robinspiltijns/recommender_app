@@ -29,7 +29,6 @@ func ConnectDB() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	defer db.Close()
 
 	createTable(db)
 
@@ -40,8 +39,8 @@ func createTable(db *sql.DB) {
 	createTableQuery := `CREATE TABLE timing (
 		user_id TEXT PRIMARY KEY NOT NULL,
 		app_version TEXT,		
-		start_time TEXT,
-		stop_time TEXT
+		start_time INTEGER,
+		stop_time INTEGER
 	  )`
 
 	log.Println("Create timing table...")

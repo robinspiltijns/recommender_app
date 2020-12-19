@@ -1,12 +1,13 @@
 package swagger
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"math/rand"
 	"net/http"
+	"time"
 
 	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
 )
@@ -58,7 +59,8 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -83,13 +85,15 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Print(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	var episode EpisodeFull
@@ -118,7 +122,8 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	episodeResp, episodeErr := episodeClient.Do(episodeRequest)
 	if episodeErr != nil {
-		log.Fatalln(episodeErr)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	podcastClient := &http.Client{}
@@ -133,7 +138,8 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	podcastResp, podcastErr := podcastClient.Do(podcastRequest)
 	if podcastErr != nil {
-		log.Fatalln(podcastErr)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer episodeResp.Body.Close()
@@ -181,7 +187,8 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -212,7 +219,8 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -245,7 +253,8 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -266,7 +275,8 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -286,7 +296,8 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -306,7 +317,8 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -326,6 +338,78 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	stmt, err := db.DB.Prepare(`
+		INSERT INTO timing(user_id, app_version)
+			VALUES (?, ?)
+		`)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	userId := randomString()
+
+	if _, err := stmt.Exec(userId, appVersion[0]); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, userId)
+}
+
+func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
+
+	rows, err := db.DB.Query(`
+		SELECT * FROM timing
+	`)
+
+	defer rows.Close()
+
+	var timingResults []TimingResultsResults
+
+	for rows.Next() {
+		var id string
+		var appVersion string
+		var timeStart sql.NullInt64
+		var timeStop sql.NullInt64
+
+		if err := rows.Scan(&id, &appVersion, &timeStart, &timeStop); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if timeStart.Valid && timeStop.Valid {
+			timeDiff := int32(time.Unix(timeStop.Int64, 0).Sub(time.Unix(timeStart.Int64, 0)).Seconds())
+			timingResult := TimingResultsResults{
+				UserId:     id,
+				AppVersion: appVersion,
+				Time:       timeDiff,
+			}
+			timingResults = append(timingResults, timingResult)
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	result := TimingResults{
+		Datetime: time.Now().String(),
+		Results:  timingResults,
+	}
+
+	resultBytes, err := json.Marshal(result)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(resultBytes))
+}
+
+func randomString() string {
 	const charset = "ABCDEFGHIJKLMNOPQRSTUVabcdefghijklmonopgrstuvwxyz0123456789"
 	b := make([]byte, 30)
 
@@ -333,16 +417,5 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 		b[i] = charset[rand.Intn(len(charset))]
 	}
 
-	stmt, err := db.DB.Prepare(`
-		INSERT INTO timing(user_id, app_version)
-			VALUES (?, ?)
-		`)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	stmt.Exec(string(b), appVersion)
-
-	fmt.Fprintf(w, string(b))
+	return string(b)
 }
