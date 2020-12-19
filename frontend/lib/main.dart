@@ -19,7 +19,7 @@ import 'object-model/genre.dart';
 
 // boolean to indicate whether or not to reset
 // the database when launching the app.
-bool resetDatabase = true;
+bool resetDatabase = false;
 
 int initScreen;
 

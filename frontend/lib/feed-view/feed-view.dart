@@ -35,7 +35,7 @@ class _FeedWidgetState extends State<FeedWidget> {
   setTitle(UserNameService userNameService) {
     name = userNameService.getUserName();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,18 +64,14 @@ class _FeedWidgetState extends State<FeedWidget> {
           centerTitle: false,
         ),
         body: _loaded
-            ? SizedBox(
-                height: _recommendationSectionData.length *
-                    PodcastCardWidget.CARD_HEIGHT,
-                child: ListView.builder(
-                  itemCount: _recommendationSectionData.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    // TODO: Laat dit de input nemen
-                    return FeedViewSection(
-                        sectionData: _recommendationSectionData[index]);
-                  },
-                ),
+            ? ListView.builder(
+                itemCount: _recommendationSectionData.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  // TODO: Laat dit de input nemen
+                  return FeedViewSection(
+                      sectionData: _recommendationSectionData[index]);
+                },
               )
             : Text("loading..."));
   }
