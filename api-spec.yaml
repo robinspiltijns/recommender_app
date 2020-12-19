@@ -186,6 +186,15 @@ paths:
       operationId: "GetUniqueId"
       produces:
         - "text/plain"
+      parameters: 
+        - in: query
+          required: true
+          name: appVersion
+          description: "the version of the app for which a new user id has to be generated"
+          type: string
+          enum: 
+          - without_feed
+          - with_feed
       responses: 
         "200":
           description: "succesful operation"

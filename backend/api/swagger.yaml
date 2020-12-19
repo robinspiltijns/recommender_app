@@ -218,6 +218,18 @@ paths:
       description: Returns a string that unosuely identifies a user. This string is
         required for logging.
       operationId: GetUniqueId
+      parameters:
+      - name: appVersion
+        in: query
+        description: the version of the app for which a new user id has to be generated
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - without_feed
+          - with_feed
       responses:
         "200":
           description: succesful operation
