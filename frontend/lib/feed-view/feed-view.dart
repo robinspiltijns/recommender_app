@@ -25,11 +25,13 @@ class _FeedWidgetState extends State<FeedWidget> {
     // makeFutures();
   }
 
-  void _loadRecommendations() {
-    getRecommendations().then((recommendationSectionData) => setState(() => {
-          _recommendationSectionData = recommendationSectionData,
-          _loaded = true
-        }));
+  Future<void> _loadRecommendations() async {
+    await getRecommendations().then((recommendationSectionData) => setState(
+        () => {
+              _recommendationSectionData = recommendationSectionData,
+              _loaded = true
+            }));
+    return;
   }
 
   setTitle(UserNameService userNameService) {
@@ -64,15 +66,19 @@ class _FeedWidgetState extends State<FeedWidget> {
           centerTitle: false,
         ),
         body: _loaded
-            ? ListView.builder(
-                itemCount: _recommendationSectionData.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  // TODO: Laat dit de input nemen
-                  return FeedViewSection(
-                      sectionData: _recommendationSectionData[index]);
-                },
-              )
+            ? RefreshIndicator(
+                color: const Color(0xFFEF476F),
+                backgroundColor: Colors.white.withOpacity(0.5),
+                child: ListView.builder(
+                  itemCount: _recommendationSectionData.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    // TODO: Laat dit de input nemen
+                    return FeedViewSection(
+                        sectionData: _recommendationSectionData[index]);
+                  },
+                ),
+                onRefresh: () => _loadRecommendations())
             : Text("loading..."));
   }
 }
