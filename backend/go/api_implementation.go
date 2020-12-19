@@ -7,6 +7,8 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+
+	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
 )
 
 const LISTENAPI_KEY = "d43deaf82b4f450aa686ee4b07c87165"
@@ -317,6 +319,12 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
+	appVersion, ok := r.URL.Query()["appVersion"]
+
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	const charset = "ABCDEFGHIJKLMNOPQRSTUVabcdefghijklmonopgrstuvwxyz0123456789"
 	b := make([]byte, 30)
@@ -324,6 +332,17 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 	for i := range b {
 		b[i] = charset[rand.Intn(len(charset))]
 	}
+
+	stmt, err := db.DB.Prepare(`
+		INSERT INTO timing(user_id, app_version)
+			VALUES (?, ?)
+		`)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	stmt.Exec(string(b), appVersion)
 
 	fmt.Fprintf(w, string(b))
 }
