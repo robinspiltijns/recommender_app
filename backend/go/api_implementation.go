@@ -419,3 +419,63 @@ func randomString() string {
 
 	return string(b)
 }
+
+func StartTimePostImpl(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	userId := r.Form.Get("userId")
+	if userId == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	stmt, err := db.DB.Prepare(`
+		UPDATE timing
+		SET start_time = ?
+		WHERE user_id = ?
+		`)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if _, err := stmt.Exec(time.Now().Unix(), userId); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+}
+
+func StopTimePostImpl(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	userId := r.Form.Get("userId")
+	if userId == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	stmt, err := db.DB.Prepare(`
+		UPDATE timing
+		SET stop_time = ?
+		WHERE user_id = ?
+		`)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if _, err := stmt.Exec(time.Now().Unix(), userId); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+}

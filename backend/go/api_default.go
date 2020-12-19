@@ -76,11 +76,13 @@ func GetUniqueId(w http.ResponseWriter, r *http.Request) {
 func StartTimePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	StartTimePostImpl(w, r)
 }
 
 func StopTimePost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	StopTimePostImpl(w, r)
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {
