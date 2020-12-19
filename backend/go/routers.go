@@ -112,6 +112,13 @@ var routes = Routes{
 	},
 
 	Route{
+		"GetTimingResults",
+		strings.ToUpper("Get"),
+		"/timing-results",
+		GetTimingResults,
+	},
+
+	Route{
 		"GetTopLevelGenres",
 		strings.ToUpper("Get"),
 		"/top-level-genres",

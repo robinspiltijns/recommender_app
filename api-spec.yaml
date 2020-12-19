@@ -234,7 +234,18 @@ paths:
           description: Stopped timing
         "500": 
           description: Unknown user of not timing for this user
-  
+    
+  timing-results:
+    get:
+      summary: "Get the results of time logging"
+      description: "Get the results as were gathered by the logging system"
+      operationId: "getTimingResults"
+      produces:
+        - application/json
+      responses:
+        "200":
+          schema:
+            $ref: "#/definitions/TimingResults"
 
               
 definitions:
@@ -1210,3 +1221,26 @@ definitions:
         url3:
           type: string
           description: Url affiliated with this podcast
+
+  TimingResults:
+    type: object
+    properties:
+      datetime: 
+        type: string
+        description: The date and time when these logging results were produced.
+      results:
+        type: array
+        description: The logging data
+        items:
+          type: object
+          properties:
+            user_id:
+              type: string
+              description: the unique identifier of this user
+            app_version:
+              type: string
+              enum: ["without_feed", "with_feed"]
+              description: the version of the app that this user uses
+            time:
+              type: integer
+              description: the time (in seconds) between the user staring op the app and playing/queueing an episode

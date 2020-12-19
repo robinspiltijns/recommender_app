@@ -272,6 +272,17 @@ paths:
           description: Unknown user of not timing for this user
           content: {}
       x-codegen-request-body-name: userId
+  timing-results:
+    get:
+      summary: Get the results of time logging
+      description: Get the results as were gathered by the logging system
+      operationId: getTimingResults
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimingResults'
 components:
   schemas:
     PodcastFull:
@@ -1889,6 +1900,26 @@ components:
         spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
         wechat_handle: wechat_handle
         patreon_handle: sw7x7
+    TimingResults:
+      type: object
+      properties:
+        datetime:
+          type: string
+          description: The date and time when these logging results were produced.
+        results:
+          type: array
+          description: The logging data
+          items:
+            $ref: '#/components/schemas/TimingResults_results'
+      example:
+        datetime: datetime
+        results:
+        - app_version: without_feed
+          user_id: user_id
+          time: 0
+        - app_version: without_feed
+          user_id: user_id
+          time: 0
     EpisodeSearchResult_podcast:
       required:
       - genre_ids
@@ -1981,4 +2012,24 @@ components:
         - 100
         - 101
         listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+    TimingResults_results:
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: the unique identifier of this user
+        app_version:
+          type: string
+          description: the version of the app that this user uses
+          enum:
+          - without_feed
+          - with_feed
+        time:
+          type: integer
+          description: the time (in seconds) between the user staring op the app and
+            playing/queueing an episode
+      example:
+        app_version: without_feed
+        user_id: user_id
+        time: 0
 x-original-swagger-version: "2.0"
