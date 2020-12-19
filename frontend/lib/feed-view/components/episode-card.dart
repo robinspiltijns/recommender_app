@@ -25,11 +25,7 @@ class EpisodeCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, "/details", arguments: episodeSimple.id);
-      },
-      child: Container(
+    return Container(
         margin: EdgeInsets.only(
             left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN),
         child: ClipRRect(
@@ -144,8 +140,7 @@ class EpisodeCardWidget extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   String durationString(int audioLengthSec) {
