@@ -28,7 +28,7 @@ class FeedViewSection extends StatelessWidget {
   String get sectionTitle {
     switch (sectionData.basisType) {
       case RecommendationSectionBasisType.FREQUENTGENRES:
-        return "More podcasts about ${sectionData.basisTitle}";
+        return "More about ${sectionData.basisTitle}";
       case RecommendationSectionBasisType.LASTPLAYEDEPISODES:
         return "Because you listened to ${sectionData.basisTitle}";
       case RecommendationSectionBasisType.LASTPLAYEDPODCASTS:
@@ -40,6 +40,7 @@ class FeedViewSection extends StatelessWidget {
       case RecommendationSectionBasisType.INITIALGENRE:
         return "Because you liked the genre ${sectionData.basisTitle}";
     }
+    return "For you";
   }
 
   List<Widget> generateCards(int nbCards) {
