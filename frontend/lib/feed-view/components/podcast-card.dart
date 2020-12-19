@@ -4,7 +4,7 @@ import 'package:swagger/api.dart';
 
 class PodcastCardWidget extends StatelessWidget {
   static const double CARD_WIDTH = 200;
-  static const double CARD_HEIGHT = 201;
+  static const double CARD_HEIGHT = 175;
   static const double ARTWORK_DIM = 50;
   static const double CARD_CONTENT_PADDING = 10;
   static const double DESCRIPTION_HEIGHT_RATIO = 0.55;

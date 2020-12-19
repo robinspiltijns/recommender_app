@@ -68,7 +68,7 @@ class _FeedWidgetState extends State<FeedWidget> {
         body: _loaded
             ? RefreshIndicator(
                 color: const Color(0xFFEF476F),
-                backgroundColor: Colors.white.withOpacity(0.5),
+                backgroundColor: Colors.white.withOpacity(0.7),
                 child: ListView.builder(
                   itemCount: _recommendationSectionData.length,
                   shrinkWrap: true,
