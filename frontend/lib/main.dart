@@ -32,10 +32,9 @@ void main() async {
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);
-  SelectedGenresService selectedGenresService = SelectedGenresService(database);
-  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
+  SelectedGenresService selectedGenresService = SelectedGenresService();
   LikedEpisodesService likedEpisodesService = LikedEpisodesService(database, selectedGenresService);
-  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  PlayerService playerService = PlayerService(queueService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -50,9 +49,6 @@ void main() async {
         providers: [
           ChangeNotifierProvider(
             create: (context) => playerService,
-          ),
-          ChangeNotifierProvider(
-            create: (context) => playedEpisodesService,
           ),
           ChangeNotifierProvider(
             create: (context) => likedEpisodesService,
