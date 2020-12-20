@@ -4,7 +4,6 @@ import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/common/services/played-episodes-service.dart';
-import 'package:frontend/object-model/episode.dart';
 import 'package:swagger/api.dart';
 
 class PlayerService extends ChangeNotifier {
@@ -14,11 +13,10 @@ class PlayerService extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final _api = DefaultApi();
 
-  PlayedEpisodesService playedEpisodesService;
   Episode _episode;
   AudioPlayerState _audioPlayerState;
 
-  PlayerService(this.queueService, this.playedEpisodesService) {
+  PlayerService(this.queueService) {
     _initializeState();
     // Callback every time the audio progress changes (possible performance bottleneck).
     _audioPlayer.onAudioPositionChanged.listen((position) {
@@ -128,7 +126,7 @@ class PlayerService extends ChangeNotifier {
   }
 
   void play(Episode episode) {
-  playedEpisodesService.insertPlayedEpisode(_episode);
+  insertPlayedEpisode(episode);
     _loadEpisodeData(episode, 0);
     notifyListeners();
     _audioPlayer.play(episode.audio).then((result) async {

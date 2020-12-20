@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/common/components/podcast-details-view/podcast-details-view.dart';
-import 'package:frontend/feed-view/feed-page.dart';
 import 'package:frontend/introductory-questions-view/screen-1.dart';
 import 'package:frontend/introductory-questions-view/screen-2.dart';
 import 'package:frontend/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class IntroductoryQuestionsPage extends StatelessWidget {
@@ -30,10 +29,16 @@ class IntroductoryQuestionsPage extends StatelessWidget {
                   case ScreenTwoWidget.routeName:
                     return ScreenTwoWidget();
                   case "/introduction-done":
+                    setInitDone();
                     return CastlyWidget();
                 }
               });
         }
     );
+  }
+
+  void setInitDone() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("initScreen", 1);
   }
 }

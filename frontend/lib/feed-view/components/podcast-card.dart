@@ -4,7 +4,7 @@ import 'package:swagger/api.dart';
 
 class PodcastCardWidget extends StatelessWidget {
   static const double CARD_WIDTH = 200;
-  static const double CARD_HEIGHT = 201;
+  static const double CARD_HEIGHT = 175;
   static const double ARTWORK_DIM = 50;
   static const double CARD_CONTENT_PADDING = 10;
   static const double DESCRIPTION_HEIGHT_RATIO = 0.55;
@@ -31,7 +31,7 @@ class PodcastCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN),
+          left: CARD_MARGIN, right: CARD_MARGIN, bottom: CARD_MARGIN - 10),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),

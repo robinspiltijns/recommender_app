@@ -17,6 +17,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'feed-view/feed-page.dart';
 import 'object-model/genre.dart';
 
+// boolean to indicate whether or not to reset
+// the database when launching the app.
+bool resetDatabase = false;
+
 int initScreen;
 
 void main() async {
@@ -28,24 +32,24 @@ void main() async {
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);
-  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
-  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database);
-  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  SelectedGenresService selectedGenresService = SelectedGenresService();
+  LikedEpisodesService likedEpisodesService = LikedEpisodesService(database, selectedGenresService);
+  PlayerService playerService = PlayerService(queueService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = await prefs.getInt("initScreen");
-  // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
-  await prefs.setInt("initScreen", 1);
-  print('initScreen ${initScreen}');
+
+  if (resetDatabase) {
+    // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
+    await prefs.setInt("initScreen", 0);
+  }
+
+  initScreen = prefs.getInt("initScreen");
 
   runApp(
       MultiProvider(
         providers: [
           ChangeNotifierProvider(
             create: (context) => playerService,
-          ),
-          ChangeNotifierProvider(
-            create: (context) => playedEpisodesService,
           ),
           ChangeNotifierProvider(
             create: (context) => likedEpisodesService,
@@ -57,7 +61,7 @@ void main() async {
             create: (context) => UserNameService(database),
           ),
           ChangeNotifierProvider(
-            create: (context) => SelectedGenresService(database),
+            create: (context) => selectedGenresService,
           )
         ],
         child: MyApp(),
