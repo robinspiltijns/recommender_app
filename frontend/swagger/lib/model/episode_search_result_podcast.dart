@@ -21,14 +21,12 @@ class EpisodeSearchResultPodcast {
   String publisherOriginal = null;
 /* Highlighted segment of this podcast's publisher name. */
   String publisherHighlighted = null;
-/* The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world. For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score. If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score  */
-  String listenScoreGlobalRank = null;
 
   EpisodeSearchResultPodcast();
 
   @override
   String toString() {
-    return 'EpisodeSearchResultPodcast[id=$id, image=$image, genreIds=$genreIds, thumbnail=$thumbnail, listenScore=$listenScore, titleOriginal=$titleOriginal, listennotesUrl=$listennotesUrl, titleHighlighted=$titleHighlighted, publisherOriginal=$publisherOriginal, publisherHighlighted=$publisherHighlighted, listenScoreGlobalRank=$listenScoreGlobalRank, ]';
+    return 'EpisodeSearchResultPodcast[id=$id, image=$image, genreIds=$genreIds, thumbnail=$thumbnail, listenScore=$listenScore, titleOriginal=$titleOriginal, listennotesUrl=$listennotesUrl, titleHighlighted=$titleHighlighted, publisherOriginal=$publisherOriginal, publisherHighlighted=$publisherHighlighted, ]';
   }
 
   EpisodeSearchResultPodcast.fromJson(Map<String, dynamic> json) {
@@ -43,7 +41,6 @@ class EpisodeSearchResultPodcast {
     titleHighlighted = json['title_highlighted'];
     publisherOriginal = json['publisher_original'];
     publisherHighlighted = json['publisher_highlighted'];
-    listenScoreGlobalRank = json['listen_score_global_rank'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,8 +54,7 @@ class EpisodeSearchResultPodcast {
       'listennotes_url': listennotesUrl,
       'title_highlighted': titleHighlighted,
       'publisher_original': publisherOriginal,
-      'publisher_highlighted': publisherHighlighted,
-      'listen_score_global_rank': listenScoreGlobalRank
+      'publisher_highlighted': publisherHighlighted
      };
   }
 

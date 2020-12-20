@@ -874,13 +874,6 @@ definitions:
               example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
                 Daily, by Allen Voivod
               description: Highlighted segment of this podcast's publisher name.
-            listen_score_global_rank:
-              type: string
-              example: 0.5%
-              description: |
-                The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-                For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-                If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
           description: The podcast that this episode belongs to.
         itunes_id:
           type: integer
@@ -1060,13 +1053,6 @@ definitions:
       
       '
           description: Highlighted segment of podcast description
-        listen_score_global_rank:
-          type: string
-          example: 0.5%
-          description: |
-            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
       description: When **type** is *podcast*.
 
   GetPodcastRecommendationsResponse:

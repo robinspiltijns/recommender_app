@@ -6,6 +6,9 @@ import 'package:swagger/api.dart' as swagger;
 import 'genre.dart';
 
 class Episode {
+
+  static final api = swagger.DefaultApi();
+
   String title;
   String id;
   String audio;
@@ -38,7 +41,14 @@ class Episode {
     if (position == null) {
       position = Duration(seconds: 0);
     }
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs);
+    var pubDate;
+    if (episodeFull.pubDateMs != null) {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs);
+    }
+    else {
+      pubDate = DateTime.fromMicrosecondsSinceEpoch(0);
+    }
+
     return new Episode(
       episodeFull.title,
       episodeFull.id,
@@ -103,6 +113,47 @@ class Episode {
         episodeSearchResult.podcast.genreIds
             .map((id) => Genre.fromId(id))
             .toList());
+  }
+
+  static Episode fromEpisodeSimple(swagger.EpisodeSimple episodeSimple, {Duration position}) {
+
+    var duration = Duration(seconds: episodeSimple.audioLengthSec);
+    if (position == null) {
+      position = Duration(seconds: 0);
+    }
+    print(episodeSimple.pubDateMs);
+
+    var pubDate;
+    if (episodeSimple.pubDateMs != null) {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
+    }
+    else {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(0);
+    }
+
+    List<int> genreIds;
+    api.getPodcast(episodeSimple.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList());
+    List<Genre> genres;
+    if (genreIds != null) {
+      genres = genreIds.map((id) => Genre.fromId(id)).toList();
+    } else {
+      genres = [];
+    }
+
+
+    return new Episode(
+        episodeSimple.title,
+        episodeSimple.id,
+        episodeSimple.audio,
+        episodeSimple.image,
+        duration,
+        position,
+        episodeSimple.podcast.publisher,
+        episodeSimple.podcast.id,
+        episodeSimple.description,
+        pubDate,
+        genres
+    );
   }
 
   static Episode fromDatabaseMap(Map<String, dynamic> map) {

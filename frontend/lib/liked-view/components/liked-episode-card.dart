@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/common/components/more-like-this-view/more-like-this-view.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
@@ -15,6 +16,10 @@ class LikedEpisodeCard extends StatelessWidget {
   final Episode episode;
 
   LikedEpisodeCard(this.episode);
+
+  _onTap(BuildContext context) {
+    Navigator.pushNamed(context, MoreLikeThis.routeName, arguments: episode.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,10 @@ class LikedEpisodeCard extends StatelessWidget {
                 );
               }),
           SizedBox(width: 10),
-          CustomTextButton("More like this"),
+          InkWell(
+              child: CustomTextButton("More like this"),
+            onTap: () => {_onTap(context)},
+          ),
         ]));
   }
 

@@ -39,6 +39,7 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   if (resetDatabase) {
+    // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
     await prefs.setInt("initScreen", 0);
   }
 
