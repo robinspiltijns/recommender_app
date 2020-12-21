@@ -331,16 +331,9 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
-	appVersion, ok := r.URL.Query()["appVersion"]
-
-	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
 	stmt, err := db.DB.Prepare(`
-		INSERT INTO timing(user_id, app_version)
-			VALUES (?, ?)
+		INSERT INTO timing(user_id)
+			VALUES (?)
 		`)
 
 	if err != nil {
@@ -350,7 +343,7 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 
 	userId := randomString()
 
-	if _, err := stmt.Exec(userId, appVersion[0]); err != nil {
+	if _, err := stmt.Exec(userId); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -366,25 +359,27 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	defer rows.Close()
 
-	var timingResults []TimingResultsResults
+	var timingResults []TimingResult
 
 	for rows.Next() {
 		var id string
-		var appVersion string
-		var timeStart sql.NullInt64
-		var timeStop sql.NullInt64
+		var appVersion sql.NullString
+		var time sql.NullInt32
+		var action sql.NullString
+		var view sql.NullString
 
-		if err := rows.Scan(&id, &appVersion, &timeStart, &timeStop); err != nil {
+		if err := rows.Scan(&id, &appVersion, &time, &action, &view); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		if timeStart.Valid && timeStop.Valid {
-			timeDiff := int32(time.Unix(timeStop.Int64, 0).Sub(time.Unix(timeStart.Int64, 0)).Seconds())
-			timingResult := TimingResultsResults{
+		if appVersion.Valid && time.Valid && action.Valid && view.Valid {
+			timingResult := TimingResult{
 				UserId:     id,
-				AppVersion: appVersion,
-				Time:       timeDiff,
+				AppVersion: appVersion.String,
+				Time:       time.Int32,
+				Action:     action.String,
+				View:       view.String,
 			}
 			timingResults = append(timingResults, timingResult)
 		}
@@ -420,5 +415,44 @@ func randomString() string {
 	return string(b)
 }
 
+func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 
+	var timingResult TimingResult
 
+	err := json.NewDecoder(r.Body).Decode(&timingResult)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	stmt, err := db.DB.Prepare(`
+		UPDATE timing
+		SET app_version = ?,	
+			time = ?,
+			action = ?,
+			view = ?
+		WHERE
+			user_id = ?
+		`)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	_, err = stmt.Exec(
+		timingResult.AppVersion,
+		timingResult.Time,
+		timingResult.Action,
+		timingResult.View,
+		timingResult.UserId,
+	)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+
+}
