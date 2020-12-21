@@ -37,10 +37,11 @@ func ConnectDB() {
 
 func createTable(db *sql.DB) {
 	createTableQuery := `CREATE TABLE timing (
-		user_id TEXT PRIMARY KEY NOT NULL,
+		user_id TEXT NOT NULL,
 		app_version TEXT,		
-		start_time INTEGER,
-		stop_time INTEGER
+		time INTEGER,
+		action TEXT,
+		view TEXT
 	  )`
 
 	log.Println("Create timing table...")
