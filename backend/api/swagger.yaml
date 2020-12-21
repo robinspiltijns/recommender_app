@@ -1870,6 +1870,12 @@ components:
         wechat_handle: wechat_handle
         patreon_handle: sw7x7
     TimingResult:
+      required:
+      - action
+      - app_version
+      - time
+      - user_id
+      - view
       type: object
       properties:
         user_id:

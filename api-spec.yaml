@@ -1199,6 +1199,12 @@ definitions:
   
   TimingResult:
     type: object
+    required:
+      - user_id
+      - app_version
+      - time
+      - action
+      - view
     properties:
       user_id:
         type: string
