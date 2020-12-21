@@ -133,17 +133,10 @@ var routes = Routes{
 	},
 
 	Route{
-		"StartTimePost",
+		"LogTimingResultPost",
 		strings.ToUpper("Post"),
-		"/start-time",
-		StartTimePost,
-	},
-
-	Route{
-		"StopTimePost",
-		strings.ToUpper("Post"),
-		"/stop-time",
-		StopTimePost,
+		"/log-timing-result",
+		LogTimingResultPost,
 	},
 
 	Route{

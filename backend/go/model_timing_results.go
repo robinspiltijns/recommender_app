@@ -13,5 +13,5 @@ type TimingResults struct {
 	// The date and time when these logging results were produced.
 	Datetime string `json:"datetime,omitempty"`
 	// The logging data
-	Results []TimingResultsResults `json:"results,omitempty"`
+	Results []TimingResult `json:"results,omitempty"`
 }

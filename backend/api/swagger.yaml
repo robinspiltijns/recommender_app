@@ -215,63 +215,31 @@ paths:
   get-unique-id:
     get:
       summary: Used to get a string to identify a user
-      description: Returns a string that unosuely identifies a user. This string is
+      description: Returns a string that uniquely identifies a user. This string is
         required for logging.
       operationId: GetUniqueId
-      parameters:
-      - name: appVersion
-        in: query
-        description: the version of the app for which a new user id has to be generated
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-          enum:
-          - without_feed
-          - with_feed
       responses:
         "200":
           description: succesful operation
           content: {}
-  start-time:
+  log-timing-result:
     post:
       summary: start logging time for a user
       requestBody:
-        description: The identifier of the user for which to start timing.
+        description: The timingresult to be logged for this user.
         content:
           text/plain:
             schema:
-              type: string
-              example: EEADSISCHIQI
+              $ref: '#/components/schemas/TimingResult'
         required: false
       responses:
         "201":
           description: Started timing
           content: {}
-        "500":
-          description: Unknown user
+        "400":
+          description: Bad request
           content: {}
-      x-codegen-request-body-name: userId
-  stop-time:
-    post:
-      summary: start logging time for a user
-      requestBody:
-        description: The identifier of the user for which to stop timing.
-        content:
-          text/plain:
-            schema:
-              type: string
-              example: EEADSISCHIQI
-        required: false
-      responses:
-        "201":
-          description: Stopped timing
-          content: {}
-        "500":
-          description: Unknown user of not timing for this user
-          content: {}
-      x-codegen-request-body-name: userId
+      x-codegen-request-body-name: timingResult
   timing-results:
     get:
       summary: Get the results of time logging
@@ -279,6 +247,7 @@ paths:
       operationId: getTimingResults
       responses:
         "200":
+          description: succesful operation
           content:
             application/json:
               schema:
@@ -1900,6 +1869,45 @@ components:
         spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
         wechat_handle: wechat_handle
         patreon_handle: sw7x7
+    TimingResult:
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: the unique identifier of this user
+        app_version:
+          type: string
+          description: the version of the app that this user uses
+          enum:
+          - without_feed
+          - with_feed
+        time:
+          type: integer
+          description: the time (in seconds) between the user staring op the app and
+            playing/queueing an episode
+        action:
+          type: string
+          description: The action this user takes to end the logging of time. Either
+            playing an episode or adding it to the queue.
+          enum:
+          - play
+          - queue
+        view:
+          type: string
+          description: The view from which the user has carried out the action to
+            stop logging the time.
+          enum:
+          - feed
+          - podcast details
+          - search results
+          - more like this
+          - liked
+      example:
+        view: feed
+        app_version: without_feed
+        user_id: user_id
+        action: play
+        time: 0
     TimingResults:
       type: object
       properties:
@@ -1910,15 +1918,19 @@ components:
           type: array
           description: The logging data
           items:
-            $ref: '#/components/schemas/TimingResults_results'
+            $ref: '#/components/schemas/TimingResult'
       example:
         datetime: datetime
         results:
-        - app_version: without_feed
+        - view: feed
+          app_version: without_feed
           user_id: user_id
+          action: play
           time: 0
-        - app_version: without_feed
+        - view: feed
+          app_version: without_feed
           user_id: user_id
+          action: play
           time: 0
     EpisodeSearchResult_podcast:
       required:
@@ -2012,24 +2024,4 @@ components:
         - 100
         - 101
         listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
-    TimingResults_results:
-      type: object
-      properties:
-        user_id:
-          type: string
-          description: the unique identifier of this user
-        app_version:
-          type: string
-          description: the version of the app that this user uses
-          enum:
-          - without_feed
-          - with_feed
-        time:
-          type: integer
-          description: the time (in seconds) between the user staring op the app and
-            playing/queueing an episode
-      example:
-        app_version: without_feed
-        user_id: user_id
-        time: 0
 x-original-swagger-version: "2.0"

@@ -61,6 +61,12 @@ func GetTheBestPodcasts(w http.ResponseWriter, r *http.Request) {
 	GetTheBestPodcastsImpl(w, r)
 }
 
+func GetTimingResults(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	GetTimingResultsImpl(w, r)
+}
+
 func GetTopLevelGenres(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
@@ -73,26 +79,14 @@ func GetUniqueId(w http.ResponseWriter, r *http.Request) {
 	GetUniqueIdImpl(w, r)
 }
 
-func StartTimePost(w http.ResponseWriter, r *http.Request) {
+func LogTimingResultPost(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	StartTimePostImpl(w, r)
-}
-
-func StopTimePost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	StopTimePostImpl(w, r)
+	LogTimingResultImpl(w, r)
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	TestImpl(w, r)
-}
-
-func GetTimingResults(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	GetTimingResultsImpl(w, r)
 }
