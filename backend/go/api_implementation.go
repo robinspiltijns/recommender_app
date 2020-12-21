@@ -44,6 +44,7 @@ type SearchResultListenNotesPodcasts struct {
 
 func TestImpl(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello world!")
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
@@ -70,6 +71,7 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &podcast)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
@@ -100,6 +102,7 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &episode)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
@@ -162,10 +165,11 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	searchResultOut, err := json.Marshal(searchResult)
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	fmt.Fprintf(w, string(searchResultOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.Request) {
@@ -198,6 +202,7 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 	json.Unmarshal(bodyBytes, &recommendation)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 
 }
 
@@ -230,6 +235,7 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 	json.Unmarshal(bodyBytes, &recommendation)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 
 }
 
@@ -264,6 +270,7 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
@@ -286,6 +293,7 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
@@ -307,6 +315,7 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
@@ -328,6 +337,7 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bodyBytes, &result)
 
 	fmt.Fprintf(w, string(bodyBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
@@ -349,6 +359,7 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, userId)
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
@@ -402,6 +413,7 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, string(resultBytes))
+	w.WriteHeader(http.StatusOK)
 }
 
 func randomString() string {
