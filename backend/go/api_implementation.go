@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
-	"strconv"
 	"time"
 
 	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
@@ -107,8 +106,6 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 
 	var episode EpisodeFull
 	json.Unmarshal(bodyBytes, &episode)
-
-	s := strconv.Itoa(int(episode.PubDateMs))
 
 	episodeOut, e := json.Marshal(episode)
 	if e != nil {
@@ -299,7 +296,7 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 
 	resultOut, e := json.Marshal(result)
 	if e != nil {
-		w.WriteHeader(http.Stat
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	fmt.Fprintf(w, string(resultOut))
