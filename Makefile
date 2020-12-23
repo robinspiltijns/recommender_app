@@ -24,3 +24,17 @@ save-image:
 copy-to-server:
 	ssh -L 10022:picasso.experiments.cs.kuleuven.be:2222 $(rNumber)@st.cs.kuleuven.be
 	scp -P 10022 docker-image.tar student@127.0.0.1:~/group12/
+
+deploy-on-server:
+	# get id of current container
+	podman ps
+
+	# stop current container
+	podman stop <container_id>
+
+	# load new container
+	podman load --input group12/docker-image.tar
+
+	# start newly loaded container
+	#  	forward external port 3955 to internal port 8080
+	podman run -d -p 3955:8080 localhost/backend_podcast_recommender:latest

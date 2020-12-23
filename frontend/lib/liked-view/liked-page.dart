@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/genre-details-view/genre-details-view.dart';
+import 'package:frontend/common/components/more-like-this-view/more-like-this-view.dart';
 import 'package:frontend/common/components/podcast-details-view/podcast-details-view.dart';
 import 'package:frontend/object-model/genre.dart';
 import 'liked-view.dart';
@@ -23,6 +24,9 @@ class LikedPage extends StatelessWidget {
                   case PodcastDetails.routeName:
                     String id = settings.arguments;
                     return PodcastDetails(id);
+                  case MoreLikeThis.routeName:
+                    String id = settings.arguments;
+                    return MoreLikeThis(id);
                 }
                 return Container(
                   margin: EdgeInsets.only(top: 50),

@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"time"
 
 	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
@@ -70,7 +71,13 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 	var podcast PodcastFull
 	json.Unmarshal(bodyBytes, &podcast)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	podcastOut, e := json.Marshal(podcast)
+	if e != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(podcastOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -101,7 +108,15 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 	var episode EpisodeFull
 	json.Unmarshal(bodyBytes, &episode)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	s := strconv.Itoa(int(episode.PubDateMs))
+
+	episodeOut, e := json.Marshal(episode)
+	if e != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(episodeOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -166,6 +181,7 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 	searchResultOut, err := json.Marshal(searchResult)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(searchResultOut))
@@ -201,7 +217,13 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 	var recommendation GetPodcastRecommendationsResponse
 	json.Unmarshal(bodyBytes, &recommendation)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	recommendationOut, e := json.Marshal(recommendation)
+	if e != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(recommendationOut))
 	w.WriteHeader(http.StatusOK)
 
 }
@@ -234,7 +256,13 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 	var recommendation GetEpisodeRecommendationsResponse
 	json.Unmarshal(bodyBytes, &recommendation)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	recommendationOut, e := json.Marshal(recommendation)
+	if e != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(recommendationOut))
 	w.WriteHeader(http.StatusOK)
 
 }
@@ -269,7 +297,12 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 	var result BestPodcastsResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		w.WriteHeader(http.Stat
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -292,7 +325,13 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 	var result BestPodcastsResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -314,7 +353,13 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 	var result GetGenresResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -336,7 +381,13 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 	var result GetGenresResponse
 	json.Unmarshal(bodyBytes, &result)
 
-	fmt.Fprintf(w, string(bodyBytes))
+	resultOut, e := json.Marshal(result)
+	if e != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -439,7 +490,7 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 
 	stmt, err := db.DB.Prepare(`
 		UPDATE timing
-		SET app_version = ?,	
+		SET app_version = ?,
 			time = ?,
 			action = ?,
 			view = ?

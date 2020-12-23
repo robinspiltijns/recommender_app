@@ -19,7 +19,7 @@ import 'object-model/genre.dart';
 
 // boolean to indicate whether or not to reset
 // the database when launching the app.
-bool resetDatabase = true;
+bool resetDatabase = false;
 
 int initScreen;
 
@@ -32,14 +32,14 @@ void main() async {
       .then((List result) => database = result[0]);
 
   QueueService queueService = QueueService(database);
-  SelectedGenresService selectedGenresService = SelectedGenresService(database);
-  PlayedEpisodesService playedEpisodesService = PlayedEpisodesService(database);
+  SelectedGenresService selectedGenresService = SelectedGenresService();
   LikedEpisodesService likedEpisodesService = LikedEpisodesService(database, selectedGenresService);
-  PlayerService playerService = PlayerService(queueService, playedEpisodesService);
+  PlayerService playerService = PlayerService(queueService);
   
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   if (resetDatabase) {
+    // If you want to test the introductory questions, change the next line to "await prefs.setInt("initScreen", 0);" and press hot reload twice
     await prefs.setInt("initScreen", 0);
   }
 
@@ -50,9 +50,6 @@ void main() async {
         providers: [
           ChangeNotifierProvider(
             create: (context) => playerService,
-          ),
-          ChangeNotifierProvider(
-            create: (context) => playedEpisodesService,
           ),
           ChangeNotifierProvider(
             create: (context) => likedEpisodesService,

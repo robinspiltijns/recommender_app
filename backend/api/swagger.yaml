@@ -1201,7 +1201,6 @@ components:
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
           description_original: |
             The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed! #SW7x7
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           publisher_highlighted: <span class=\"ln-search-highlight\">Star</span> <span
@@ -1235,7 +1234,6 @@ components:
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
           description_original: |
             The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed! #SW7x7
-          listen_score_global_rank: 0.5%
           itunes_id: 896354638
           explicit_content: false
           publisher_highlighted: <span class=\"ln-search-highlight\">Star</span> <span
@@ -1290,7 +1288,6 @@ components:
               More!
             image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
             thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-            listen_score_global_rank: 0.5%
             publisher_original: Star Wars Daily, by Allen Voivod
             listen_score: 81
             publisher_highlighted: <span class=\"ln-search-highlight\">Star</span>
@@ -1331,7 +1328,6 @@ components:
               More!
             image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
             thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-            listen_score_global_rank: 0.5%
             publisher_original: Star Wars Daily, by Allen Voivod
             listen_score: 81
             publisher_highlighted: <span class=\"ln-search-highlight\">Star</span>
@@ -1451,7 +1447,6 @@ components:
             More!
           image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
           thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-          listen_score_global_rank: 0.5%
           publisher_original: Star Wars Daily, by Allen Voivod
           listen_score: 81
           publisher_highlighted: <span class=\"ln-search-highlight\">Star</span> <span
@@ -1577,13 +1572,6 @@ components:
           description: Highlighted segment of podcast description
           example: |
             ...Join host Allen Voivod for <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> news, history, interviews, trivia, and deep dives into the <span class="ln-search-highlight">Star</span> <span class="ln-search-highlight">Wars</span> story as told in movies, books, comics, games, cartoons, and more.
-        listen_score_global_rank:
-          type: string
-          description: |
-            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 0.5%
       description: When **type** is *podcast*.
       example:
         image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
@@ -1591,7 +1579,6 @@ components:
         thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
         description_original: |
           The Star Wars 7x7 Podcast is Rebel-rousing fun for everyday Jedi, between 7 and 14 minutes a day, 7 days a week. Join host Allen Voivod for Star Wars news, history, interviews, trivia, and deep dives into the Star Wars story as told in movies, books, comics, games, cartoons, and more. Subscribe now for your daily dose of Star Wars joy. It's destiny unleashed! #SW7x7
-        listen_score_global_rank: 0.5%
         itunes_id: 896354638
         explicit_content: false
         publisher_highlighted: <span class=\"ln-search-highlight\">Star</span> <span
@@ -2000,13 +1987,6 @@ components:
           description: Highlighted segment of this podcast's publisher name.
           example: <span class=\"ln-search-highlight\">Star</span> <span class=\"ln-search-highlight\">Wars</span>
             Daily, by Allen Voivod
-        listen_score_global_rank:
-          type: string
-          description: |
-            The estimated popularity ranking of a podcast compared to all other rss-based public podcasts in the world.
-            For example, if the value is 0.5%, then this podcast is one of the top 0.5% most popular shows out of all podcasts globally, ranked by Listen Score.
-            If the ranking is not available, it'll be null. Learn more at listennotes.com/listen-score
-          example: 0.5%
       description: The podcast that this episode belongs to.
       example:
         title_original: Star Wars 7x7 | Star Wars News, Interviews, and More!
@@ -2015,7 +1995,6 @@ components:
           News, Interviews, and More!
         image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
         thumbnail: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.300x300.jpg
-        listen_score_global_rank: 0.5%
         publisher_original: Star Wars Daily, by Allen Voivod
         listen_score: 81
         publisher_highlighted: <span class=\"ln-search-highlight\">Star</span> <span

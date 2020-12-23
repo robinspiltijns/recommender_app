@@ -43,6 +43,10 @@ class DatabaseHelper {
     return _databaseHelper;
   }
 
+  Database get initializedDatabase {
+    return _database;
+  }
+
   Future<Database> get database async {
     if (_database == null) {
       _database = await initializeDatabase();
