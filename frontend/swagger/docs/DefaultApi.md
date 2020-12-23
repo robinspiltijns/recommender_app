@@ -18,6 +18,9 @@ Method | HTTP request | Description
 [**getSearchResults**](DefaultApi.md#getSearchResults) | **GET** search | Used to get the search results based on the given search parameters.
 [**getTheBestPodcasts**](DefaultApi.md#getTheBestPodcasts) | **GET** get-best-podcasts | Fetch the best podcasts.
 [**getTopLevelGenres**](DefaultApi.md#getTopLevelGenres) | **GET** top-level-genres | Used to get a list of all top-level podcast genres
+[**getUniqueId**](DefaultApi.md#getUniqueId) | **GET** get-unique-id | Used to get a string to identify a user
+[**startTimePost**](DefaultApi.md#startTimePost) | **POST** start-time | start logging time for a user
+[**stopTimePost**](DefaultApi.md#stopTimePost) | **POST** stop-time | start logging time for a user
 [**test**](DefaultApi.md#test) | **GET** test | used to test whether the backend is running.
 
 # **getBestOfGenre**
@@ -394,6 +397,124 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getUniqueId**
+> getUniqueId()
+
+Used to get a string to identify a user
+
+Returns a string that unosuely identifies a user. This string is required for logging.
+
+### Example
+```dart
+import 'package:swagger/api.dart';
+
+var api_instance = new DefaultApi();
+
+try {
+    api_instance.getUniqueId();
+} catch (e) {
+    print("Exception when calling DefaultApi->getUniqueId: $e\n");
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **startTimePost**
+> startTimePost(body)
+
+start logging time for a user
+
+### Example
+```dart
+import 'package:swagger/api.dart';
+
+var api_instance = new DefaultApi();
+var body = new String(); // String | The identifier of the user for which to start timing.
+
+try {
+    api_instance.startTimePost(body);
+} catch (e) {
+    print("Exception when calling DefaultApi->startTimePost: $e\n");
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**String**](String.md)| The identifier of the user for which to start timing. | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: text/plain
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **stopTimePost**
+> stopTimePost(body)
+
+start logging time for a user
+
+### Example
+```dart
+import 'package:swagger/api.dart';
+
+var api_instance = new DefaultApi();
+var body = new String(); // String | The identifier of the user for which to stop timing.
+
+try {
+    api_instance.stopTimePost(body);
+} catch (e) {
+    print("Exception when calling DefaultApi->stopTimePost: $e\n");
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**String**](String.md)| The identifier of the user for which to stop timing. | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: text/plain
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

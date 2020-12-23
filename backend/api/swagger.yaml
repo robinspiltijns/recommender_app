@@ -212,6 +212,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetGenresResponse'
+  get-unique-id:
+    get:
+      summary: Used to get a string to identify a user
+      description: Returns a string that uniquely identifies a user. This string is
+        required for logging.
+      operationId: GetUniqueId
+      responses:
+        "200":
+          description: succesful operation
+          content: {}
+  log-timing-result:
+    post:
+      summary: start logging time for a user
+      requestBody:
+        description: The timingresult to be logged for this user.
+        content:
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/TimingResult'
+        required: false
+      responses:
+        "201":
+          description: Started timing
+          content: {}
+        "400":
+          description: Bad request
+          content: {}
+      x-codegen-request-body-name: timingResult
+  timing-results:
+    get:
+      summary: Get the results of time logging
+      description: Get the results as were gathered by the logging system
+      operationId: getTimingResults
+      responses:
+        "200":
+          description: succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimingResults'
 components:
   schemas:
     PodcastFull:
@@ -1816,6 +1856,75 @@ components:
         spotify_url: https://open.spotify.com/show/2rQJUP9Y3HxemiW3JHt9WV
         wechat_handle: wechat_handle
         patreon_handle: sw7x7
+    TimingResult:
+      required:
+      - action
+      - app_version
+      - time
+      - user_id
+      - view
+      type: object
+      properties:
+        user_id:
+          type: string
+          description: the unique identifier of this user
+        app_version:
+          type: string
+          description: the version of the app that this user uses
+          enum:
+          - without_feed
+          - with_feed
+        time:
+          type: integer
+          description: the time (in seconds) between the user staring op the app and
+            playing/queueing an episode
+        action:
+          type: string
+          description: The action this user takes to end the logging of time. Either
+            playing an episode or adding it to the queue.
+          enum:
+          - play
+          - queue
+        view:
+          type: string
+          description: The view from which the user has carried out the action to
+            stop logging the time.
+          enum:
+          - feed
+          - podcast details
+          - search results
+          - more like this
+          - liked
+      example:
+        view: feed
+        app_version: without_feed
+        user_id: user_id
+        action: play
+        time: 0
+    TimingResults:
+      type: object
+      properties:
+        datetime:
+          type: string
+          description: The date and time when these logging results were produced.
+        results:
+          type: array
+          description: The logging data
+          items:
+            $ref: '#/components/schemas/TimingResult'
+      example:
+        datetime: datetime
+        results:
+        - view: feed
+          app_version: without_feed
+          user_id: user_id
+          action: play
+          time: 0
+        - view: feed
+          app_version: without_feed
+          user_id: user_id
+          action: play
+          time: 0
     EpisodeSearchResult_podcast:
       required:
       - genre_ids

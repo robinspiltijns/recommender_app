@@ -21,12 +21,18 @@ import (
 	//    sw "github.com/myname/myrepo/go"
 	//
 	sw "github.com/robinspiltijns/recommender_app/backend/go"
+	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
 )
 
 func main() {
+
+	db.ConnectDB()
+
 	log.Printf("Server started")
 
 	router := sw.NewRouter()
 
 	log.Fatal(http.ListenAndServe(":8080", router))
+
+	defer db.DB.Close()
 }

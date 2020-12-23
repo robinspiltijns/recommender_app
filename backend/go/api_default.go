@@ -15,59 +15,64 @@ import (
 
 func GetBestOfGenre(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetBestOfGenreImpl(w, r)
 }
 
 func GetEpisode(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetEpisodeImpl(w, r)
 }
 
 func GetEpisodeRecommendationsBasedOnEpisode(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetEpisodeRecommendationsBasedOnEpisodeImpl(w, r)
 }
 
 func GetGenres(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetGenresImpl(w, r)
 }
 
 func GetPodcast(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetPodcastImpl(w, r)
 }
 
 func GetPodcastRecommendationsBasedOnPodcast(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetPodcastRecommendationsBasedOnPodcastImpl(w, r)
 }
 
 func GetSearchResults(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetSearchResultsImpl(w, r)
 }
 
 func GetTheBestPodcasts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetTheBestPodcastsImpl(w, r)
+}
+
+func GetTimingResults(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	GetTimingResultsImpl(w, r)
 }
 
 func GetTopLevelGenres(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
 	GetTopLevelGenresImpl(w, r)
 }
 
+func GetUniqueId(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
+	GetUniqueIdImpl(w, r)
+}
+
+func LogTimingResultPost(w http.ResponseWriter, r *http.Request) {
+	LogTimingResultImpl(w, r)
+}
+
 func Test(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "text/plain; charset=UTF-8")
+	TestImpl(w, r)
 }

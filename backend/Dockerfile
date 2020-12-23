@@ -7,6 +7,7 @@ ADD . /go/src/github.com/robinspiltijns/recommender_app/backend
 
 # Install necessary packages and compile backend.
 RUN go get github.com/gorilla/mux
+RUN go get github.com/mattn/go-sqlite3
 RUN go install github.com/robinspiltijns/recommender_app/backend
 
 # Run the backend command by default when the container starts.

@@ -1,12 +1,15 @@
 package swagger
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
+	"math/rand"
 	"net/http"
-	"strconv"
+	"time"
+
+	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
 )
 
 const LISTENAPI_KEY = "d43deaf82b4f450aa686ee4b07c87165"
@@ -41,6 +44,7 @@ type SearchResultListenNotesPodcasts struct {
 
 func TestImpl(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello world!")
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +60,8 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -67,10 +72,12 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 
 	podcastOut, e := json.Marshal(podcast)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(podcastOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
@@ -86,29 +93,28 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Print(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	var episode EpisodeFull
 	json.Unmarshal(bodyBytes, &episode)
 
-	s := strconv.Itoa(int(episode.PubDateMs))
-	print("pubdate: " + s)
-
 	episodeOut, e := json.Marshal(episode)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
-	print(string(episodeOut))
-
 	fmt.Fprintf(w, string(episodeOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
@@ -131,7 +137,8 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	episodeResp, episodeErr := episodeClient.Do(episodeRequest)
 	if episodeErr != nil {
-		log.Fatalln(episodeErr)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	podcastClient := &http.Client{}
@@ -146,7 +153,8 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	podcastResp, podcastErr := podcastClient.Do(podcastRequest)
 	if podcastErr != nil {
-		log.Fatalln(podcastErr)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer episodeResp.Body.Close()
@@ -169,10 +177,12 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	searchResultOut, err := json.Marshal(searchResult)
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(searchResultOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.Request) {
@@ -194,7 +204,8 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -205,10 +216,12 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 
 	recommendationOut, e := json.Marshal(recommendation)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(recommendationOut))
+	w.WriteHeader(http.StatusOK)
 
 }
 
@@ -230,7 +243,8 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -241,10 +255,12 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 
 	recommendationOut, e := json.Marshal(recommendation)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(recommendationOut))
+	w.WriteHeader(http.StatusOK)
 
 }
 
@@ -268,7 +284,8 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -279,10 +296,11 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 
 	resultOut, e := json.Marshal(result)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	fmt.Fprintf(w, string(resultOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
@@ -294,7 +312,8 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -305,10 +324,12 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 
 	resultOut, e := json.Marshal(result)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(resultOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
@@ -319,7 +340,8 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -330,10 +352,12 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 
 	resultOut, e := json.Marshal(result)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprintf(w, string(resultOut))
+	w.WriteHeader(http.StatusOK)
 }
 
 func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
@@ -344,7 +368,8 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		log.Fatalln(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -355,8 +380,139 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 
 	resultOut, e := json.Marshal(result)
 	if e != nil {
-		panic(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	fmt.Fprintf(w, string(resultOut))
+	w.WriteHeader(http.StatusOK)
+}
+
+func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
+	stmt, err := db.DB.Prepare(`
+		INSERT INTO timing(user_id)
+			VALUES (?)
+		`)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	userId := randomString()
+
+	if _, err := stmt.Exec(userId); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, userId)
+	w.WriteHeader(http.StatusOK)
+}
+
+func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
+
+	rows, err := db.DB.Query(`
+		SELECT * FROM timing
+	`)
+
+	defer rows.Close()
+
+	var timingResults []TimingResult
+
+	for rows.Next() {
+		var id string
+		var appVersion sql.NullString
+		var time sql.NullInt32
+		var action sql.NullString
+		var view sql.NullString
+
+		if err := rows.Scan(&id, &appVersion, &time, &action, &view); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if appVersion.Valid && time.Valid && action.Valid && view.Valid {
+			timingResult := TimingResult{
+				UserId:     id,
+				AppVersion: appVersion.String,
+				Time:       time.Int32,
+				Action:     action.String,
+				View:       view.String,
+			}
+			timingResults = append(timingResults, timingResult)
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	result := TimingResults{
+		Datetime: time.Now().String(),
+		Results:  timingResults,
+	}
+
+	resultBytes, err := json.Marshal(result)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, string(resultBytes))
+	w.WriteHeader(http.StatusOK)
+}
+
+func randomString() string {
+	const charset = "ABCDEFGHIJKLMNOPQRSTUVabcdefghijklmonopgrstuvwxyz0123456789"
+	b := make([]byte, 30)
+
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+
+	return string(b)
+}
+
+func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
+
+	var timingResult TimingResult
+
+	err := json.NewDecoder(r.Body).Decode(&timingResult)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	stmt, err := db.DB.Prepare(`
+		UPDATE timing
+		SET app_version = ?,
+			time = ?,
+			action = ?,
+			view = ?
+		WHERE
+			user_id = ?
+		`)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	_, err = stmt.Exec(
+		timingResult.AppVersion,
+		timingResult.Time,
+		timingResult.Action,
+		timingResult.View,
+		timingResult.UserId,
+	)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+
 }

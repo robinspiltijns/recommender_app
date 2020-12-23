@@ -179,7 +179,50 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/GetGenresResponse"
-              
+
+  get-unique-id:
+    get:
+      summary:  "Used to get a string to identify a user"
+      description: "Returns a string that uniquely identifies a user. This string is required for logging."
+      operationId: "GetUniqueId"
+      produces:
+        - "text/plain"
+      responses: 
+        "200":
+          description: "succesful operation"
+          example: "EEADSISCHIQI"
+          
+  log-timing-result:
+    post:
+      summary: "start logging time for a user"
+      consumes: 
+        - "text/plain"
+      parameters:
+        - in: body
+          name: timingResult
+          description: The timingresult to be logged for this user.
+          schema:
+            $ref: '#/definitions/TimingResult'
+          
+      responses:
+        "201": 
+          description: Started timing
+        "400": 
+          description: Bad request
+    
+  timing-results:
+    get:
+      summary: "Get the results of time logging"
+      description: "Get the results as were gathered by the logging system"
+      operationId: "getTimingResults"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: succesful operation
+          schema:
+            $ref: '#/definitions/TimingResults'
+
 definitions:
   PodcastFull:
     type: "object"
@@ -1139,3 +1182,53 @@ definitions:
         url3:
           type: string
           description: Url affiliated with this podcast
+  
+  TimingResult:
+    type: object
+    required:
+      - user_id
+      - app_version
+      - time
+      - action
+      - view
+    properties:
+      user_id:
+        type: string
+        description: the unique identifier of this user
+      app_version:
+        type: string
+        enum:
+          - without_feed
+          - with_feed
+        description: the version of the app that this user uses
+      time:
+        type: integer
+        description: the time (in seconds) between the user staring op the app and playing/queueing an episode
+      action:
+        type: string
+        enum:
+          - play
+          - queue
+        description: The action this user takes to end the logging of time. Either playing an episode or adding it to the queue.
+      view:
+        type: string
+        enum:
+          - feed
+          - podcast details
+          - search results
+          - more like this
+          - liked
+        description: The view from which the user has carried out the action to stop logging the time.
+     
+  TimingResults:   
+    type: object
+    properties:
+      datetime: 
+        type: string
+        description: The date and time when these logging results were produced.
+      results:
+        type: array
+        description: The logging data
+        items: 
+          $ref: '#/definitions/TimingResult'
+      
