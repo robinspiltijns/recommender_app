@@ -68,10 +68,10 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**getPodcastRecommendationsBasedOnPodcast**](docs//DefaultApi.md#getpodcastrecommendationsbasedonpodcast) | **GET** get-recommendations-based-on/podcast | Fetch recommendations for a podcast
 *DefaultApi* | [**getSearchResults**](docs//DefaultApi.md#getsearchresults) | **GET** search | Used to get the search results based on the given search parameters.
 *DefaultApi* | [**getTheBestPodcasts**](docs//DefaultApi.md#getthebestpodcasts) | **GET** get-best-podcasts | Fetch the best podcasts.
+*DefaultApi* | [**getTimingResults**](docs//DefaultApi.md#gettimingresults) | **GET** timing-results | Get the results of time logging
 *DefaultApi* | [**getTopLevelGenres**](docs//DefaultApi.md#gettoplevelgenres) | **GET** top-level-genres | Used to get a list of all top-level podcast genres
 *DefaultApi* | [**getUniqueId**](docs//DefaultApi.md#getuniqueid) | **GET** get-unique-id | Used to get a string to identify a user
-*DefaultApi* | [**startTimePost**](docs//DefaultApi.md#starttimepost) | **POST** start-time | start logging time for a user
-*DefaultApi* | [**stopTimePost**](docs//DefaultApi.md#stoptimepost) | **POST** stop-time | start logging time for a user
+*DefaultApi* | [**logTimingResultPost**](docs//DefaultApi.md#logtimingresultpost) | **POST** log-timing-result | start logging time for a user
 *DefaultApi* | [**test**](docs//DefaultApi.md#test) | **GET** test | used to test whether the backend is running.
 
 ## Documentation For Models
@@ -93,6 +93,8 @@ Class | Method | HTTP request | Description
  - [PodcastSearchResult](docs//PodcastSearchResult.md)
  - [PodcastSimple](docs//PodcastSimple.md)
  - [SearchResult](docs//SearchResult.md)
+ - [TimingResult](docs//TimingResult.md)
+ - [TimingResults](docs//TimingResults.md)
 
 ## Documentation For Authorization
 

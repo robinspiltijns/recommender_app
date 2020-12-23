@@ -419,6 +419,54 @@ class DefaultApi {
       return null;
     }
   }
+  /// Get the results of time logging
+  ///
+  /// Get the results as were gathered by the logging system
+  Future<TimingResults> getTimingResults() async {
+    Object postBody = null;
+
+    // verify required params are set
+
+    // create path and map variables
+    String path = "timing-results".replaceAll("{format}","json");
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(path,
+                                             'GET',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return
+          apiClient.deserialize(response.body, 'TimingResults') as TimingResults ;
+    } else {
+      return null;
+    }
+  }
   /// Used to get a list of all top-level podcast genres
   ///
   /// Returns a list of all top-level podcast genres (this contains their name and id)
@@ -469,7 +517,7 @@ class DefaultApi {
   }
   /// Used to get a string to identify a user
   ///
-  /// Returns a string that unosuely identifies a user. This string is required for logging.
+  /// Returns a string that uniquely identifies a user. This string is required for logging.
   Future getUniqueId() async {
     Object postBody = null;
 
@@ -518,61 +566,13 @@ class DefaultApi {
   /// start logging time for a user
   ///
   /// 
-  Future startTimePost({ String body }) async {
+  Future logTimingResultPost({ TimingResult body }) async {
     Object postBody = body;
 
     // verify required params are set
 
     // create path and map variables
-    String path = "start-time".replaceAll("{format}","json");
-
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-    
-    List<String> contentTypes = ["text/plain"];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             contentType,
-                                             authNames);
-
-    if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
-    } else if(response.body != null) {
-      return
-          ;
-    } else {
-      return ;
-    }
-  }
-  /// start logging time for a user
-  ///
-  /// 
-  Future stopTimePost({ String body }) async {
-    Object postBody = body;
-
-    // verify required params are set
-
-    // create path and map variables
-    String path = "stop-time".replaceAll("{format}","json");
+    String path = "log-timing-result".replaceAll("{format}","json");
 
     // query params
     List<QueryParam> queryParams = [];

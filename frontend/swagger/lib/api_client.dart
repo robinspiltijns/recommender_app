@@ -71,6 +71,10 @@ class ApiClient {
           return new PodcastSimple.fromJson(value);
         case 'SearchResult':
           return new SearchResult.fromJson(value);
+        case 'TimingResult':
+          return new TimingResult.fromJson(value);
+        case 'TimingResults':
+          return new TimingResults.fromJson(value);
         default:
           {
             Match match;
