@@ -25,7 +25,7 @@ type EpisodeMinimum struct {
 	// Html of this episode's full description
 	Description string `json:"description,omitempty"`
 	// Published date for this episode. In millisecond.
-	PubDateMs int32 `json:"pub_date_ms,omitempty"`
+	PubDateMs int64 `json:"pub_date_ms,omitempty"`
 	// The url of this episode on [ListenNotes.com](https://www.ListenNotes.com).
 	ListennotesUrl string `json:"listennotes_url,omitempty"`
 	// Audio length of this episode. In seconds.
