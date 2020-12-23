@@ -332,10 +332,12 @@ definitions:
         description: Whether this podcast contains explicit language.
       latest_pub_date_ms:
         type: integer
+        format: int64
         example: 1557499770000
         description: The published date of the latest episode of this podcast. In milliseconds
       earliest_pub_date_ms:
         type: integer
+        format: int64
         example: 1470667902000
         description: The published date of the oldest episode of this podcast. In milliseconds
       next_episode_pub_date:
@@ -448,10 +450,12 @@ definitions:
         description: Whether this podcast contains explicit language.
       latest_pub_date_ms:
         type: integer
+        format: int64
         example: 1557499770000
         description: The published date of the latest episode of this podcast. In milliseconds
       earliest_pub_date_ms:
         type: integer
+        format: int64
         example: 1470667902000
         description: The published date of the oldest episode of this podcast. In milliseconds
   PodcastMinimum:
@@ -539,6 +543,7 @@ definitions:
         description: Html of this episode's full description
       pub_date_ms:
         type: integer
+        format: int64
         example: 1474873200000
         description: Published date for this episode. In millisecond.
       listennotes_url:
@@ -618,6 +623,7 @@ definitions:
         description: Html of this episode's full description
       pub_date_ms:
         type: integer
+        format: int64
         example: 1474873200000
         description: Published date for this episode. In millisecond.
       listennotes_url:
@@ -692,6 +698,7 @@ definitions:
         description: Html of this episode's full description
       pub_date_ms:
         type: integer
+        format: int64
         example: 1474873200000
         description: Published date for this episode. In millisecond.
       listennotes_url:
@@ -1061,6 +1068,7 @@ definitions:
           description: Highlighted segment of podcast name.
         latest_pub_date_ms:
           type: integer
+          format: int64
           example: 1557499770000
           description: The published date of the latest episode of this podcast. In milliseconds
         publisher_original:
@@ -1079,6 +1087,7 @@ definitions:
           description: Plain text of podcast description
         earliest_pub_date_ms:
           type: integer
+          format: int64
           example: 1470667902000
           description: The published date of the oldest episode of this podcast. In milliseconds
         publisher_highlighted:

@@ -51,7 +51,7 @@ type PodcastSimple struct {
 	// Whether this podcast contains explicit language.
 	ExplicitContent bool `json:"explicit_content,omitempty"`
 	// The published date of the latest episode of this podcast. In milliseconds
-	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
+	LatestPubDateMs int64 `json:"latest_pub_date_ms,omitempty"`
 	// The published date of the oldest episode of this podcast. In milliseconds
-	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
+	EarliestPubDateMs int64 `json:"earliest_pub_date_ms,omitempty"`
 }

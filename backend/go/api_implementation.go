@@ -43,7 +43,7 @@ type SearchResultListenNotesPodcasts struct {
 }
 
 func TestImpl(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hello world!")
+	fmt.Fprint(w, "hello world!")
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -76,7 +76,7 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(podcastOut))
+	fmt.Fprint(w, string(podcastOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -113,7 +113,7 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(episodeOut))
+	fmt.Fprint(w, string(episodeOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -181,7 +181,7 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(searchResultOut))
+	fmt.Fprint(w, string(searchResultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -220,7 +220,7 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 		return
 	}
 
-	fmt.Fprintf(w, string(recommendationOut))
+	fmt.Fprint(w, string(recommendationOut))
 	w.WriteHeader(http.StatusOK)
 
 }
@@ -259,7 +259,7 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 		return
 	}
 
-	fmt.Fprintf(w, string(recommendationOut))
+	fmt.Fprint(w, string(recommendationOut))
 	w.WriteHeader(http.StatusOK)
 
 }
@@ -299,7 +299,7 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 
-	fmt.Fprintf(w, string(resultOut))
+	fmt.Fprint(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -328,7 +328,7 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(resultOut))
+	fmt.Fprint(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -356,7 +356,7 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(resultOut))
+	fmt.Fprint(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -384,7 +384,7 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(resultOut))
+	fmt.Fprint(w, string(resultOut))
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -406,7 +406,7 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, userId)
+	fmt.Fprint(w, userId)
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -460,7 +460,7 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, string(resultBytes))
+	fmt.Fprint(w, string(resultBytes))
 	w.WriteHeader(http.StatusOK)
 }
 

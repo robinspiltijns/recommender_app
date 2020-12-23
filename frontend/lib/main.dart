@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
-import 'package:frontend/common/services/played-episodes-service.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/services/user-name-service.dart';

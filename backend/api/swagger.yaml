@@ -365,11 +365,13 @@ components:
           type: integer
           description: The published date of the latest episode of this podcast. In
             milliseconds
+          format: int64
           example: 1557499770000
         earliest_pub_date_ms:
           type: integer
           description: The published date of the oldest episode of this podcast. In
             milliseconds
+          format: int64
           example: 1470667902000
         next_episode_pub_date:
           type: integer
@@ -566,11 +568,13 @@ components:
           type: integer
           description: The published date of the latest episode of this podcast. In
             milliseconds
+          format: int64
           example: 1557499770000
         earliest_pub_date_ms:
           type: integer
           description: The published date of the oldest episode of this podcast. In
             milliseconds
+          format: int64
           example: 1470667902000
       example:
         image: https://cdn-images-1.listennotes.com/podcasts/exponent-ben-thompson-james-allworth-OaJSjb4xQv3.1400x1400.jpg
@@ -704,6 +708,7 @@ components:
         pub_date_ms:
           type: integer
           description: Published date for this episode. In millisecond.
+          format: int64
           example: 1474873200000
         listennotes_url:
           type: string
@@ -839,6 +844,7 @@ components:
         pub_date_ms:
           type: integer
           description: Published date for this episode. In millisecond.
+          format: int64
           example: 1474873200000
         listennotes_url:
           type: string
@@ -924,6 +930,7 @@ components:
         pub_date_ms:
           type: integer
           description: Published date for this episode. In millisecond.
+          format: int64
           example: 1474873200000
         listennotes_url:
           type: string
@@ -1547,6 +1554,7 @@ components:
           type: integer
           description: The published date of the latest episode of this podcast. In
             milliseconds
+          format: int64
           example: 1557499770000
         publisher_original:
           type: string
@@ -1561,6 +1569,7 @@ components:
           type: integer
           description: The published date of the oldest episode of this podcast. In
             milliseconds
+          format: int64
           example: 1470667902000
         publisher_highlighted:
           type: string

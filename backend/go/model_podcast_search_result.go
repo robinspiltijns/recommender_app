@@ -40,13 +40,13 @@ type PodcastSearchResult struct {
 	// Highlighted segment of podcast name.
 	TitleHighlighted string `json:"title_highlighted,omitempty"`
 	// The published date of the latest episode of this podcast. In milliseconds
-	LatestPubDateMs int32 `json:"latest_pub_date_ms,omitempty"`
+	LatestPubDateMs int64 `json:"latest_pub_date_ms,omitempty"`
 	// Plain text of this podcast's publisher name.
 	PublisherOriginal string `json:"publisher_original,omitempty"`
 	// Plain text of podcast description
 	DescriptionOriginal string `json:"description_original,omitempty"`
 	// The published date of the oldest episode of this podcast. In milliseconds
-	EarliestPubDateMs int32 `json:"earliest_pub_date_ms,omitempty"`
+	EarliestPubDateMs int64 `json:"earliest_pub_date_ms,omitempty"`
 	// Highlighted segment of this podcast's publisher name.
 	PublisherHighlighted string `json:"publisher_highlighted,omitempty"`
 	// Highlighted segment of podcast description

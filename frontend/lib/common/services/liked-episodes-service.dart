@@ -79,7 +79,7 @@ class LikedEpisodesService extends ChangeNotifier {
       result.addAll(selectedGenres.sublist(0, 4 - result.length));
     }
 
-    return result;
+    return result.sublist(0, 4);
 
   }
 }
