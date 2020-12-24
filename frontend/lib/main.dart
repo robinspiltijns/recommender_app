@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
+import 'package:frontend/common/services/logging-service/logging-notification-handler.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/services/user-name-service.dart';
@@ -19,6 +20,10 @@ import 'object-model/genre.dart';
 // boolean to indicate whether or not to reset
 // the database when launching the app.
 bool resetDatabase = false;
+
+AppVersion version = AppVersion.WITH_FEED;
+LoggingNotificationHandler logger = LoggingNotificationHandler(version);
+
 
 int initScreen;
 
