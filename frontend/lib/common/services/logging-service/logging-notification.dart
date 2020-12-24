@@ -21,9 +21,14 @@ enum LoggingAction {
 
 class TogglePlayerNotification extends LoggingNotification {
 
-  final bool playerActive;
+  final PlayerSize playerSize;
 
-  TogglePlayerNotification(this.playerActive);
+  TogglePlayerNotification(this.playerSize);
+}
+
+enum PlayerSize {
+  LARGE,
+  SMALL,
 }
 
 class NavigatePrimaryViewNotification extends LoggingNotification {

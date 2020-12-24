@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/common/services/logging-service/logging-notification.dart';
 import 'package:frontend/player-view/components/player.dart';
 import 'package:frontend/player-view/components/queue.dart';
 
@@ -13,6 +14,9 @@ class PlayerViewWidget extends StatelessWidget {
           title: IconButton(
               icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),
               onPressed: () {
+                TogglePlayerNotification(
+                  PlayerSize.SMALL
+                ).dispatch(context);
                 Navigator.pop(context);
               }),
           backgroundColor: Colors.transparent,

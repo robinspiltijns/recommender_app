@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/logging-service/logging-notification.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/player-view/player-view.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +66,9 @@ class _SmallPlayerWidgetState extends State<SmallPlayerWidget> {
               icon: Icon(Icons.keyboard_arrow_up, color: Colors.white),
               // TODO: Dit zou cleaner moeten kunnen, maar dit is kinda functioneel dus weet niet meteen hoe.
               onPressed: () {
+                TogglePlayerNotification(
+                  PlayerSize.LARGE
+                ).dispatch(context);
                 Navigator.of(context).push(_onOpenPlayerPress());
               }),
           Container(
