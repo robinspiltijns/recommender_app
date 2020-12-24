@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
 import 'package:frontend/common/services/logging-service/logging-notification-handler.dart';
+import 'package:frontend/common/services/logging-service/logging-notification.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/services/user-name-service.dart';
@@ -76,13 +77,19 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: themeData,
-      initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
-      routes: {
-        '/': (context) => CastlyWidget(),
-        "first": (context) => IntroductoryQuestionsPage(),
+    return NotificationListener<LoggingNotification>(
+      onNotification: (notification) {
+        logger.handleLoggingNotification(notification);
+        return true;
       },
+      child: MaterialApp(
+        theme: themeData,
+        initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+        routes: {
+          '/': (context) => CastlyWidget(),
+          "first": (context) => IntroductoryQuestionsPage(),
+        },
+      ),
     );
   }
 }

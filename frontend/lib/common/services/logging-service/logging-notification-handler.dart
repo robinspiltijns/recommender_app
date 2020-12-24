@@ -25,8 +25,7 @@ class LoggingNotificationHandler {
   }
 
 
-  void handleNotification(LoggingNotification not) {
-
+  void handleLoggingNotification(LoggingNotification not) {
 
   }
 
