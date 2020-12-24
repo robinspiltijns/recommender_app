@@ -108,7 +108,23 @@ class _CastlyWidgetState extends State<CastlyWidget> {
     SearchPage(),
   ];
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index, BuildContext context) {
+    PrimaryView dest;
+    switch (index) {
+      case 0:
+        dest = PrimaryView.LIKED;
+        break;
+      case 1:
+        dest = PrimaryView.FEED;
+        break;
+      case 2:
+        dest = PrimaryView.SEARCH;
+        break;
+    }
+    NavigatePrimaryViewNotification(
+      dest
+    ).dispatch(context);
+
     setState(() {
       _selectedIndex = index;
     });
