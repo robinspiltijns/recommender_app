@@ -15,7 +15,7 @@ var DB *sql.DB
 
 // ConnectDB opens a connection to the database
 func ConnectDB() {
-	os.Remove(dbFileName)
+	//os.Remove(dbFileName)
 
 	log.Println("Creating" + dbFileName + "...")
 	file, err := os.Create(dbFileName) // Create SQLite file
