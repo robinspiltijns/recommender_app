@@ -336,6 +336,7 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 	resultOut, e := json.Marshal(result)
 	if e != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprint(w, string(resultOut))
