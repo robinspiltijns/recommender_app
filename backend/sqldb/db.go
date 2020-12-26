@@ -41,7 +41,8 @@ func createTable(db *sql.DB) {
 		app_version TEXT,		
 		time INTEGER,
 		action TEXT,
-		view TEXT
+		primary_view TEXT,
+		secondary_view TEXT
 	  )`
 
 	log.Println("Create timing table...")

@@ -425,20 +425,22 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 		var appVersion sql.NullString
 		var time sql.NullInt32
 		var action sql.NullString
-		var view sql.NullString
+		var primaryView sql.NullString
+		var secondaryView sql.NullString
 
-		if err := rows.Scan(&id, &appVersion, &time, &action, &view); err != nil {
+		if err := rows.Scan(&id, &appVersion, &time, &action, &primaryView, &secondaryView); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		if appVersion.Valid && time.Valid && action.Valid && view.Valid {
+		if appVersion.Valid && time.Valid && action.Valid && primaryView.Valid && secondaryView.Valid {
 			timingResult := TimingResult{
-				UserId:     id,
-				AppVersion: appVersion.String,
-				Time:       time.Int32,
-				Action:     action.String,
-				View:       view.String,
+				UserId:        id,
+				AppVersion:    appVersion.String,
+				Time:          time.Int32,
+				Action:        action.String,
+				PrimaryView:   primaryView.String,
+				SecondaryView: secondaryView.String,
 			}
 			timingResults = append(timingResults, timingResult)
 		}
@@ -490,7 +492,8 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 		SET app_version = ?,
 			time = ?,
 			action = ?,
-			view = ?
+			primary_view = ?,
+			secondary_view = ?
 		WHERE
 			user_id = ?
 		`)
@@ -504,7 +507,8 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 		timingResult.AppVersion,
 		timingResult.Time,
 		timingResult.Action,
-		timingResult.View,
+		timingResult.PrimaryView,
+		timingResult.SecondaryView,
 		timingResult.UserId,
 	)
 
