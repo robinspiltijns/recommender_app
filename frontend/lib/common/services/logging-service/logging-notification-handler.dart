@@ -5,7 +5,7 @@ import 'logging-notification.dart';
 /// class to take care of logging the timing information.
 class LoggingNotificationHandler {
 
-  TimingResult timingResult;
+  TimingResult timingResult = TimingResult();
   final DefaultApi api = DefaultApi();
   final Stopwatch stopwatch = Stopwatch();
 
@@ -26,6 +26,22 @@ class LoggingNotificationHandler {
 
 
   void handleLoggingNotification(LoggingNotification not) {
+    if (not is ActionNotification) {
+      print(not.action);
+    }
+
+    if (not is NavigateSecondaryViewNotification) {
+      print(not.destination);
+    }
+
+    if (not is NavigatePrimaryViewNotification) {
+      print(not.destination);
+    }
+
+    if (not is TogglePlayerNotification) {
+      print(not.playerSize);
+    }
+
 
   }
 
