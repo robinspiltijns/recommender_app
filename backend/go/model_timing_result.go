@@ -18,6 +18,8 @@ type TimingResult struct {
 	Time int32 `json:"time"`
 	// The action this user takes to end the logging of time. Either playing an episode or adding it to the queue.
 	Action string `json:"action"`
-	// The view from which the user has carried out the action to stop logging the time.
-	View string `json:"view"`
+	// The primary view from which the user has carried out the action to stop logging the time.
+	PrimaryView string `json:"primary_view,omitempty"`
+
+	SecondaryView string `json:"secondary_view,omitempty"`
 }

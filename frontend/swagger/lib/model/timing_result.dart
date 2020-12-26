@@ -11,15 +11,18 @@ class TimingResult {
 /* The action this user takes to end the logging of time. Either playing an episode or adding it to the queue. */
   String action = null;
   //enum actionEnum {  play,  queue,  };
-/* The view from which the user has carried out the action to stop logging the time. */
-  String view = null;
-  //enum viewEnum {  feed,  podcast details,  search results,  more like this,  liked,  };
+/* The primary view from which the user has carried out the action to stop logging the time. */
+  String primaryView = null;
+  //enum primaryViewEnum {  feed,  search,  liked,  };
+
+  String secondaryView = null;
+  //enum secondaryViewEnum {  root,  podcast_details,  genre_details,  more_like_this,  };
 
   TimingResult();
 
   @override
   String toString() {
-    return 'TimingResult[userId=$userId, appVersion=$appVersion, time=$time, action=$action, view=$view, ]';
+    return 'TimingResult[userId=$userId, appVersion=$appVersion, time=$time, action=$action, primaryView=$primaryView, secondaryView=$secondaryView, ]';
   }
 
   TimingResult.fromJson(Map<String, dynamic> json) {
@@ -28,7 +31,8 @@ class TimingResult {
     appVersion = json['app_version'];
     time = json['time'];
     action = json['action'];
-    view = json['view'];
+    primaryView = json['primary_view'];
+    secondaryView = json['secondary_view'];
   }
 
   Map<String, dynamic> toJson() {
@@ -37,7 +41,8 @@ class TimingResult {
       'app_version': appVersion,
       'time': time,
       'action': action,
-      'view': view
+      'primary_view': primaryView,
+      'secondary_view': secondaryView
      };
   }
 
