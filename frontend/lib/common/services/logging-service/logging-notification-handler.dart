@@ -1,50 +1,127 @@
+import 'package:flutter/cupertino.dart';
 import 'package:swagger/api.dart';
 
 import 'logging-notification.dart';
 
 /// class to take care of logging the timing information.
-class LoggingNotificationHandler {
+class LoggingNotificationHandler with WidgetsBindingObserver {
 
-  TimingResult timingResult = TimingResult();
   final DefaultApi api = DefaultApi();
   final Stopwatch stopwatch = Stopwatch();
+  String userId;
+  String appVersion;
+  PrimaryView primaryView = PrimaryView.FEED;
+  SecondaryView secondaryView = SecondaryView.ROOT;
+
 
   LoggingNotificationHandler(AppVersion appVersion) {
 
-    api.getUniqueId().then((id) => this.timingResult.userId = id);
+    api.getUniqueId().then((id) => this.userId = id);
 
     switch (appVersion) {
       case AppVersion.WITH_FEED:
-        this.timingResult.appVersion = "with_feed";
+        this.appVersion = "with_feed";
         break;
       case AppVersion.WITHOUT_FEED:
-        this.timingResult.appVersion = "without_feed";
+        this.appVersion = "without_feed";
         break;
     }
+  }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.inactive:
+        stopwatch.stop();
+        break;
+      case AppLifecycleState.resumed:
+        stopwatch.start();
+        break;
+      case AppLifecycleState.paused:
+        stopwatch.stop();
+        break;
+      case AppLifecycleState.detached:
+        stopwatch.stop();
+        break;
+    }
   }
 
 
   void handleLoggingNotification(LoggingNotification not) {
     if (not is ActionNotification) {
-      print(not.action);
+      handleActionNotification(not);
     }
 
     if (not is NavigateSecondaryViewNotification) {
-      print(not.destination);
+      secondaryView = not.destination;
     }
 
     if (not is NavigatePrimaryViewNotification) {
-      print(not.destination);
+      primaryView = not.destination;
     }
 
     if (not is TogglePlayerNotification) {
-      print(not.playerSize);
+      switch (not.playerSize) {
+        case PlayerSize.SMALL:
+          stopwatch.start();
+          break;
+        case PlayerSize.LARGE:
+          stopwatch.stop();
+          break;
+      }
     }
-
-
   }
 
+  void handleActionNotification(ActionNotification not) {
+    TimingResult result = TimingResult();
+    result.userId = userId;
+    result.appVersion = appVersion;
+    result.time = stopwatch.elapsedMilliseconds;
+    switch (primaryView) {
+      case PrimaryView.LIKED:
+        result.primaryView = "liked";
+        break;
+      case PrimaryView.FEED:
+        result.primaryView = "feed";
+        break;
+      case PrimaryView.SEARCH:
+        result.primaryView = "search";
+        break;
+    }
+
+    switch (secondaryView) {
+      case SecondaryView.ROOT:
+        result.secondaryView = "root";
+        break;
+      case SecondaryView.PODCAST_DETAILS:
+        result.secondaryView = "podcast_details";
+        break;
+      case SecondaryView.MORE_LIKE_THIS:
+        result.secondaryView = "more_like_this";
+        break;
+      case SecondaryView.GENRE_DETAILS:
+        result.secondaryView = "genre_details";
+        break;
+    }
+
+    switch (not.action) {
+      case LoggingAction.QUEUE:
+        result.action = "queue";
+        break;
+      case LoggingAction.PLAY:
+        result.action = "play";
+        break;
+    }
+
+    //api.logTimingResultPost(body: result);
+    print(result);
+    stopwatch.reset();
+  }
+
+  void startTime() {
+    stopwatch.start();
+  }
 }
 
 enum AppVersion {

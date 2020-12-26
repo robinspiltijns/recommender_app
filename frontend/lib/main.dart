@@ -25,7 +25,6 @@ bool resetDatabase = false;
 AppVersion version = AppVersion.WITH_FEED;
 LoggingNotificationHandler logger = LoggingNotificationHandler(version);
 
-
 int initScreen;
 
 void main() async {
@@ -49,6 +48,9 @@ void main() async {
   }
 
   initScreen = prefs.getInt("initScreen");
+
+
+
 
   runApp(
       MultiProvider(
@@ -99,7 +101,7 @@ class CastlyWidget extends StatefulWidget {
   _CastlyWidgetState createState() => _CastlyWidgetState();
 }
 
-class _CastlyWidgetState extends State<CastlyWidget> {
+class _CastlyWidgetState extends State<CastlyWidget> with WidgetsBindingObserver {
   int _selectedIndex = 1;
 
   static List<Widget> _destinationViews = <Widget>[
@@ -132,6 +134,13 @@ class _CastlyWidgetState extends State<CastlyWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Add observer to listen for app state changes.
+    WidgetsBinding.instance.addObserver(logger);
+
+    // start timer in logging service.
+    logger.startTime();
+
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
