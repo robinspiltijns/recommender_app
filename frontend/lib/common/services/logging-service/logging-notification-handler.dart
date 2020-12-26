@@ -8,7 +8,7 @@ class LoggingNotificationHandler with WidgetsBindingObserver {
 
   final DefaultApi api = DefaultApi();
   final Stopwatch stopwatch = Stopwatch();
-  String userId;
+  String sessionId;
   String appVersion;
   PrimaryView primaryView = PrimaryView.FEED;
   SecondaryView secondaryView = SecondaryView.ROOT;
@@ -16,7 +16,7 @@ class LoggingNotificationHandler with WidgetsBindingObserver {
 
   LoggingNotificationHandler(AppVersion appVersion) {
 
-    api.getUniqueId().then((id) => this.userId = id);
+    api.getUniqueId().then((id) => this.sessionId = id);
 
     switch (appVersion) {
       case AppVersion.WITH_FEED:
@@ -75,7 +75,7 @@ class LoggingNotificationHandler with WidgetsBindingObserver {
 
   void handleActionNotification(ActionNotification not) {
     TimingResult result = TimingResult();
-    result.userId = userId;
+    result.sessionId = sessionId;
     result.appVersion = appVersion;
     result.time = stopwatch.elapsedMilliseconds;
     switch (primaryView) {

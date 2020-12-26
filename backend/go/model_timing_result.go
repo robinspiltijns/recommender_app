@@ -11,7 +11,7 @@ package swagger
 
 type TimingResult struct {
 	// the unique identifier of this user
-	UserId string `json:"user_id"`
+	SessionId string `json:"session_id,omitempty"`
 	// the version of the app that this user uses
 	AppVersion string `json:"app_version"`
 	// the time (in seconds) between the user staring op the app and playing/queueing an episode

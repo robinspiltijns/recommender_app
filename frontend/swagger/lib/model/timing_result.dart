@@ -2,7 +2,7 @@ part of swagger.api;
 
 class TimingResult {
   /* the unique identifier of this user */
-  String userId = null;
+  String sessionId = null;
 /* the version of the app that this user uses */
   String appVersion = null;
   //enum appVersionEnum {  without_feed,  with_feed,  };
@@ -22,12 +22,12 @@ class TimingResult {
 
   @override
   String toString() {
-    return 'TimingResult[userId=$userId, appVersion=$appVersion, time=$time, action=$action, primaryView=$primaryView, secondaryView=$secondaryView, ]';
+    return 'TimingResult[sessionId=$sessionId, appVersion=$appVersion, time=$time, action=$action, primaryView=$primaryView, secondaryView=$secondaryView, ]';
   }
 
   TimingResult.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    userId = json['user_id'];
+    sessionId = json['session_id'];
     appVersion = json['app_version'];
     time = json['time'];
     action = json['action'];
@@ -37,7 +37,7 @@ class TimingResult {
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id': userId,
+      'session_id': sessionId,
       'app_version': appVersion,
       'time': time,
       'action': action,

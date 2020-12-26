@@ -1870,10 +1870,9 @@ components:
       - action
       - app_version
       - time
-      - user_id
       type: object
       properties:
-        user_id:
+        session_id:
           type: string
           description: the unique identifier of this user
         app_version:
@@ -1910,8 +1909,8 @@ components:
           - more_like_this
       example:
         app_version: without_feed
-        user_id: user_id
         primary_view: feed
+        session_id: session_id
         action: play
         time: 0
         secondary_view: root
@@ -1930,14 +1929,14 @@ components:
         datetime: datetime
         results:
         - app_version: without_feed
-          user_id: user_id
           primary_view: feed
+          session_id: session_id
           action: play
           time: 0
           secondary_view: root
         - app_version: without_feed
-          user_id: user_id
           primary_view: feed
+          session_id: session_id
           action: play
           time: 0
           secondary_view: root

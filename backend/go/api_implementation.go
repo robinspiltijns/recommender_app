@@ -389,22 +389,8 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
-	stmt, err := db.DB.Prepare(`
-		INSERT INTO timing(user_id)
-			VALUES (?)
-		`)
-
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 
 	userId := randomString()
-
-	if _, err := stmt.Exec(userId); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 
 	fmt.Fprint(w, userId)
 	w.WriteHeader(http.StatusOK)
@@ -421,7 +407,7 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 	var timingResults []TimingResult
 
 	for rows.Next() {
-		var id string
+		var id sql.NullString
 		var appVersion sql.NullString
 		var time sql.NullInt32
 		var action sql.NullString
@@ -433,9 +419,9 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if appVersion.Valid && time.Valid && action.Valid && primaryView.Valid && secondaryView.Valid {
+		if id.Valid && appVersion.Valid && time.Valid && action.Valid && primaryView.Valid && secondaryView.Valid {
 			timingResult := TimingResult{
-				UserId:        id,
+				SessionId:     id.String,
 				AppVersion:    appVersion.String,
 				Time:          time.Int32,
 				Action:        action.String,
@@ -488,14 +474,8 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	stmt, err := db.DB.Prepare(`
-		UPDATE timing
-		SET app_version = ?,
-			time = ?,
-			action = ?,
-			primary_view = ?,
-			secondary_view = ?
-		WHERE
-			user_id = ?
+		INSERT INTO timing(session_id, app_version, time, action, primary_view, secondary_view)
+		VALUES(?, ?, ?, ?, ?, ?)
 		`)
 
 	if err != nil {
@@ -504,12 +484,12 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = stmt.Exec(
+		timingResult.SessionId,
 		timingResult.AppVersion,
 		timingResult.Time,
 		timingResult.Action,
 		timingResult.PrimaryView,
 		timingResult.SecondaryView,
-		timingResult.UserId,
 	)
 
 	if err != nil {

@@ -1201,7 +1201,7 @@ definitions:
       - action
       - view
     properties:
-      user_id:
+      session_id:
         type: string
         description: the unique identifier of this user
       app_version:
