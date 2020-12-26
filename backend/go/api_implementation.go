@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"sync/atomic"
 	"time"
 
 	db "github.com/robinspiltijns/recommender_app/backend/sqldb"
@@ -15,6 +16,8 @@ import (
 const LISTENAPI_KEY = "d43deaf82b4f450aa686ee4b07c87165"
 const EPISODE_TYPE = "episode"
 const PODCAST_TYPE = "podcast"
+
+var globalCounter *int32 = new(int32)
 
 type SearchResultListenNotesEpisodes struct {
 	// Pass this value to the **offset** parameter to do pagination of search results.
@@ -48,6 +51,11 @@ func TestImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	id, ok := r.URL.Query()["id"]
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
@@ -58,6 +66,7 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/podcasts/"+id[0], nil)
 	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -81,6 +90,11 @@ func GetPodcastImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	id, ok := r.URL.Query()["id"]
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
@@ -91,6 +105,7 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/episodes/"+id[0], nil)
 	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -118,6 +133,11 @@ func GetEpisodeImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	query, queryOk := r.URL.Query()["queryString"]
 	searchField, searchFieldOk := r.URL.Query()["searchField"]
 	if !(queryOk && searchFieldOk) {
@@ -135,6 +155,7 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 	eq.Add("type", EPISODE_TYPE)
 	episodeRequest.URL.RawQuery = eq.Encode()
 
+	incrementRequestCount()
 	episodeResp, episodeErr := episodeClient.Do(episodeRequest)
 	if episodeErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -151,6 +172,7 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 	pq.Add("type", PODCAST_TYPE)
 	podcastRequest.URL.RawQuery = pq.Encode()
 
+	incrementRequestCount()
 	podcastResp, podcastErr := podcastClient.Do(podcastRequest)
 	if podcastErr != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -186,6 +208,11 @@ func GetSearchResultsImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	id, ok := r.URL.Query()["id"]
 
 	if !ok {
@@ -202,6 +229,7 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 	q.Add("id", id[0])
 	request.URL.RawQuery = q.Encode()
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -226,6 +254,11 @@ func GetPodcastRecommendationsBasedOnPodcastImpl(w http.ResponseWriter, r *http.
 }
 
 func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	id, ok := r.URL.Query()["id"]
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
@@ -241,6 +274,7 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 
 	request.URL.RawQuery = q.Encode()
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -265,6 +299,10 @@ func GetEpisodeRecommendationsBasedOnEpisodeImpl(w http.ResponseWriter, r *http.
 }
 
 func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
 	id, ok := r.URL.Query()["genreId"]
 
 	if !ok {
@@ -282,6 +320,7 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 
 	request.URL.RawQuery = q.Encode()
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -297,6 +336,7 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 	resultOut, e := json.Marshal(result)
 	if e != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Fprint(w, string(resultOut))
@@ -304,12 +344,16 @@ func GetBestOfGenreImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
 
 	client := &http.Client{}
 	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/best_podcasts", nil)
-
 	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -333,11 +377,17 @@ func GetTheBestPodcastsImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
+
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	client := &http.Client{}
 	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/genres?top_level_only=0", nil)
-
 	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -361,11 +411,16 @@ func GetGenresImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
+	if !checkRequestsLeft() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
 	client := &http.Client{}
 	request, _ := http.NewRequest("GET", "https://listen-api.listennotes.com/api/v2/genres?top_level_only=1", nil)
-
 	request.Header.Set("X-ListenAPI-Key", LISTENAPI_KEY)
 
+	incrementRequestCount()
 	resp, err := client.Do(request)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -389,22 +444,8 @@ func GetTopLevelGenresImpl(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
-	stmt, err := db.DB.Prepare(`
-		INSERT INTO timing(user_id)
-			VALUES (?)
-		`)
-
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 
 	userId := randomString()
-
-	if _, err := stmt.Exec(userId); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
 
 	fmt.Fprint(w, userId)
 	w.WriteHeader(http.StatusOK)
@@ -421,24 +462,26 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 	var timingResults []TimingResult
 
 	for rows.Next() {
-		var id string
+		var id sql.NullString
 		var appVersion sql.NullString
 		var time sql.NullInt32
 		var action sql.NullString
-		var view sql.NullString
+		var primaryView sql.NullString
+		var secondaryView sql.NullString
 
-		if err := rows.Scan(&id, &appVersion, &time, &action, &view); err != nil {
+		if err := rows.Scan(&id, &appVersion, &time, &action, &primaryView, &secondaryView); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		if appVersion.Valid && time.Valid && action.Valid && view.Valid {
+		if id.Valid && appVersion.Valid && time.Valid && action.Valid && primaryView.Valid && secondaryView.Valid {
 			timingResult := TimingResult{
-				UserId:     id,
-				AppVersion: appVersion.String,
-				Time:       time.Int32,
-				Action:     action.String,
-				View:       view.String,
+				SessionId:     id.String,
+				AppVersion:    appVersion.String,
+				Time:          time.Int32,
+				Action:        action.String,
+				PrimaryView:   primaryView.String,
+				SecondaryView: secondaryView.String,
 			}
 			timingResults = append(timingResults, timingResult)
 		}
@@ -486,13 +529,8 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	stmt, err := db.DB.Prepare(`
-		UPDATE timing
-		SET app_version = ?,
-			time = ?,
-			action = ?,
-			view = ?
-		WHERE
-			user_id = ?
+		INSERT INTO timing(session_id, app_version, time, action, primary_view, secondary_view)
+		VALUES(?, ?, ?, ?, ?, ?)
 		`)
 
 	if err != nil {
@@ -501,11 +539,12 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, err = stmt.Exec(
+		timingResult.SessionId,
 		timingResult.AppVersion,
 		timingResult.Time,
 		timingResult.Action,
-		timingResult.View,
-		timingResult.UserId,
+		timingResult.PrimaryView,
+		timingResult.SecondaryView,
 	)
 
 	if err != nil {
@@ -515,4 +554,13 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 
+}
+
+func checkRequestsLeft() bool {
+	count := atomic.AddInt32(globalCounter, 0)
+	return count < 20000
+}
+
+func incrementRequestCount() {
+	atomic.AddInt32(globalCounter, 1)
 }

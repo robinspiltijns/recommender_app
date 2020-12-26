@@ -1870,11 +1870,9 @@ components:
       - action
       - app_version
       - time
-      - user_id
-      - view
       type: object
       properties:
-        user_id:
+        session_id:
           type: string
           description: the unique identifier of this user
         app_version:
@@ -1894,22 +1892,28 @@ components:
           enum:
           - play
           - queue
-        view:
+        primary_view:
           type: string
-          description: The view from which the user has carried out the action to
-            stop logging the time.
+          description: The primary view from which the user has carried out the action
+            to stop logging the time.
           enum:
           - feed
-          - podcast details
-          - search results
-          - more like this
+          - search
           - liked
+        secondary_view:
+          type: string
+          enum:
+          - root
+          - podcast_details
+          - genre_details
+          - more_like_this
       example:
-        view: feed
         app_version: without_feed
-        user_id: user_id
+        primary_view: feed
+        session_id: session_id
         action: play
         time: 0
+        secondary_view: root
     TimingResults:
       type: object
       properties:
@@ -1924,16 +1928,18 @@ components:
       example:
         datetime: datetime
         results:
-        - view: feed
-          app_version: without_feed
-          user_id: user_id
+        - app_version: without_feed
+          primary_view: feed
+          session_id: session_id
           action: play
           time: 0
-        - view: feed
-          app_version: without_feed
-          user_id: user_id
+          secondary_view: root
+        - app_version: without_feed
+          primary_view: feed
+          session_id: session_id
           action: play
           time: 0
+          secondary_view: root
     EpisodeSearchResult_podcast:
       required:
       - genre_ids

@@ -1201,7 +1201,7 @@ definitions:
       - action
       - view
     properties:
-      user_id:
+      session_id:
         type: string
         description: the unique identifier of this user
       app_version:
@@ -1219,15 +1219,20 @@ definitions:
           - play
           - queue
         description: The action this user takes to end the logging of time. Either playing an episode or adding it to the queue.
-      view:
+      primary_view:
         type: string
         enum:
           - feed
-          - podcast details
-          - search results
-          - more like this
+          - search
           - liked
-        description: The view from which the user has carried out the action to stop logging the time.
+        description: The primary view from which the user has carried out the action to stop logging the time.
+      secondary_view:
+        type: string
+        enum:
+          - root
+          - podcast_details
+          - genre_details
+          - more_like_this
      
   TimingResults:   
     type: object

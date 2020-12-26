@@ -11,13 +11,15 @@ package swagger
 
 type TimingResult struct {
 	// the unique identifier of this user
-	UserId string `json:"user_id"`
+	SessionId string `json:"session_id,omitempty"`
 	// the version of the app that this user uses
 	AppVersion string `json:"app_version"`
 	// the time (in seconds) between the user staring op the app and playing/queueing an episode
 	Time int32 `json:"time"`
 	// The action this user takes to end the logging of time. Either playing an episode or adding it to the queue.
 	Action string `json:"action"`
-	// The view from which the user has carried out the action to stop logging the time.
-	View string `json:"view"`
+	// The primary view from which the user has carried out the action to stop logging the time.
+	PrimaryView string `json:"primary_view,omitempty"`
+
+	SecondaryView string `json:"secondary_view,omitempty"`
 }

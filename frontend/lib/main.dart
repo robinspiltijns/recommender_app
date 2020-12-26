@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/bottom-controls.dart';
 import 'package:frontend/common/services/liked-episodes-service.dart';
+import 'package:frontend/common/services/logging-service/logging-notification-handler.dart';
+import 'package:frontend/common/services/logging-service/logging-notification.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/services/user-name-service.dart';
@@ -19,6 +21,13 @@ import 'object-model/genre.dart';
 // boolean to indicate whether or not to reset
 // the database when launching the app.
 bool resetDatabase = false;
+
+// boolean to indicate whether or not to log timing data to the backend.
+//   If false, logging results are printed on the standard output stream.
+bool logTime = false;
+
+AppVersion version = AppVersion.WITH_FEED;
+LoggingNotificationHandler logger = LoggingNotificationHandler(version);
 
 int initScreen;
 
@@ -43,6 +52,9 @@ void main() async {
   }
 
   initScreen = prefs.getInt("initScreen");
+
+
+
 
   runApp(
       MultiProvider(
@@ -71,13 +83,19 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: themeData,
-      initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
-      routes: {
-        '/': (context) => CastlyWidget(),
-        "first": (context) => IntroductoryQuestionsPage(),
+    return NotificationListener<LoggingNotification>(
+      onNotification: (notification) {
+        logger.handleLoggingNotification(notification);
+        return true;
       },
+      child: MaterialApp(
+        theme: themeData,
+        initialRoute: initScreen == 0 || initScreen == null ? "first" : "/",
+        routes: {
+          '/': (context) => CastlyWidget(),
+          "first": (context) => IntroductoryQuestionsPage(),
+        },
+      ),
     );
   }
 }
@@ -87,7 +105,7 @@ class CastlyWidget extends StatefulWidget {
   _CastlyWidgetState createState() => _CastlyWidgetState();
 }
 
-class _CastlyWidgetState extends State<CastlyWidget> {
+class _CastlyWidgetState extends State<CastlyWidget> with WidgetsBindingObserver {
   int _selectedIndex = 1;
 
   static List<Widget> _destinationViews = <Widget>[
@@ -96,7 +114,23 @@ class _CastlyWidgetState extends State<CastlyWidget> {
     SearchPage(),
   ];
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index, BuildContext context) {
+    PrimaryView dest;
+    switch (index) {
+      case 0:
+        dest = PrimaryView.LIKED;
+        break;
+      case 1:
+        dest = PrimaryView.FEED;
+        break;
+      case 2:
+        dest = PrimaryView.SEARCH;
+        break;
+    }
+    NavigatePrimaryViewNotification(
+      dest
+    ).dispatch(context);
+
     setState(() {
       _selectedIndex = index;
     });
@@ -104,6 +138,13 @@ class _CastlyWidgetState extends State<CastlyWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Add observer to listen for app state changes.
+    WidgetsBinding.instance.addObserver(logger);
+
+    // start timer in logging service.
+    logger.startTime();
+
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(

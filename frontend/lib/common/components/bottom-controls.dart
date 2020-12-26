@@ -4,14 +4,12 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/small-player.dart';
-import 'package:frontend/common/services/player-service.dart';
-import 'package:provider/provider.dart';
 
 class BottomControlsWidget extends StatefulWidget {
-  final ValueChanged<int> routeChanged;
-  int selectedRouteIndex;
+  final Function(int, BuildContext) indexChanged;
+  final int selectedRouteIndex;
 
-  BottomControlsWidget(this.selectedRouteIndex, this.routeChanged);
+  BottomControlsWidget(this.selectedRouteIndex, this.indexChanged);
 
   @override
   _BottomControlsWidgetState createState() => _BottomControlsWidgetState();
@@ -20,6 +18,11 @@ class BottomControlsWidget extends StatefulWidget {
 class _BottomControlsWidgetState extends State<BottomControlsWidget> {
   @override
   Widget build(BuildContext context) {
+
+    Function(int) onItemSelected(int) {
+      return widget.indexChanged(int, context);
+    }
+
     return Container(
       color: Color(0xff3F3C57),
       child: Column(
@@ -30,7 +33,7 @@ class _BottomControlsWidgetState extends State<BottomControlsWidget> {
             selectedIndex: widget.selectedRouteIndex,
             showElevation: false,
             backgroundColor: Colors.transparent,
-            onItemSelected: widget.routeChanged,
+            onItemSelected: onItemSelected,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             items: <BottomNavyBarItem>[
               BottomNavyBarItem(

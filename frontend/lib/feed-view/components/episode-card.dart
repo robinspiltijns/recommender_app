@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-icon-button.dart';
+import 'package:frontend/common/services/logging-service/logging-notification.dart';
 import 'package:frontend/common/services/player-service.dart';
 import 'package:frontend/common/services/queue-service.dart';
 import 'package:frontend/common/utils.dart';
@@ -29,12 +30,6 @@ class EpisodeCardWidget extends StatelessWidget {
   void _playEpisode(PlayerService playerService) {
     api.getEpisode(episodeSimple.id).then((episodeFull) => playerService.play(
         Episode.fromEpisodeFull(episodeFull, position: Duration(seconds: 0))));
-  }
-
-  IconData _getPlayButtonIcon(bool isPlayingAudio, String episodeId) {
-    return isPlayingAudio && episodeSimple.id == episodeId
-        ? Icons.pause
-        : Icons.play_arrow;
   }
 
   @override
@@ -139,18 +134,34 @@ class EpisodeCardWidget extends StatelessWidget {
                       return CustomIconButton(
                         icon: Icons.library_add_rounded,
                         onTap: () {
+                          ActionNotification(
+                            LoggingAction.QUEUE
+                          ).dispatch(context);
                           queueEpisode(episodeSimple.id, queueService);
                         },
                       );
                     }),
                     SizedBox(height: VERT_SPACE_BETWEEN_BUTTONS),
                     Consumer<PlayerService>(
-                        builder: (context, playerService, child) =>
-                            CustomIconButton(
-                                icon: _getPlayButtonIcon(
-                                    playerService.isPlaying,
-                                    playerService.episode.id),
-                                onTap: () => _playEpisode(playerService)))
+                      builder: (context, playerService, child) {
+                        if (playerService.isPlaying &&
+                              playerService.episode.id == episodeSimple.id) {
+                          return CustomIconButton(
+                            icon: Icons.pause,
+                            onTap: () => playerService.pause()
+                          );
+                        }
+                        return CustomIconButton(
+                          icon: Icons.play_arrow,
+                          onTap: () {
+                            ActionNotification(
+                              LoggingAction.PLAY
+                            ).dispatch(context);
+                            _playEpisode(playerService);
+                          },
+                        );
+                      }
+                    )
                   ],
                 ),
               )
