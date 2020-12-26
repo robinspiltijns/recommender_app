@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:swagger/api.dart';
 
 import 'logging-notification.dart';
+import 'package:frontend/main.dart';
 
 /// class to take care of logging the timing information.
 class LoggingNotificationHandler with WidgetsBindingObserver {
@@ -114,8 +115,11 @@ class LoggingNotificationHandler with WidgetsBindingObserver {
         break;
     }
 
-    //api.logTimingResultPost(body: result);
-    print(result);
+    if (logTime) {
+      api.logTimingResultPost(body: result);
+    } else {
+      print(result);
+    }
     stopwatch.reset();
   }
 

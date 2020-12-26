@@ -22,6 +22,10 @@ import 'object-model/genre.dart';
 // the database when launching the app.
 bool resetDatabase = false;
 
+// boolean to indicate whether or not to log timing data to the backend.
+//   If false, logging results are printed on the standard output stream.
+bool logTime = false;
+
 AppVersion version = AppVersion.WITH_FEED;
 LoggingNotificationHandler logger = LoggingNotificationHandler(version);
 
