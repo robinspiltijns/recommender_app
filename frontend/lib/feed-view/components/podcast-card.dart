@@ -17,7 +17,13 @@ class PodcastCardWidget extends StatelessWidget {
 
   PodcastCardWidget({PodcastSimple podcast}) {
     this.podcastTitle = podcast.title;
-    this.podcastDescription = podcast.description;
+
+    if (podcast.description == null) {
+      this.podcastDescription = " ";
+    } else {
+      this.podcastDescription = podcast.description;
+    }
+
     this.podcastArtworkURL = podcast.image;
     this.podcastId = podcast.id;
   }

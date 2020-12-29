@@ -37,7 +37,13 @@ class Episode {
 
   static Episode fromEpisodeFull(swagger.EpisodeFull episodeFull,
       {Duration position}) {
-    var duration = Duration(seconds: episodeFull.audioLengthSec);
+
+    var duration;
+    if (episodeFull.audioLengthSec == null) {
+      duration = Duration(seconds: 0);
+    } else {
+      duration = Duration(seconds: episodeFull.audioLengthSec);
+    }
     if (position == null) {
       position = Duration(seconds: 0);
     }
@@ -68,11 +74,24 @@ class Episode {
   static Episode fromEpisodeMinimum(swagger.EpisodeMinimum episodeMinimum,
       String podcastPublisher, String podcastId, List<int> genreIds,
       {Duration position}) {
-    var duration = Duration(seconds: episodeMinimum.audioLengthSec);
+
+    var duration;
+    if (episodeMinimum.audioLengthSec == null) {
+      duration = Duration(seconds: 0);
+    } else {
+      duration = Duration(seconds: episodeMinimum.audioLengthSec);
+    }
+
     if (position == null) {
       position = Duration(seconds: 0);
     }
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(episodeMinimum.pubDateMs);
+
+    var pubDate;
+    if (episodeMinimum.pubDateMs == null) {
+      pubDate = DateTime.fromMicrosecondsSinceEpoch(0);
+    } else {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeMinimum.pubDateMs);
+    }
 
     return new Episode(
         episodeMinimum.title,
@@ -91,13 +110,25 @@ class Episode {
   static Episode fromEpisodeSearchResult(
       swagger.EpisodeSearchResult episodeSearchResult,
       {Duration position}) {
-    var duration = Duration(seconds: episodeSearchResult.audioLengthSec);
+
+    var duration;
+    if (episodeSearchResult.audioLengthSec == null) {
+      duration = Duration(seconds: 0);
+    } else {
+      duration = Duration(seconds: episodeSearchResult.audioLengthSec);
+    }
+
     if (position == null) {
       position = Duration(seconds: 0);
     }
     print(episodeSearchResult.pubDateMs);
-    var pubDate =
-        DateTime.fromMillisecondsSinceEpoch(episodeSearchResult.pubDateMs);
+
+    var pubDate;
+    if (episodeSearchResult.pubDateMs == null) {
+      pubDate = DateTime.fromMicrosecondsSinceEpoch(0);
+    } else {
+      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeSearchResult.pubDateMs);
+    }
 
     return new Episode(
         episodeSearchResult.titleOriginal,
@@ -116,8 +147,13 @@ class Episode {
   }
 
   static Episode fromEpisodeSimple(swagger.EpisodeSimple episodeSimple, {Duration position}) {
+    var duration;
+    if (episodeSimple.audioLengthSec == null) {
+      duration = Duration(seconds: 0);
+    } else {
+      duration = Duration(seconds: episodeSimple.audioLengthSec);
+    }
 
-    var duration = Duration(seconds: episodeSimple.audioLengthSec);
     if (position == null) {
       position = Duration(seconds: 0);
     }

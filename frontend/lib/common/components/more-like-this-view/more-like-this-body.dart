@@ -73,11 +73,22 @@ class _MoreLikeThisBodyState extends State<MoreLikeThisBody> {
       future: Future.wait([genreRecommendations, episodeRecommendations]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            List<Podcast> podcasts;
             BestPodcastsResponse podcastsTemp = snapshot.data[0] as BestPodcastsResponse;
-            List<Podcast> podcasts = podcastsTemp.podcasts.map((pcs) => Podcast.fromPodcastSimple(pcs)).toList();
+            if (podcastsTemp == null) {
+              podcasts = [];
+            } else {
+              podcasts = podcastsTemp.podcasts.map((pcs) =>
+                  Podcast.fromPodcastSimple(pcs)).toList();
+            }
 
+            List<Episode> episodes;
             GetEpisodeRecommendationsResponse episodesTemp = snapshot.data[1] as GetEpisodeRecommendationsResponse;
-            List<Episode> episodes = episodesTemp.recommendations.map((et) => Episode.fromEpisodeSimple(et)).toList();
+            if (episodesTemp == null) {
+              episodes = [];
+            } else {
+              episodes = episodesTemp.recommendations.map((et) => Episode.fromEpisodeSimple(et)).toList();
+            }
             return EpisodePodcastExpandableLists(podcasts, episodes);
           }
           else if (snapshot.hasError) {
