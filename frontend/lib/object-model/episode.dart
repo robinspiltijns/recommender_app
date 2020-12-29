@@ -38,27 +38,20 @@ class Episode {
   static Episode fromEpisodeFull(swagger.EpisodeFull episodeFull,
       {Duration position}) {
 
-    // check all fields that can be null and initialize them to a default value if they are null
-    var audiolength = episodeFull.audioLengthSec ?? 0;
-    var pos = position ?? Duration(seconds: 0);
-    var pubDateSecs = episodeFull.pubDateMs ?? 0;
-
-    // convert the necessary fields into the right data types for Episode
-    var duration = Duration(seconds: audiolength);
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
+    List<int> genreIds;
+    api.getPodcast(episodeFull.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList() ?? []);
 
     return new Episode(
-      episodeFull.title,
+      episodeFull.title ?? " ",
       episodeFull.id,
-      episodeFull.audio,
-      episodeFull.image,
-      duration,
-      pos,
-      episodeFull.podcast.publisher,
+      episodeFull.audio, episodeFull.image ?? "https://images.unsplash.com/photo-1485579149621-3123dd979885?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80", //link to image of podcast microphone
+      Duration(seconds: episodeFull.audioLengthSec ?? 0),
+      position ?? Duration(seconds: 0),
+      episodeFull.podcast.publisher ?? " ",
       episodeFull.podcast.id,
-      episodeFull.description,
-      pubDate,
-      episodeFull.podcast.genreIds.map((id) => Genre.fromId(id)).toList(),
+      episodeFull.description ?? " ",
+      DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs ?? 0),
+      genreIds.map((id) => Genre.fromId(id)).toList(),
     );
   }
 
@@ -67,90 +60,59 @@ class Episode {
       String podcastPublisher, String podcastId, List<int> genreIds,
       {Duration position}) {
 
-    // check all fields that can be null and initialize them to a default value if they are null
-    var audiolength = episodeMinimum.audioLengthSec ?? 0;
-    var pos = position ?? Duration(seconds: 0);
-    var pubDateSecs = episodeMinimum.pubDateMs ?? 0;
-
-    // convert the necessary fields into the right data types for Episode
-    var duration = Duration(seconds: audiolength);
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
+    List <int> genreIdsVar = genreIds ?? [];
 
     return new Episode(
-        episodeMinimum.title,
+        episodeMinimum.title ?? " ",
         episodeMinimum.id,
         episodeMinimum.audio,
-        episodeMinimum.image,
-        duration,
-        pos,
-        podcastPublisher,
+        episodeMinimum.image ?? "https://images.unsplash.com/photo-1485579149621-3123dd979885?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80", //link to image of podcast microphone
+        Duration(seconds: episodeMinimum.audioLengthSec ?? 0),
+        position ?? Duration(seconds: 0),
+        podcastPublisher ?? " ",
         podcastId,
-        episodeMinimum.description,
-        pubDate,
-        genreIds.map((id) => Genre.fromId(id)).toList());
+        episodeMinimum.description ?? " ",
+        DateTime.fromMillisecondsSinceEpoch(episodeMinimum.pubDateMs ?? 0),
+        genreIdsVar.map((id) => Genre.fromId(id)).toList());
   }
 
   static Episode fromEpisodeSearchResult(
       swagger.EpisodeSearchResult episodeSearchResult,
       {Duration position}) {
 
-    // check all fields that can be null and initialize them to a default value if they are null
-    var audiolength = episodeSearchResult.audioLengthSec ?? 0;
-    var pos = position ?? Duration(seconds: 0);
-    var pubDateSecs = episodeSearchResult.pubDateMs ?? 0;
-
-    // convert the necessary fields into the right data types for Episode
-    var duration = Duration(seconds: audiolength);
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
+    List <int> genreIds = episodeSearchResult.podcast.genreIds ?? [];
 
     return new Episode(
-        episodeSearchResult.titleOriginal,
+        episodeSearchResult.titleOriginal ?? " ",
         episodeSearchResult.id,
         episodeSearchResult.audio,
-        episodeSearchResult.image,
-        duration,
-        position,
-        episodeSearchResult.podcast.publisherOriginal,
+        episodeSearchResult.image ?? "https://images.unsplash.com/photo-1485579149621-3123dd979885?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80", //link to image of podcast microphone
+        Duration(seconds: episodeSearchResult.audioLengthSec ?? 0),
+        position ?? Duration(seconds: 0),
+        episodeSearchResult.podcast.publisherOriginal ?? " ",
         episodeSearchResult.podcast.id,
-        episodeSearchResult.descriptionOriginal,
-        pubDate,
-        episodeSearchResult.podcast.genreIds
-            .map((id) => Genre.fromId(id))
-            .toList());
+        episodeSearchResult.descriptionOriginal ?? " ",
+        DateTime.fromMillisecondsSinceEpoch(episodeSearchResult.pubDateMs ?? 0),
+        genreIds.map((id) => Genre.fromId(id)).toList());
   }
 
   static Episode fromEpisodeSimple(swagger.EpisodeSimple episodeSimple, {Duration position}) {
-    // check all fields that can be null and initialize them to a default value if they are null
-    var audiolength = episodeSimple.audioLengthSec ?? 0;
-    var pos = position ?? Duration(seconds: 0);
-    var pubDateSecs = episodeSimple.pubDateMs ?? 0;
-
-    // convert the necessary fields into the right data types for Episode
-    var duration = Duration(seconds: audiolength);
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
 
     List<int> genreIds;
-    api.getPodcast(episodeSimple.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList());
-    List<Genre> genres;
-    if (genreIds != null) {
-      genres = genreIds.map((id) => Genre.fromId(id)).toList();
-    } else {
-      genres = [];
-    }
-
+    api.getPodcast(episodeSimple.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList() ?? []);
 
     return new Episode(
-        episodeSimple.title,
+        episodeSimple.title ?? " ",
         episodeSimple.id,
         episodeSimple.audio,
-        episodeSimple.image,
-        duration,
-        position,
-        episodeSimple.podcast.publisher,
+        episodeSimple.image ?? "https://images.unsplash.com/photo-1485579149621-3123dd979885?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80", //link to image of podcast microphone
+        Duration(seconds: episodeSimple.audioLengthSec ?? 0),
+        position ?? Duration(seconds: 0),
+        episodeSimple.podcast.publisher ?? " ",
         episodeSimple.podcast.id,
-        episodeSimple.description,
-        pubDate,
-        genres
+        episodeSimple.description ?? " ",
+        DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs ?? 0),
+        genreIds.map((id) => Genre.fromId(id)).toList()
     );
   }
 
