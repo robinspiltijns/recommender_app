@@ -14,7 +14,7 @@ class Genre {
   Genre(this.id, this.name);
 
   static List<Genre> fromGetGenreResponse(swagger.GetGenresResponse getGenresResponse) {
-    List<swagger.Genre> list = getGenresResponse.genres;
+    List<swagger.Genre> list = getGenresResponse.genres ?? [];
     List<Genre> result = [];
     for (var genre in list) {
       result.add(Genre(genre.id, genre.name));

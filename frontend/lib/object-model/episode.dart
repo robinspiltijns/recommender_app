@@ -37,17 +37,15 @@ class Episode {
 
   static Episode fromEpisodeFull(swagger.EpisodeFull episodeFull,
       {Duration position}) {
-    var duration = Duration(seconds: episodeFull.audioLengthSec);
-    if (position == null) {
-      position = Duration(seconds: 0);
-    }
-    var pubDate;
-    if (episodeFull.pubDateMs != null) {
-      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeFull.pubDateMs);
-    }
-    else {
-      pubDate = DateTime.fromMicrosecondsSinceEpoch(0);
-    }
+
+    // check all fields that can be null and initialize them to a default value if they are null
+    var audiolength = episodeFull.audioLengthSec ?? 0;
+    var pos = position ?? Duration(seconds: 0);
+    var pubDateSecs = episodeFull.pubDateMs ?? 0;
+
+    // convert the necessary fields into the right data types for Episode
+    var duration = Duration(seconds: audiolength);
+    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
 
     return new Episode(
       episodeFull.title,
@@ -55,7 +53,7 @@ class Episode {
       episodeFull.audio,
       episodeFull.image,
       duration,
-      position,
+      pos,
       episodeFull.podcast.publisher,
       episodeFull.podcast.id,
       episodeFull.description,
@@ -68,11 +66,15 @@ class Episode {
   static Episode fromEpisodeMinimum(swagger.EpisodeMinimum episodeMinimum,
       String podcastPublisher, String podcastId, List<int> genreIds,
       {Duration position}) {
-    var duration = Duration(seconds: episodeMinimum.audioLengthSec);
-    if (position == null) {
-      position = Duration(seconds: 0);
-    }
-    var pubDate = DateTime.fromMillisecondsSinceEpoch(episodeMinimum.pubDateMs);
+
+    // check all fields that can be null and initialize them to a default value if they are null
+    var audiolength = episodeMinimum.audioLengthSec ?? 0;
+    var pos = position ?? Duration(seconds: 0);
+    var pubDateSecs = episodeMinimum.pubDateMs ?? 0;
+
+    // convert the necessary fields into the right data types for Episode
+    var duration = Duration(seconds: audiolength);
+    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
 
     return new Episode(
         episodeMinimum.title,
@@ -80,7 +82,7 @@ class Episode {
         episodeMinimum.audio,
         episodeMinimum.image,
         duration,
-        position,
+        pos,
         podcastPublisher,
         podcastId,
         episodeMinimum.description,
@@ -91,13 +93,15 @@ class Episode {
   static Episode fromEpisodeSearchResult(
       swagger.EpisodeSearchResult episodeSearchResult,
       {Duration position}) {
-    var duration = Duration(seconds: episodeSearchResult.audioLengthSec);
-    if (position == null) {
-      position = Duration(seconds: 0);
-    }
-    print(episodeSearchResult.pubDateMs);
-    var pubDate =
-        DateTime.fromMillisecondsSinceEpoch(episodeSearchResult.pubDateMs);
+
+    // check all fields that can be null and initialize them to a default value if they are null
+    var audiolength = episodeSearchResult.audioLengthSec ?? 0;
+    var pos = position ?? Duration(seconds: 0);
+    var pubDateSecs = episodeSearchResult.pubDateMs ?? 0;
+
+    // convert the necessary fields into the right data types for Episode
+    var duration = Duration(seconds: audiolength);
+    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
 
     return new Episode(
         episodeSearchResult.titleOriginal,
@@ -116,20 +120,14 @@ class Episode {
   }
 
   static Episode fromEpisodeSimple(swagger.EpisodeSimple episodeSimple, {Duration position}) {
+    // check all fields that can be null and initialize them to a default value if they are null
+    var audiolength = episodeSimple.audioLengthSec ?? 0;
+    var pos = position ?? Duration(seconds: 0);
+    var pubDateSecs = episodeSimple.pubDateMs ?? 0;
 
-    var duration = Duration(seconds: episodeSimple.audioLengthSec);
-    if (position == null) {
-      position = Duration(seconds: 0);
-    }
-    print(episodeSimple.pubDateMs);
-
-    var pubDate;
-    if (episodeSimple.pubDateMs != null) {
-      pubDate = DateTime.fromMillisecondsSinceEpoch(episodeSimple.pubDateMs);
-    }
-    else {
-      pubDate = DateTime.fromMillisecondsSinceEpoch(0);
-    }
+    // convert the necessary fields into the right data types for Episode
+    var duration = Duration(seconds: audiolength);
+    var pubDate = DateTime.fromMillisecondsSinceEpoch(pubDateSecs);
 
     List<int> genreIds;
     api.getPodcast(episodeSimple.podcast.id).then((podcast) => genreIds = podcast.genreIds.toList());
