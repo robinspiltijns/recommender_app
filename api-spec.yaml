@@ -1240,9 +1240,15 @@ definitions:
       datetime: 
         type: string
         description: The date and time when these logging results were produced.
-      results:
+      data:
         type: array
         description: The logging data
         items: 
-          $ref: '#/definitions/TimingResult'
+          type: object
+          properties:
+            datetime: 
+              type: string
+              description: The date and time this logging record was received.
+            result: 
+              $ref: '#/definitions/TimingResult'
       

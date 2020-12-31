@@ -1920,26 +1920,30 @@ components:
         datetime:
           type: string
           description: The date and time when these logging results were produced.
-        results:
+        data:
           type: array
           description: The logging data
           items:
-            $ref: '#/components/schemas/TimingResult'
+            $ref: '#/components/schemas/TimingResults_data'
       example:
         datetime: datetime
-        results:
-        - app_version: without_feed
-          primary_view: feed
-          session_id: session_id
-          action: play
-          time: 0
-          secondary_view: root
-        - app_version: without_feed
-          primary_view: feed
-          session_id: session_id
-          action: play
-          time: 0
-          secondary_view: root
+        data:
+        - result:
+            app_version: without_feed
+            primary_view: feed
+            session_id: session_id
+            action: play
+            time: 0
+            secondary_view: root
+          datetime: datetime
+        - result:
+            app_version: without_feed
+            primary_view: feed
+            session_id: session_id
+            action: play
+            time: 0
+            secondary_view: root
+          datetime: datetime
     EpisodeSearchResult_podcast:
       required:
       - genre_ids
@@ -2024,4 +2028,21 @@ components:
         - 100
         - 101
         listennotes_url: https://www.listennotes.com/c/4d3fe717742d4963a85562e9f84d8c79/
+    TimingResults_data:
+      type: object
+      properties:
+        datetime:
+          type: string
+          description: The date and time this logging record was received.
+        result:
+          $ref: '#/components/schemas/TimingResult'
+      example:
+        result:
+          app_version: without_feed
+          primary_view: feed
+          session_id: session_id
+          action: play
+          time: 0
+          secondary_view: root
+        datetime: datetime
 x-original-swagger-version: "2.0"

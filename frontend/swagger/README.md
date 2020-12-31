@@ -95,6 +95,7 @@ Class | Method | HTTP request | Description
  - [SearchResult](docs//SearchResult.md)
  - [TimingResult](docs//TimingResult.md)
  - [TimingResults](docs//TimingResults.md)
+ - [TimingResultsData](docs//TimingResultsData.md)
 
 ## Documentation For Authorization
 

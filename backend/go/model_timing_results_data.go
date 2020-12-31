@@ -9,9 +9,9 @@
  */
 package swagger
 
-type TimingResults struct {
-	// The date and time when these logging results were produced.
+type TimingResultsData struct {
+	// The date and time this logging record was received.
 	Datetime string `json:"datetime,omitempty"`
-	// The logging data
-	Data []TimingResultsData `json:"data,omitempty"`
+
+	Result *TimingResult `json:"result,omitempty"`
 }

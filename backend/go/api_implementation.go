@@ -454,12 +454,12 @@ func GetUniqueIdImpl(w http.ResponseWriter, r *http.Request) {
 func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := db.DB.Query(`
-		SELECT * FROM timing
+		SELECT session_id, app_version, time, action, primary_view, secondary_view, timestamp FROM timing
 	`)
 
 	defer rows.Close()
 
-	var timingResults []TimingResult
+	var data []TimingResultsData
 
 	for rows.Next() {
 		var id sql.NullString
@@ -468,13 +468,14 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 		var action sql.NullString
 		var primaryView sql.NullString
 		var secondaryView sql.NullString
+		var timestamp sql.NullString
 
-		if err := rows.Scan(&id, &appVersion, &time, &action, &primaryView, &secondaryView); err != nil {
+		if err := rows.Scan(&id, &appVersion, &time, &action, &primaryView, &secondaryView, &timestamp); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		if id.Valid && appVersion.Valid && time.Valid && action.Valid && primaryView.Valid && secondaryView.Valid {
+		if id.Valid && appVersion.Valid && time.Valid && action.Valid && primaryView.Valid && secondaryView.Valid && timestamp.Valid {
 			timingResult := TimingResult{
 				SessionId:     id.String,
 				AppVersion:    appVersion.String,
@@ -483,7 +484,11 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 				PrimaryView:   primaryView.String,
 				SecondaryView: secondaryView.String,
 			}
-			timingResults = append(timingResults, timingResult)
+
+			data = append(data, TimingResultsData{
+				Datetime: timestamp.String,
+				Result:   &timingResult,
+			})
 		}
 	}
 
@@ -493,8 +498,8 @@ func GetTimingResultsImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := TimingResults{
-		Datetime: time.Now().String(),
-		Results:  timingResults,
+		Datetime: time.Now().Format(time.RFC3339),
+		Data:     data,
 	}
 
 	resultBytes, err := json.Marshal(result)
@@ -529,8 +534,8 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 	}
 
 	stmt, err := db.DB.Prepare(`
-		INSERT INTO timing(session_id, app_version, time, action, primary_view, secondary_view)
-		VALUES(?, ?, ?, ?, ?, ?)
+		INSERT INTO timing(session_id, app_version, time, action, primary_view, secondary_view, timestamp)
+		VALUES(?, ?, ?, ?, ?, ?, ?)
 		`)
 
 	if err != nil {
@@ -545,6 +550,7 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 		timingResult.Action,
 		timingResult.PrimaryView,
 		timingResult.SecondaryView,
+		time.Now().Format(time.RFC3339),
 	)
 
 	if err != nil {
@@ -558,7 +564,7 @@ func LogTimingResultImpl(w http.ResponseWriter, r *http.Request) {
 
 func checkRequestsLeft() bool {
 	count := atomic.AddInt32(globalCounter, 0)
-	return count < 20000
+	return count < 23000
 }
 
 func incrementRequestCount() {
