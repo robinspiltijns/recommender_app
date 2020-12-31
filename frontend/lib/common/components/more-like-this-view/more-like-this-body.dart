@@ -1,13 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/episode-podcast-expandable-lists.dart';
 import 'package:frontend/object-model/episode.dart';
 import 'package:frontend/object-model/podcast.dart';
 import 'package:swagger/api.dart';
-import 'package:frontend/common/theme.dart';
-import '../episode-list-item.dart';
 
 class MoreLikeThisBody extends StatefulWidget {
 
@@ -52,19 +48,12 @@ class _MoreLikeThisBodyState extends State<MoreLikeThisBody> {
 
 
   setResultItems() async {
-    print("komt hier-----------------------------");
-    //Future<GetEpisodeRecommendationsResponse> episodeRecommendations = api.getEpisodeRecommendationsBasedOnEpisode(episode.id);
     setState(() {
       episodeRecommendations = api.getEpisodeRecommendationsBasedOnEpisode(this.widget.episode.id);
     });
-    print("doet episode recommendations -------------------");
-    //Future<BestPodcastsResponse> genreRecommendations = api.getBestOfGenre(episode.genres[0].id.toString());
     setState(() {
       genreRecommendations = api.getBestOfGenre(this.widget.episode.genres[0].id.toString());
     });
-    print("doet genre recommendations -----------------------");
-    //resultItems = Future.wait([episodeRecommendations, genreRecommendations]);
-    print("futures zijn gemaakt -----------------------------");
   }
 
   @override

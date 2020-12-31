@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/common/components/more-like-this-view/more-like-this-body.dart';
-import 'package:frontend/common/components/podcast-details-view/podcast-details-body.dart';
 import 'package:swagger/api.dart';
-import 'package:frontend/object-model/episode.dart';
 
 
 class MoreLikeThis extends StatefulWidget {
@@ -32,7 +30,6 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
   }
   
   getPageTitle(String title) {
-    print(title);
     return "More like " + title;
   }
 
