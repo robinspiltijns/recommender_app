@@ -42,7 +42,8 @@ func createTable(db *sql.DB) {
 		time INTEGER TEXT NOT NULL,
 		action TEXT NOT NULL,
 		primary_view TEXT NOT NULL,
-		secondary_view TEXT NOT NULL
+		secondary_view TEXT NOT NULL,
+		timestamp TEXT NOT NULL
 	  )`
 
 	log.Println("Create timing table...")
