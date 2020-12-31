@@ -33,5 +33,6 @@ part 'model/podcast_simple.dart';
 part 'model/search_result.dart';
 part 'model/timing_result.dart';
 part 'model/timing_results.dart';
+part 'model/timing_results_data.dart';
 
 ApiClient defaultApiClient = new ApiClient();

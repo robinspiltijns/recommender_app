@@ -75,6 +75,8 @@ class ApiClient {
           return new TimingResult.fromJson(value);
         case 'TimingResults':
           return new TimingResults.fromJson(value);
+        case 'TimingResultsData':
+          return new TimingResultsData.fromJson(value);
         default:
           {
             Match match;

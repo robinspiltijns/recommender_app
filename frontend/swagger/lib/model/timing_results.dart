@@ -4,25 +4,25 @@ class TimingResults {
   /* The date and time when these logging results were produced. */
   String datetime = null;
 /* The logging data */
-  List<TimingResult> results = [];
+  List<TimingResultsData> data = [];
 
   TimingResults();
 
   @override
   String toString() {
-    return 'TimingResults[datetime=$datetime, results=$results, ]';
+    return 'TimingResults[datetime=$datetime, data=$data, ]';
   }
 
   TimingResults.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
     datetime = json['datetime'];
-    results = TimingResult.listFromJson(json['results']);
+    data = TimingResultsData.listFromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
     return {
       'datetime': datetime,
-      'results': results
+      'data': data
      };
   }
 
