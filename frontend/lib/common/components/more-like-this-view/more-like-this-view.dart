@@ -55,7 +55,11 @@ class _MoreLikeThisState extends State<MoreLikeThis> {
           ),
           body: Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
-              child: MoreLikeThisBody(snapshot.data)
+              child: Column(
+                children: [
+                  MoreLikeThisBody(snapshot.data),
+                ],
+              )
               )
           );
       }
