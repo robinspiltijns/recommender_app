@@ -41,15 +41,6 @@ class _SearchResultsState extends State<SearchResults> {
 
 
 
-
-
-
-
-
-
-
-
-
   
   @override
   Widget build(BuildContext context) {
