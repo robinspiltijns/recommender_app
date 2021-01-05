@@ -157,7 +157,7 @@ class _EpisodePodcastExpandableListsState extends State<EpisodePodcastExpandable
                 slivers: <Widget>[
                   SliverToBoxAdapter(
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 20, 0, 20),
+                      margin: EdgeInsets.fromLTRB(10, 20, 0, 10),
                       child: Text(
                         titles[ResultType.EPISODES],
                         style: Theme.of(context).textTheme.headline2,
@@ -171,7 +171,7 @@ class _EpisodePodcastExpandableListsState extends State<EpisodePodcastExpandable
                   ),
                   SliverToBoxAdapter(
                     child: Container(
-                      margin: EdgeInsets.fromLTRB(10, 10, 0, 20),
+                      margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
                       child: Text(
                         titles[ResultType.PODCASTS],
                         style: Theme.of(context).textTheme.headline2,

@@ -17,6 +17,11 @@ var themeData = new ThemeData(
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontSize: 30.0),
+        headline3: TextStyle(
+          // Secondary view titles
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontSize: 15.0),
         headline1: TextStyle(
             fontWeight: FontWeight.bold, fontSize: 36.0, color: Colors.white),
         headline2: TextStyle(
