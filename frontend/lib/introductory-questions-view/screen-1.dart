@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/common/components/buttons/custom-text-button.dart';
 import 'package:frontend/common/services/user-name-service.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/common/services/user-name-service.dart';
-
 
 
 class Screen0neWidget extends StatefulWidget {
@@ -108,7 +106,7 @@ class _Screen0neWidgetState extends State<Screen0neWidget> {
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.only(
                                   left: 14.0, bottom: 8.0, top: 8.0),
-                                hintText: "e.g. John Johnsson",
+                                hintText: "e.g. John",
                                 hintStyle: Theme.of(context).textTheme.bodyText2,
                                 filled: true,
                                 fillColor: Theme.of(context).buttonColor,
