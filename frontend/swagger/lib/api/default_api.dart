@@ -518,7 +518,7 @@ class DefaultApi {
   /// Used to get a string to identify a user
   ///
   /// Returns a string that uniquely identifies a user. This string is required for logging.
-  Future getUniqueId() async {
+  Future<String> getUniqueId() async {
     Object postBody = null;
 
     // verify required params are set
@@ -558,9 +558,9 @@ class DefaultApi {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
       return
-          ;
+          apiClient.deserialize(response.body, 'String') as String ;
     } else {
-      return ;
+      return null;
     }
   }
   /// start logging time for a user

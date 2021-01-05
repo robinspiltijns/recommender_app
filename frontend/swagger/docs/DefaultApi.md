@@ -440,7 +440,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getUniqueId**
-> getUniqueId()
+> String getUniqueId()
 
 Used to get a string to identify a user
 
@@ -453,7 +453,8 @@ import 'package:swagger/api.dart';
 var api_instance = new DefaultApi();
 
 try {
-    api_instance.getUniqueId();
+    var result = api_instance.getUniqueId();
+    print(result);
 } catch (e) {
     print("Exception when calling DefaultApi->getUniqueId: $e\n");
 }
@@ -464,7 +465,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+**String**
 
 ### Authorization
 
@@ -473,7 +474,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

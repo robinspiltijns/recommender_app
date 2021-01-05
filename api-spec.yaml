@@ -189,8 +189,10 @@ paths:
         - "text/plain"
       responses: 
         "200":
+          schema: 
+            type: string
+            example:  "EEADSISCHIQI"
           description: "succesful operation"
-          example: "EEADSISCHIQI"
           
   log-timing-result:
     post:

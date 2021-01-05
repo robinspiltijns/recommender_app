@@ -17,7 +17,10 @@ class LoggingNotificationHandler with WidgetsBindingObserver {
 
   LoggingNotificationHandler(AppVersion appVersion) {
 
-    api.getUniqueId().then((id) => this.sessionId = id);
+    api.getUniqueId().then((id) {
+      print("id received: " + id.toString());
+      this.sessionId = id;
+    });
 
     switch (appVersion) {
       case AppVersion.WITH_FEED:
